@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Raleway, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import MegaMenu from "./components/MegaMenu";
+import OverviewSections from "./components/OverviewSections";
 
 const raleway = Raleway({
   variable: "--font-raleway",
@@ -32,6 +33,7 @@ export default function RootLayout({
       >
         <MegaMenu />
         {children}
+        <OverviewSections />
       </body>
     </html>
   );
