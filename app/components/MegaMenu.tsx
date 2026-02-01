@@ -133,6 +133,19 @@ export default function MegaMenu() {
         </div>
       </header>
 
+      {/* Red Offers Banner Strip */}
+      <div className="bg-[#d32f2f] text-white text-center py-1.5 text-sm font-semibold tracking-wide">
+        <Link href="/offers-deals" className="hover:underline inline-flex items-center gap-2">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z" />
+          </svg>
+          Shop our latest offers &amp; deals
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </Link>
+      </div>
+
       {/* Desktop Navigation Bar */}
       <nav
         className="hidden md:block bg-[#1a2456] relative"
@@ -149,7 +162,7 @@ export default function MegaMenu() {
               >
                 <Link
                   href={item.href}
-                  className={`flex items-center justify-center gap-1 px-2 lg:px-3 py-3.5 text-white text-[11px] lg:text-xs xl:text-sm font-medium uppercase tracking-wide transition-colors text-center ${
+                  className={`flex items-center justify-center gap-1 px-1.5 lg:px-2.5 py-3.5 text-white text-[10px] lg:text-[11px] xl:text-xs font-bold uppercase tracking-wide transition-colors text-center ${
                     openIndex === i
                       ? "bg-[#d32f2f]"
                       : "hover:bg-white/10"
@@ -163,7 +176,7 @@ export default function MegaMenu() {
                   )}
                   {item.children && (
                     <svg
-                      className={`w-3 h-3 transition-transform ${
+                      className={`w-3 h-3 transition-transform flex-shrink-0 ${
                         openIndex === i ? "rotate-180" : ""
                       }`}
                       fill="none"
@@ -250,7 +263,7 @@ export default function MegaMenu() {
                 <div className="flex items-center justify-between">
                   <Link
                     href={item.href}
-                    className="flex-1 px-4 py-3 text-sm font-semibold text-[#1a2456] uppercase"
+                    className="flex-1 px-4 py-3 text-sm font-bold text-[#1a2456] uppercase"
                     onClick={() => setMobileOpen(false)}
                   >
                     {item.label}

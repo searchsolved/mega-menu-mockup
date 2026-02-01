@@ -7,23 +7,32 @@ export default function Home() {
       <div className="bg-gradient-to-r from-[#1a2456] to-[#2a3a7a] rounded-xl p-8 md:p-12 mb-12 text-white">
         <div className="max-w-2xl">
           <span className="bg-[#d32f2f] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
-            Navigation Mockup
+            Navigation Mockup v2
           </span>
           <h1 className="text-3xl md:text-4xl font-bold mt-4 mb-4">
-            Process-Driven Mega Menu
+            Revised 13-Item Mega Menu
           </h1>
           <p className="text-blue-200 text-lg leading-relaxed">
-            Proposed navigation restructure for weldingandwelder.com. Hover over
-            the menu items above to see the new process-driven dropdown
-            structure. This reorganises categories by welding process (MIG, TIG,
-            Arc) rather than product type.
+            Streamlined navigation for weldingandwelder.com with shorter labels,
+            dedicated Wire &amp; Rods, Abrasives, Pipe, and Extraction sections.
+            Offers moved to a red banner strip above the nav. Hover over the
+            menu items above to explore all 13 dropdowns.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-lg text-sm">
-              394 categories mapped
+              {menuItems.reduce(
+                (sum, item) =>
+                  sum +
+                  (item.children?.reduce(
+                    (s, col) => s + col.items.length,
+                    0
+                  ) ?? 0),
+                0
+              )}{" "}
+              categories mapped
             </span>
             <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-lg text-sm">
-              10 top-level items
+              13 top-level items
             </span>
             <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-lg text-sm">
               100% coverage
@@ -42,23 +51,22 @@ export default function Home() {
           <div className="border-2 border-gray-200 rounded-xl p-6">
             <div className="flex items-center gap-2 mb-4">
               <span className="bg-gray-200 text-gray-700 text-xs font-bold px-3 py-1 rounded-full uppercase">
-                Current
+                Previous (v1)
               </span>
-              <h3 className="font-bold text-gray-700">Product-Type Based</h3>
+              <h3 className="font-bold text-gray-700">10 Items</h3>
             </div>
             <ul className="space-y-2">
               {[
                 "Offers & Deals",
-                "Welding Equipment",
-                "Consumables & Supplies",
-                "Gas Delivery & Control",
-                "Gas & Plasma Cutting Machines",
-                "Fume Extraction",
-                "Pipe Welding & Cutting",
-                "Welding Tools & Benches",
-                "Safety Equipment",
-                "Air Tools & Compressors",
-                "Metal Saws & Mag Drills",
+                "MIG Welding",
+                "TIG Welding",
+                "Arc / MMA",
+                "Plasma & Cutting",
+                "Gas & Oxy-Fuel",
+                "Machines",
+                "Safety & Extraction",
+                "Workshop & Tools",
+                "Brands",
               ].map((item) => (
                 <li
                   key={item}
@@ -70,9 +78,8 @@ export default function Home() {
               ))}
             </ul>
             <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800">
-              Customer looking for MIG supplies must visit: Welding Equipment,
-              Consumables &amp; Supplies, Gas Delivery &amp; Control, and Safety
-              Equipment - 4 separate menus.
+              123 characters across 10 items. Long labels cause wrapping on
+              smaller screens. Wire/rods only accessible via process menus.
             </div>
           </div>
 
@@ -80,9 +87,9 @@ export default function Home() {
           <div className="border-2 border-[#1a2456] rounded-xl p-6">
             <div className="flex items-center gap-2 mb-4">
               <span className="bg-[#d32f2f] text-white text-xs font-bold px-3 py-1 rounded-full uppercase">
-                Proposed
+                Revised (v2)
               </span>
-              <h3 className="font-bold text-[#1a2456]">Process-Driven</h3>
+              <h3 className="font-bold text-[#1a2456]">13 Items, Short Labels</h3>
             </div>
             <ul className="space-y-2">
               {menuItems.map((item) => (
@@ -106,8 +113,8 @@ export default function Home() {
               ))}
             </ul>
             <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-800">
-              Customer looking for MIG supplies visits &quot;MIG Welding&quot; -
-              finds welders, wire, torches, gas, PPE all in one dropdown.
+              73 characters across 13 items. Offers in banner strip. Wire &amp;
+              rods available both in process menus AND a dedicated hub.
             </div>
           </div>
         </div>
@@ -220,33 +227,41 @@ export default function Home() {
       {/* Key Changes Summary */}
       <section className="mb-12 bg-gray-50 rounded-xl p-6 md:p-8">
         <h2 className="text-2xl font-bold text-[#1a2456] mb-6">
-          Key Changes Summary
+          Key Changes in v2
         </h2>
         <div className="grid md:grid-cols-2 gap-4">
           {[
             {
-              title: "\"Welding Equipment\" disappears",
-              desc: "Children split across MIG, TIG, Arc, and Machines sections",
+              title: "Shorter labels (73 vs 123 chars)",
+              desc: "MIG Welding → MIG, TIG Welding → TIG, Arc/MMA → ARC, Plasma & Cutting → PLASMA, Gas & Oxy-Fuel → GAS, Workshop & Tools → WORKSHOP",
             },
             {
-              title: "\"Consumables & Supplies\" disappears",
-              desc: "MIG wire goes to MIG Welding, TIG rods to TIG Welding, etc.",
+              title: "\"Offers & Deals\" → Red banner strip",
+              desc: "Frees up nav space. Prominent red strip above nav links to offers page.",
             },
             {
-              title: "\"Gas Delivery & Control\" splits",
-              desc: "Process-relevant regulators go to MIG/TIG; infrastructure stays under Gas & Oxy-Fuel",
+              title: "NEW: \"WIRE & RODS\" hub",
+              desc: "Cross-process consumables: MIG Wire, TIG Filler Rods, MMA Electrodes, Oxy & Brazing Rods. Dual entry points with process menus.",
             },
             {
-              title: "\"Fume Extraction\" merges with Safety",
-              desc: "Becomes \"Safety & Extraction\" - one place for all protective equipment",
+              title: "NEW: \"ABRASIVES\" standalone",
+              desc: "Split from Workshop. Cutting & Grinding, Finishing, and Accessories columns.",
             },
             {
-              title: "New \"Machines\" tab",
-              desc: "Cross-process equipment browser for customers who want to compare across types",
+              title: "\"Safety & Extraction\" split into two",
+              desc: "SAFETY (helmets, clothing, workspace) and EXTRACTION (Kemper, F-Tech, on-torch, bench) as separate top-level items.",
             },
             {
-              title: "New \"Brands\" tab",
-              desc: "Dedicated brand landing pages with filtered product ranges",
+              title: "NEW: \"PIPE\" standalone",
+              desc: "Split from Workshop. Stands & Handling, Clamps, Cutting & Prep, Accessories.",
+            },
+            {
+              title: "WORKSHOP slimmed down",
+              desc: "Loses pipe and abrasives. Keeps benches, air tools, tools & equipment, chemicals & consumables.",
+            },
+            {
+              title: "Process menus unchanged",
+              desc: "MIG, TIG, ARC, PLASMA, GAS keep same internal structure. Wire/rods remain in both process menus and the new hub.",
             },
           ].map((change) => (
             <div
@@ -265,7 +280,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="text-center py-8 border-t border-gray-200 text-sm text-gray-400">
         <p>
-          Welding &amp; Welder - Navigation Mockup - Not a production site
+          Welding &amp; Welder - Navigation Mockup v2 - Not a production site
         </p>
       </footer>
     </main>

@@ -12,28 +12,13 @@ export interface MenuColumn {
 }
 
 export const menuItems: MenuItem[] = [
+  // 1. MIG
   {
-    label: "Offers & Deals",
-    href: "/offers-deals",
-    children: [
-      {
-        heading: "Current Offers",
-        href: "/offers-deals",
-        items: [
-          { label: "Clearance", href: "/offers/clearance" },
-          { label: "Consumable Deals", href: "/offers/consumables" },
-          { label: "Safety Equipment Offers", href: "/offers/safety" },
-          { label: "Welding Machine Offers", href: "/offers/welding-machines" },
-        ],
-      },
-    ],
-  },
-  {
-    label: "MIG Welding",
+    label: "MIG WELDING",
     href: "/mig-welding",
     children: [
       {
-        heading: "MIG Welders",
+        heading: "MIG Welding Machines",
         href: "/mig-welding/welders",
         items: [
           { label: "Jasic MIG Welders", href: "/mig-welding/welders/jasic" },
@@ -44,7 +29,7 @@ export const menuItems: MenuItem[] = [
         ],
       },
       {
-        heading: "MIG Torches & Parts",
+        heading: "MIG Welding Torches & Parts",
         href: "/mig-welding/torches",
         items: [
           { label: "Binzel-Style Consumables", href: "/mig-welding/torches/binzel-consumables" },
@@ -55,7 +40,7 @@ export const menuItems: MenuItem[] = [
         ],
       },
       {
-        heading: "MIG Wire",
+        heading: "MIG Welding Wire",
         href: "/mig-welding/wire",
         items: [
           { label: "Aluminium MIG Wire", href: "/mig-welding/wire/aluminium" },
@@ -69,7 +54,7 @@ export const menuItems: MenuItem[] = [
         ],
       },
       {
-        heading: "MIG Accessories",
+        heading: "MIG Welding Accessories",
         href: "/mig-welding/accessories",
         items: [
           { label: "Anti-Spatter Spray", href: "/consumables/chemicals/anti-spatter" },
@@ -84,12 +69,13 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
+  // 2. TIG
   {
-    label: "TIG Welding",
+    label: "TIG WELDING",
     href: "/tig-welding",
     children: [
       {
-        heading: "TIG Welders",
+        heading: "TIG Welding Machines",
         href: "/tig-welding/welders",
         items: [
           { label: "Jasic TIG Welders", href: "/tig-welding/welders/jasic" },
@@ -100,7 +86,7 @@ export const menuItems: MenuItem[] = [
         ],
       },
       {
-        heading: "TIG Torches & Tungsten",
+        heading: "TIG Welding Torches & Tungsten",
         href: "/tig-welding/torches",
         items: [
           { label: "Ceriated Tungsten", href: "/tig-welding/tungsten/ceriated" },
@@ -114,7 +100,7 @@ export const menuItems: MenuItem[] = [
         ],
       },
       {
-        heading: "TIG Filler Rods",
+        heading: "TIG Welding Filler Rods",
         href: "/tig-welding/filler-rods",
         items: [
           { label: "Aluminium", href: "/tig-welding/filler-rods/aluminium" },
@@ -130,7 +116,7 @@ export const menuItems: MenuItem[] = [
         ],
       },
       {
-        heading: "TIG Accessories",
+        heading: "TIG Welding Accessories",
         href: "/tig-welding/accessories",
         items: [
           { label: "Gas Regulators", href: "/gas/regulators/inert" },
@@ -145,12 +131,13 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
+  // 3. ARC
   {
-    label: "Arc / MMA",
+    label: "ARC WELDING",
     href: "/arc-mma",
     children: [
       {
-        heading: "Arc/MMA Welders",
+        heading: "Arc/MMA Welding Machines",
         href: "/arc-mma/welders",
         items: [
           { label: "Jasic MMA Welders", href: "/arc-mma/welders/jasic" },
@@ -160,7 +147,7 @@ export const menuItems: MenuItem[] = [
         ],
       },
       {
-        heading: "MMA Electrodes",
+        heading: "MMA Welding Electrodes",
         href: "/arc-mma/electrodes",
         items: [
           { label: "Cast Iron", href: "/arc-mma/electrodes/cast-iron" },
@@ -171,7 +158,7 @@ export const menuItems: MenuItem[] = [
         ],
       },
       {
-        heading: "Cable & Connectors",
+        heading: "Welding Cable & Connectors",
         href: "/arc-mma/cable",
         items: [
           { label: "Cable Plugs & Sockets", href: "/arc-mma/cable/plugs-sockets" },
@@ -185,7 +172,7 @@ export const menuItems: MenuItem[] = [
         ],
       },
       {
-        heading: "Arc Accessories",
+        heading: "Arc Welding Accessories",
         href: "/arc-mma/accessories",
         items: [
           { label: "Arc-Air Gouging Carbons", href: "/arc-mma/gouging/carbons" },
@@ -199,12 +186,13 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
+  // 4. PLASMA
   {
-    label: "Plasma & Cutting",
+    label: "PLASMA CUTTING",
     href: "/plasma-cutting",
     children: [
       {
-        heading: "Plasma Cutters",
+        heading: "Plasma Cutting Machines",
         href: "/plasma-cutting/plasma",
         items: [
           { label: "Jasic Plasma Spares", href: "/plasma-cutting/plasma/jasic-spares" },
@@ -215,7 +203,7 @@ export const menuItems: MenuItem[] = [
         ],
       },
       {
-        heading: "Cutting Machines",
+        heading: "Oxy-Fuel Cutting Machines",
         href: "/plasma-cutting/machines",
         items: [
           { label: "Gas Cutting Machines (Oxy-Fuel)", href: "/plasma-cutting/machines/gas-oxy" },
@@ -225,7 +213,7 @@ export const menuItems: MenuItem[] = [
         ],
       },
       {
-        heading: "Cutting Nozzles",
+        heading: "Oxy-Fuel Cutting Nozzles",
         href: "/plasma-cutting/nozzles",
         items: [
           { label: "NFF Cutting Nozzles", href: "/plasma-cutting/nozzles/nff" },
@@ -238,7 +226,7 @@ export const menuItems: MenuItem[] = [
         ],
       },
       {
-        heading: "Cutting Accessories",
+        heading: "Cutting & Gouging Accessories",
         href: "/plasma-cutting/accessories",
         items: [
           { label: "Air Compressors", href: "/workshop/air-compressors" },
@@ -249,12 +237,13 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
+  // 5. GAS
   {
-    label: "Gas & Oxy-Fuel",
+    label: "GAS & OXY-FUEL",
     href: "/gas-oxy-fuel",
     children: [
       {
-        heading: "Oxy-Fuel Equipment",
+        heading: "Oxy-Fuel Welding Equipment",
         href: "/gas-oxy-fuel/equipment",
         items: [
           { label: "Cutting & Welding Sets", href: "/gas-oxy-fuel/sets" },
@@ -267,7 +256,7 @@ export const menuItems: MenuItem[] = [
         ],
       },
       {
-        heading: "Oxy Welding Rods",
+        heading: "Oxy-Fuel Welding Rods",
         href: "/gas-oxy-fuel/rods",
         items: [
           { label: "Aluminium Welding Rods", href: "/gas-oxy-fuel/rods/aluminium" },
@@ -279,7 +268,7 @@ export const menuItems: MenuItem[] = [
         ],
       },
       {
-        heading: "Gas Delivery & Control",
+        heading: "Gas Regulators & Delivery",
         href: "/gas-oxy-fuel/delivery",
         items: [
           { label: "CO2 Regulators", href: "/gas-oxy-fuel/regulators/co2" },
@@ -294,7 +283,7 @@ export const menuItems: MenuItem[] = [
         ],
       },
       {
-        heading: "Hoses, Fittings & Storage",
+        heading: "Gas Hoses, Fittings & Storage",
         href: "/gas-oxy-fuel/hoses",
         items: [
           { label: "Argon / Shielding Gas Hose", href: "/gas-oxy-fuel/hoses/argon" },
@@ -311,8 +300,121 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
+  // 6. WIRE & RODS
   {
-    label: "Machines",
+    label: "WIRE & RODS",
+    href: "/wire-rods",
+    children: [
+      {
+        heading: "MIG Welding Wire",
+        href: "/mig-welding/wire",
+        items: [
+          { label: "Aluminium MIG Wire", href: "/mig-welding/wire/aluminium" },
+          { label: "Brazing MIG Wire", href: "/mig-welding/wire/brazing" },
+          { label: "Bulk MIG Wire", href: "/mig-welding/wire/bulk" },
+          { label: "Copper Free MIG Wire", href: "/mig-welding/wire/copper-free" },
+          { label: "Flux Cored MIG Wire", href: "/mig-welding/wire/flux-cored" },
+          { label: "Hard Facing MIG Wire", href: "/mig-welding/wire/hard-facing" },
+          { label: "Mild Steel MIG Wire", href: "/mig-welding/wire/mild-steel" },
+          { label: "Stainless Steel MIG Wire", href: "/mig-welding/wire/stainless" },
+        ],
+      },
+      {
+        heading: "TIG Welding Filler Rods",
+        href: "/tig-welding/filler-rods",
+        items: [
+          { label: "Aluminium", href: "/tig-welding/filler-rods/aluminium" },
+          { label: "Brazing / Bronze", href: "/tig-welding/filler-rods/brazing" },
+          { label: "Copper / Copper-Nickel", href: "/tig-welding/filler-rods/copper" },
+          { label: "Dissimilar Steels", href: "/tig-welding/filler-rods/dissimilar" },
+          { label: "Duplex Stainless Steel", href: "/tig-welding/filler-rods/duplex" },
+          { label: "Hard Facing", href: "/tig-welding/filler-rods/hard-facing" },
+          { label: "Mild Steel", href: "/tig-welding/filler-rods/mild-steel" },
+          { label: "Nickel Alloy", href: "/tig-welding/filler-rods/nickel" },
+          { label: "Stainless Steel", href: "/tig-welding/filler-rods/stainless" },
+          { label: "Titanium", href: "/tig-welding/filler-rods/titanium" },
+        ],
+      },
+      {
+        heading: "MMA Welding Electrodes",
+        href: "/arc-mma/electrodes",
+        items: [
+          { label: "Cast Iron", href: "/arc-mma/electrodes/cast-iron" },
+          { label: "Cutting / Gouging", href: "/arc-mma/electrodes/cutting-gouging" },
+          { label: "Hard Surfacing", href: "/arc-mma/electrodes/hard-surfacing" },
+          { label: "Stainless Steel", href: "/arc-mma/electrodes/stainless" },
+          { label: "Steel & Low Hydrogen", href: "/arc-mma/electrodes/steel" },
+        ],
+      },
+      {
+        heading: "Oxy-Fuel & Brazing Rods",
+        href: "/gas-oxy-fuel/rods",
+        items: [
+          { label: "Aluminium Welding Rods", href: "/gas-oxy-fuel/rods/aluminium" },
+          { label: "Brazing Rods", href: "/gas-oxy-fuel/rods/brazing" },
+          { label: "Copper Phosphorus Rods", href: "/gas-oxy-fuel/rods/copper-phosphorus" },
+          { label: "Disposable Gas Cylinders", href: "/gas-oxy-fuel/disposable-cylinders" },
+          { label: "Silver Solder Rods", href: "/gas-oxy-fuel/rods/silver-solder" },
+          { label: "Steel Welding Rods", href: "/gas-oxy-fuel/rods/steel" },
+        ],
+      },
+    ],
+  },
+  // 7. PIPE
+  {
+    label: "PIPE WELDING",
+    href: "/pipe",
+    children: [
+      {
+        heading: "Pipe Stands & Handling",
+        href: "/workshop/pipe/stands",
+        items: [
+          { label: "Roller Stands", href: "/workshop/pipe/stands/roller" },
+          { label: "V-Head Stands", href: "/workshop/pipe/stands/v-head" },
+          { label: "Pipe Conveyors", href: "/workshop/pipe/conveyors" },
+          { label: "Pipe Rotators", href: "/workshop/pipe/rotators" },
+        ],
+      },
+      {
+        heading: "Pipe Welding Clamps",
+        href: "/workshop/pipe/clamps",
+        items: [
+          { label: "Bridge Clamps", href: "/workshop/pipe/clamps/bridge" },
+          { label: "Cage Clamps", href: "/workshop/pipe/clamps/cage" },
+          { label: "Chain Clamps", href: "/workshop/pipe/clamps/chain" },
+          { label: "E-Z Fit Clamps", href: "/workshop/pipe/clamps/ez-fit" },
+          { label: "PDQ Clamps", href: "/workshop/pipe/clamps/pdq" },
+          { label: "Pincer Clamps", href: "/workshop/pipe/clamps/pincer" },
+          { label: "Spider Clamps", href: "/workshop/pipe/clamps/spider" },
+        ],
+      },
+      {
+        heading: "Pipe Cutting & Preparation",
+        href: "/workshop/pipe/cutting",
+        items: [
+          { label: "Bevelling Machines", href: "/workshop/pipe/bevelling" },
+          { label: "Exact Pipe Saws", href: "/workshop/pipe/saws/exact" },
+          { label: "GBC Pipe Saws", href: "/workshop/pipe/saws/gbc" },
+          { label: "TAG Pipe Saws", href: "/workshop/pipe/saws/tag" },
+          { label: "Pipe Cutting Machines", href: "/workshop/pipe/cutting-machines" },
+        ],
+      },
+      {
+        heading: "Pipe Welding Accessories",
+        href: "/workshop/pipe/accessories",
+        items: [
+          { label: "Purging Equipment", href: "/workshop/pipe/purging" },
+          { label: "Measuring & Marking Tools", href: "/workshop/pipe/measuring" },
+          { label: "Drain Test Plugs", href: "/workshop/pipe/drain-plugs" },
+          { label: "Weld Backing Tape", href: "/workshop/pipe/backing-tape" },
+          { label: "Pipe Wrap", href: "/workshop/pipe/pipe-wrap" },
+        ],
+      },
+    ],
+  },
+  // 8. MACHINES
+  {
+    label: "WELDING MACHINES",
     href: "/machines",
     children: [
       {
@@ -343,7 +445,7 @@ export const menuItems: MenuItem[] = [
         ],
       },
       {
-        heading: "Specialist Equipment",
+        heading: "Specialist Welding Equipment",
         href: "/machines/specialist",
         items: [
           { label: "Broaching Cutters", href: "/machines/broaching-cutters" },
@@ -355,7 +457,7 @@ export const menuItems: MenuItem[] = [
         ],
       },
       {
-        heading: "Power & Cooling",
+        heading: "Welding Power & Cooling",
         href: "/machines/power",
         items: [
           { label: "Filter Kits & Servicing", href: "/machines/generators/servicing" },
@@ -369,133 +471,187 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
+  // 9. SAFETY
   {
-    label: "Safety & Extraction",
+    label: "SAFETY & PPE",
     href: "/safety",
     children: [
       {
         heading: "Welding Helmets & Eye Protection",
         href: "/safety/helmets",
         items: [
-          { label: "Air Fed Face Shields", href: "/safety/eye/air-fed" },
           { label: "Auto-Darkening Welding Helmets", href: "/safety/helmets/auto-darkening" },
-          { label: "Respirator Masks", href: "/safety/eye/respirators" },
+          { label: "Welding Masks", href: "/safety/helmets/masks" },
+          { label: "Welding Helmet Spares", href: "/safety/helmets/spares" },
           { label: "Safety Goggles", href: "/safety/eye/goggles" },
           { label: "Safety Spectacles", href: "/safety/eye/spectacles" },
           { label: "Safety Visors", href: "/safety/eye/visors" },
-          { label: "Welding Helmet Spares", href: "/safety/helmets/spares" },
-          { label: "Welding Masks", href: "/safety/helmets/masks" },
+          { label: "Respirator Masks", href: "/safety/eye/respirators" },
+          { label: "Air Fed Face Shields", href: "/safety/eye/air-fed" },
         ],
       },
       {
-        heading: "Protective Clothing",
+        heading: "Welding Protective Clothing",
         href: "/safety/clothing",
         items: [
-          { label: "Capes & Sleeves", href: "/safety/clothing/capes" },
-          { label: "Caps & Balaclavas", href: "/safety/clothing/caps" },
-          { label: "Heat Reflective Clothing", href: "/safety/clothing/heat-reflective" },
-          { label: "Trousers & Spats", href: "/safety/clothing/trousers" },
-          { label: "Welding Aprons", href: "/safety/clothing/aprons" },
           { label: "Welding Gloves & Gauntlets", href: "/safety/gloves" },
           { label: "Welding Jackets", href: "/safety/clothing/jackets" },
+          { label: "Welding Aprons", href: "/safety/clothing/aprons" },
+          { label: "Capes & Sleeves", href: "/safety/clothing/capes" },
           { label: "Welding Overalls", href: "/safety/clothing/overalls" },
+          { label: "Trousers & Spats", href: "/safety/clothing/trousers" },
+          { label: "Caps & Balaclavas", href: "/safety/clothing/caps" },
+          { label: "Heat Reflective Clothing", href: "/safety/clothing/heat-reflective" },
         ],
       },
       {
-        heading: "Fume Extraction",
-        href: "/safety/fume-extraction",
-        items: [
-          { label: "Bench Top Extractors", href: "/safety/fume/bench-top" },
-          { label: "F-Tech Fume Extraction", href: "/safety/fume/f-tech" },
-          { label: "Kemper CleanAirTower", href: "/safety/fume/kemper-tower" },
-          { label: "Kemper Filter Tables", href: "/safety/fume/kemper-tables" },
-          { label: "Kemper Hi-Vacuum Extraction", href: "/safety/fume/kemper-hi-vac" },
-          { label: "Kemper Mobile Fume Extraction", href: "/safety/fume/kemper-mobile" },
-          { label: "Kemper Spares & Accessories", href: "/safety/fume/kemper-spares" },
-          { label: "Kemper Static Filter Units", href: "/safety/fume/kemper-static" },
-          { label: "On-Torch Fume Extraction", href: "/safety/fume/on-torch" },
-        ],
-      },
-      {
-        heading: "Workspace Safety",
+        heading: "Welding Workspace Safety",
         href: "/safety/workspace",
         items: [
+          { label: "Welding Screens & Curtains", href: "/safety/screens" },
+          { label: "Welding Strip Curtains", href: "/safety/screens/strip" },
+          { label: "Welding Blankets & Mats", href: "/safety/blankets" },
+          { label: "Welding Tents & Shelters", href: "/safety/tents" },
           { label: "Fire Barrier Fabric", href: "/safety/fire-barrier" },
           { label: "Fire Retardant Tarpaulin", href: "/safety/tarpaulin" },
           { label: "Spill Containment Kits", href: "/safety/spill-kits" },
-          { label: "Welding Blankets & Mats", href: "/safety/blankets" },
-          { label: "Welding Screens & Curtains", href: "/safety/screens" },
-          { label: "Welding Strip Curtains", href: "/safety/screens/strip" },
-          { label: "Welding Tents & Shelters", href: "/safety/tents" },
         ],
       },
     ],
   },
+  // 10. FUME EXTRACTION
   {
-    label: "Workshop & Tools",
+    label: "FUME EXTRACTION",
+    href: "/fume-extraction",
+    children: [
+      {
+        heading: "Kemper Mobile & Hi-Vac Extraction",
+        href: "/safety/fume/kemper-mobile",
+        items: [
+          { label: "Kemper Mobile Fume Extraction", href: "/safety/fume/kemper-mobile" },
+          { label: "Kemper Hi-Vacuum Extraction", href: "/safety/fume/kemper-hi-vac" },
+          { label: "Kemper Spares & Accessories", href: "/safety/fume/kemper-spares" },
+        ],
+      },
+      {
+        heading: "Kemper Filtration Systems",
+        href: "/safety/fume/kemper-tower",
+        items: [
+          { label: "Kemper CleanAirTower", href: "/safety/fume/kemper-tower" },
+          { label: "Kemper Filter Tables", href: "/safety/fume/kemper-tables" },
+          { label: "Kemper Static Filter Units", href: "/safety/fume/kemper-static" },
+          { label: "Kemper Airwatch", href: "/safety/fume/kemper-airwatch" },
+          { label: "Kemper Air Purifying", href: "/safety/fume/kemper-air-purifying" },
+        ],
+      },
+      {
+        heading: "F-Tech Extraction",
+        href: "/safety/fume/f-tech",
+        items: [
+          { label: "F-Tech Fume Extraction", href: "/safety/fume/f-tech" },
+        ],
+      },
+      {
+        heading: "On-Torch & Bench Extraction",
+        href: "/safety/fume/on-torch",
+        items: [
+          { label: "On-Torch Fume Extraction", href: "/safety/fume/on-torch" },
+          { label: "Kemper On-Torch Extraction", href: "/safety/fume/kemper-on-torch" },
+          { label: "WSL On-Torch Extraction", href: "/safety/fume/wsl-on-torch" },
+          { label: "Bench Top Extractors", href: "/safety/fume/bench-top" },
+        ],
+      },
+    ],
+  },
+  // 11. WORKSHOP
+  {
+    label: "WELDING WORKSHOP",
     href: "/workshop",
     children: [
       {
         heading: "Welding Benches & Tables",
         href: "/workshop/benches",
         items: [
-          { label: "Bench Accessories", href: "/workshop/benches/accessories" },
           { label: "Heavy Duty Welding Benches", href: "/workshop/benches/heavy-duty" },
           { label: "Medium Duty Benches", href: "/workshop/benches/medium-duty" },
-          { label: "Mobile Work Benches", href: "/workshop/benches/mobile" },
-          { label: "Stainless Steel Benches", href: "/workshop/benches/stainless" },
           { label: "Super Heavy Duty Benches", href: "/workshop/benches/super-heavy" },
-        ],
-      },
-      {
-        heading: "Pipe Welding & Cutting",
-        href: "/workshop/pipe",
-        items: [
-          { label: "Drain Test Plugs", href: "/workshop/pipe/drain-plugs" },
-          { label: "Pipe Bevelling Machines", href: "/workshop/pipe/bevelling" },
-          { label: "Pipe Measuring & Marking", href: "/workshop/pipe/measuring" },
-          { label: "Pipe Purging Equipment", href: "/workshop/pipe/purging" },
-          { label: "Pipe Saws", href: "/workshop/pipe/saws" },
-          { label: "Pipe Stands & Rotators", href: "/workshop/pipe/stands" },
-          { label: "Pipe Welding Clamps", href: "/workshop/pipe/clamps" },
-          { label: "Weld Backing Tape", href: "/workshop/pipe/backing-tape" },
+          { label: "Stainless Steel Benches", href: "/workshop/benches/stainless" },
+          { label: "Mobile Work Benches", href: "/workshop/benches/mobile" },
+          { label: "Bench Accessories", href: "/workshop/benches/accessories" },
         ],
       },
       {
         heading: "Air Tools & Compressors",
         href: "/workshop/air-tools",
         items: [
+          { label: "Belt Driven Compressors", href: "/workshop/compressors/belt-driven" },
+          { label: "Direct Drive Compressors", href: "/workshop/compressors/direct-drive" },
+          { label: "Low Noise Compressors", href: "/workshop/compressors/low-noise" },
+          { label: "Screw Compressors", href: "/workshop/compressors/screw" },
           { label: "Air Angle Grinders", href: "/workshop/air-tools/grinders" },
           { label: "Air Drills", href: "/workshop/air-tools/drills" },
           { label: "Air Impact Wrenches", href: "/workshop/air-tools/impact-wrenches" },
           { label: "Air Sanders / Polishers", href: "/workshop/air-tools/sanders" },
-          { label: "Belt Driven Compressors", href: "/workshop/compressors/belt-driven" },
-          { label: "Direct Drive Compressors", href: "/workshop/compressors/direct-drive" },
-          { label: "Low Noise Compressors", href: "/workshop/compressors/low-noise" },
           { label: "Paint Spray Guns", href: "/workshop/air-tools/paint-guns" },
-          { label: "Screw Compressors", href: "/workshop/compressors/screw" },
         ],
       },
       {
-        heading: "Tools & Consumables",
+        heading: "Welding Tools & Equipment",
         href: "/workshop/tools",
         items: [
-          { label: "Cutting Discs", href: "/workshop/abrasives/cutting" },
-          { label: "Devcon Maintenance Products", href: "/workshop/devcon" },
-          { label: "Flap Discs", href: "/workshop/abrasives/flap" },
-          { label: "Grinding Discs", href: "/workshop/abrasives/grinding" },
           { label: "Magnetic Welding Positioners", href: "/workshop/positioners" },
+          { label: "Welding Gauges", href: "/workshop/tools/gauges" },
           { label: "Temperature Indicator Pens", href: "/workshop/tools/temp-pens" },
           { label: "Tool Kit Sets & Cabinets", href: "/workshop/tools/kits" },
-          { label: "Weld Backing Ceramics", href: "/workshop/consumables/ceramics" },
+          { label: "Cable Reels", href: "/workshop/tools/cable-reels" },
+        ],
+      },
+      {
+        heading: "Welding Chemicals & Consumables",
+        href: "/workshop/chemicals",
+        items: [
           { label: "Welding Chemicals & Sprays", href: "/workshop/chemicals" },
-          { label: "Welding Gauges", href: "/workshop/tools/gauges" },
+          { label: "Devcon Maintenance Products", href: "/workshop/devcon" },
+          { label: "Weld Backing Ceramics", href: "/workshop/consumables/ceramics" },
         ],
       },
     ],
   },
+  // 12. ABRASIVES
   {
-    label: "Brands",
+    label: "ABRASIVES",
+    href: "/abrasives",
+    children: [
+      {
+        heading: "Cutting & Grinding Discs",
+        href: "/abrasives/cutting-grinding",
+        items: [
+          { label: "Cutting Discs", href: "/workshop/abrasives/cutting" },
+          { label: "Grinding Discs", href: "/workshop/abrasives/grinding" },
+        ],
+      },
+      {
+        heading: "Finishing & Sanding Discs",
+        href: "/abrasives/finishing",
+        items: [
+          { label: "Flap Discs", href: "/workshop/abrasives/flap" },
+          { label: "Ceramic Flap Discs", href: "/workshop/abrasives/ceramic-flap" },
+          { label: "Sanding Discs", href: "/workshop/abrasives/sanding" },
+        ],
+      },
+      {
+        heading: "Abrasive Accessories",
+        href: "/abrasives/accessories",
+        items: [
+          { label: "Wire Brushes", href: "/workshop/abrasives/wire-brushes" },
+          { label: "Backing Pads", href: "/workshop/abrasives/backing-pads" },
+        ],
+      },
+    ],
+  },
+  // 13. BRANDS
+  {
+    label: "BRANDS",
     href: "/brands",
     children: [
       {
