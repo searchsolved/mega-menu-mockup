@@ -1,0 +1,8 @@
+# WooCommerce Categories to Delete After Migration
+# These old categories will be empty after products are re-assigned.
+# Total: 0 categories
+#
+# IMPORTANT: Only delete these AFTER verifying all products
+# have been successfully re-assigned to new categories.
+# 301 redirects should be in place before deletion.
+

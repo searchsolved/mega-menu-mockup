@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WAW Category Hierarchy - Tree Diagram</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f1729; overflow: hidden; }
+
+  #controls {
+    position: fixed; top: 16px; left: 16px; z-index: 10;
+    background: rgba(26,36,86,0.95); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px; padding: 16px 20px; color: white; max-width: 280px;
+    backdrop-filter: blur(12px);
+  }
+  #controls h1 { font-size: 16px; margin-bottom: 4px; }
+  #controls p { font-size: 11px; color: rgba(255,255,255,0.6); margin-bottom: 10px; line-height: 1.4; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: rgba(255,255,255,0.8); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  .btn-row { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 6px; }
+  .btn {
+    font-size: 10px; padding: 3px 8px; border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.3); background: transparent;
+    color: rgba(255,255,255,0.7); cursor: pointer; transition: all 0.2s;
+  }
+  .btn:hover { background: rgba(255,255,255,0.15); color: white; }
+
+  #search-box {
+    width: 100%; padding: 5px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.08); color: white; font-size: 11px; margin-bottom: 8px;
+    outline: none;
+  }
+  #search-box::placeholder { color: rgba(255,255,255,0.35); }
+  #search-box:focus { border-color: #d32f2f; }
+
+  #stats { font-size: 10px; color: rgba(255,255,255,0.5); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 8px; margin-top: 4px; }
+
+  #tooltip {
+    position: fixed; pointer-events: none; z-index: 20;
+    background: rgba(26,36,86,0.95); border: 1px solid rgba(211,47,47,0.6);
+    border-radius: 8px; padding: 10px 14px; color: white;
+    font-size: 12px; display: none; backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4); max-width: 320px;
+  }
+  #tooltip .tt-name { font-weight: 700; font-size: 13px; margin-bottom: 2px; }
+  #tooltip .tt-path { font-size: 10px; color: rgba(255,255,255,0.5); margin-bottom: 4px; font-family: monospace; }
+  #tooltip .tt-count { color: #f87171; font-weight: 600; }
+
+  svg { display: block; }
+  .link { fill: none; stroke-opacity: 0.3; }
+  .node-label { pointer-events: none; }
+</style>
+</head>
+<body>
+
+<div id="controls">
+  <h1>Category Tree</h1>
+  <p>Left-to-right hierarchy. Circle size = product count. Click nodes to collapse/expand. Scroll to zoom, drag to pan.</p>
+  <input type="text" id="search-box" placeholder="Search categories..." />
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot" style="background:#d32f2f"></span>Top Level (13)</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#42a5f5"></span>Columns (50)</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#66bb6a"></span>Items (311)</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#6b7280"></span>Uncategorised</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn" id="btnExpand">Expand All</button>
+    <button class="btn" id="btnCollapse">Collapse All</button>
+    <button class="btn" id="btnFit">Fit to Screen</button>
+  </div>
+  <div id="stats"></div>
+</div>
+
+<div id="tooltip">
+  <div class="tt-name"></div>
+  <div class="tt-path"></div>
+  <div class="tt-count"></div>
+</div>
+
+<svg id="tree"></svg>
+
+<script>
+const treeData = {"name": "Welding & Welder", "path": "", "count": 0, "children": [{"name": "MIG WELDING", "path": "mig-welding", "count": 159, "children": [{"name": "MIG Welding Machines", "path": "mig-welding/welders", "count": 25, "children": [{"name": "Jasic MIG Welders", "path": "mig-welding/welders/jasic", "count": 0}, {"name": "Multi Process Welders", "path": "mig-welding/multi-process", "count": 21}, {"name": "Parweld MIG Welders", "path": "mig-welding/welders/parweld", "count": 0}, {"name": "SWP MIG Welders", "path": "mig-welding/welders/swp", "count": 0}, {"name": "Weldability Sif MIG Welders", "path": "mig-welding/welders/weldability-sif", "count": 0}]}, {"name": "MIG Welding Torches & Parts", "path": "mig-welding/torches", "count": 29, "children": [{"name": "Binzel-Style Consumables", "path": "mig-welding/torches/binzel-consumables", "count": 1}, {"name": "Euro Connection MIG Torches", "path": "mig-welding/torches/euro", "count": 9}, {"name": "Euro MIG Torches - ERGO", "path": "mig-welding/torches/ergo", "count": 2}, {"name": "MIG Liners", "path": "mig-welding/torches/liners", "count": 8}, {"name": "MIG Welding Nozzles", "path": "mig-welding/torches/nozzles", "count": 8}]}, {"name": "MIG Welding Wire", "path": "mig-welding/wire", "count": 92, "children": [{"name": "Aluminium MIG Wire", "path": "mig-welding/wire/aluminium", "count": 9}, {"name": "Brazing MIG Wire", "path": "mig-welding/wire/brazing", "count": 13}, {"name": "Bulk MIG Wire", "path": "mig-welding/wire/bulk", "count": 8}, {"name": "Copper Free MIG Wire", "path": "mig-welding/wire/copper-free", "count": 5}, {"name": "Flux Cored MIG Wire", "path": "mig-welding/wire/flux-cored", "count": 13}, {"name": "Hard Facing MIG Wire", "path": "mig-welding/wire/hard-facing", "count": 4}, {"name": "Mild Steel MIG Wire", "path": "mig-welding/wire/mild-steel", "count": 27}, {"name": "Stainless Steel MIG Wire", "path": "mig-welding/wire/stainless", "count": 13}]}, {"name": "MIG Welding Accessories", "path": "mig-welding/accessories", "count": 13, "children": [{"name": "Anti-Spatter Spray", "path": "consumables/chemicals/anti-spatter", "count": 5}, {"name": "CO2 Regulators", "path": "gas/regulators/co2", "count": 7}, {"name": "Gas Economisers / Flowmeters", "path": "gas/economisers", "count": 13}, {"name": "Inert Gas Regulators", "path": "gas/regulators/inert", "count": 37}, {"name": "MIG Gas Welding Hoses", "path": "gas/hoses/mig", "count": 5}, {"name": "Welder Water Coolers", "path": "machines/water-coolers", "count": 7}, {"name": "Welding Gloves", "path": "safety/gloves", "count": 0}, {"name": "Welding Helmets", "path": "safety/helmets", "count": 0}]}]}, {"name": "TIG WELDING", "path": "tig-welding", "count": 376, "children": [{"name": "TIG Welding Machines", "path": "tig-welding/welders", "count": 40, "children": [{"name": "Jasic TIG Welders", "path": "tig-welding/welders/jasic", "count": 0}, {"name": "Multi Process Welders", "path": "tig-welding/multi-process", "count": 21}, {"name": "Newarc TIG Welders", "path": "tig-welding/welders/newarc", "count": 0}, {"name": "Sif TIG Welders", "path": "tig-welding/welders/sif", "count": 0}, {"name": "SWP TIG Welders", "path": "tig-welding/welders/swp", "count": 0}]}, {"name": "TIG Welding Torches & Tungsten", "path": "tig-welding/torches", "count": 133, "children": [{"name": "Ceriated Tungsten", "path": "tig-welding/tungsten/ceriated", "count": 16}, {"name": "Lanthanated Tungsten", "path": "tig-welding/tungsten/lanthanated", "count": 27}, {"name": "Superstrike AC/DC", "path": "tig-welding/tungsten/superstrike", "count": 3}, {"name": "Thoriated Tungsten", "path": "tig-welding/tungsten/thoriated", "count": 17}, {"name": "TIG Torch Adaptors", "path": "tig-welding/torches/adaptors", "count": 7}, {"name": "TIG Torch Consumables", "path": "tig-welding/torches/consumables", "count": 30}, {"name": "TIG Torches & Spare Parts", "path": "tig-welding/torches/all", "count": 17}, {"name": "Zirconiated Tungsten", "path": "tig-welding/tungsten/zirconiated", "count": 16}]}, {"name": "TIG Welding Filler Rods", "path": "tig-welding/filler-rods", "count": 96, "children": [{"name": "Aluminium", "path": "tig-welding/filler-rods/aluminium", "count": 15}, {"name": "Brazing / Bronze", "path": "tig-welding/filler-rods/brazing", "count": 6}, {"name": "Copper / Copper-Nickel", "path": "tig-welding/filler-rods/copper", "count": 7}, {"name": "Dissimilar Steels", "path": "tig-welding/filler-rods/dissimilar", "count": 2}, {"name": "Duplex Stainless Steel", "path": "tig-welding/filler-rods/duplex", "count": 1}, {"name": "Hard Facing", "path": "tig-welding/filler-rods/hard-facing", "count": 4}, {"name": "Magnesium", "path": "tig-welding/filler-rods/magnesium", "count": 2}, {"name": "Mild Steel", "path": "tig-welding/filler-rods/mild-steel", "count": 27}, {"name": "Nickel Alloy", "path": "tig-welding/filler-rods/nickel", "count": 10}, {"name": "Stainless Steel", "path": "tig-welding/filler-rods/stainless", "count": 38}, {"name": "Titanium", "path": "tig-welding/filler-rods/titanium", "count": 2}]}, {"name": "TIG Welding Accessories", "path": "tig-welding/accessories", "count": 107, "children": [{"name": "Gas Regulators", "path": "gas/regulators/inert", "count": 0}, {"name": "Pickling & Neutralising Agents", "path": "tig-welding/weld-cleaning/pickling", "count": 5}, {"name": "Tungsten Grinders - Bench", "path": "tig-welding/tungsten-grinders/bench", "count": 9}, {"name": "Tungsten Grinders - Handheld", "path": "tig-welding/tungsten-grinders/handheld", "count": 19}, {"name": "Tungsten Grinders w/ Extractors", "path": "tig-welding/tungsten-grinders/extractors", "count": 11}, {"name": "Weld Cleaning Equipment", "path": "tig-welding/weld-cleaning", "count": 56}, {"name": "Welder Water Coolers", "path": "machines/water-coolers", "count": 7}, {"name": "Welding Helmets", "path": "safety/helmets", "count": 0}]}]}, {"name": "ARC WELDING", "path": "arc-mma", "count": 260, "children": [{"name": "Arc/MMA Welding Machines", "path": "arc-mma/welders", "count": 16, "children": [{"name": "Jasic MMA Welders", "path": "arc-mma/welders/jasic", "count": 0}, {"name": "Multi Process Welders", "path": "arc-mma/multi-process", "count": 21}, {"name": "Newarc MMA Welders", "path": "arc-mma/welders/newarc", "count": 0}, {"name": "Parweld MMA Welders", "path": "arc-mma/welders/parweld", "count": 0}]}, {"name": "MMA Welding Electrodes", "path": "arc-mma/electrodes", "count": 76, "children": [{"name": "Cast Iron", "path": "arc-mma/electrodes/cast-iron", "count": 4}, {"name": "Cutting / Gouging", "path": "arc-mma/electrodes/cutting-gouging", "count": 5}, {"name": "Dissimilar Steel", "path": "arc-mma/electrodes/dissimilar", "count": 0}, {"name": "Hard Surfacing", "path": "arc-mma/electrodes/hard-surfacing", "count": 22}, {"name": "Stainless Steel", "path": "arc-mma/electrodes/stainless", "count": 38}, {"name": "Steel & Low Hydrogen", "path": "arc-mma/electrodes/steel", "count": 26}]}, {"name": "Welding Cable & Connectors", "path": "arc-mma/cable", "count": 99, "children": [{"name": "Cable Plugs & Sockets", "path": "arc-mma/cable/plugs-sockets", "count": 17}, {"name": "Double Insulated Cable", "path": "arc-mma/cable/double-insulated", "count": 6}, {"name": "Earth Clamps", "path": "arc-mma/earth-clamps", "count": 13}, {"name": "Electrode Holders", "path": "arc-mma/electrode-holders", "count": 18}, {"name": "Re-usable Cable Lugs", "path": "arc-mma/cable/lugs", "count": 8}, {"name": "Welding Cable (Copper/PVC)", "path": "arc-mma/cable/pvc", "count": 16}, {"name": "Welding Cable (Copper/Rubber)", "path": "arc-mma/cable/rubber", "count": 4}, {"name": "Welding Cable Sets", "path": "arc-mma/cable/sets", "count": 17}]}, {"name": "Arc Welding Accessories", "path": "arc-mma/accessories", "count": 69, "children": [{"name": "Arc-Air Gouging Carbons", "path": "arc-mma/gouging/carbons", "count": 13}, {"name": "Carbon Arc Gouging Torches", "path": "arc-mma/gouging/torches", "count": 9}, {"name": "Electrode Quivers & Ovens", "path": "arc-mma/ovens", "count": 11}, {"name": "Stud Welders (CD)", "path": "arc-mma/stud-welding/cd-welders", "count": 17}, {"name": "Weld Studs - Aluminium", "path": "arc-mma/stud-welding/aluminium-studs", "count": 4}, {"name": "Weld Studs - Stainless Steel", "path": "arc-mma/stud-welding/ss-studs", "count": 10}, {"name": "Welding Helmets", "path": "safety/helmets", "count": 0}]}]}, {"name": "PLASMA CUTTING", "path": "plasma-cutting", "count": 278, "children": [{"name": "Plasma Cutting Machines", "path": "plasma-cutting/plasma", "count": 73, "children": [{"name": "Jasic Plasma Spares", "path": "plasma-cutting/plasma/jasic-spares", "count": 29}, {"name": "Plasma Cutters", "path": "plasma-cutting/plasma/cutters", "count": 19}, {"name": "Plasma Cutting Torches", "path": "plasma-cutting/plasma/torches", "count": 1}, {"name": "Thermal Dynamics Spares", "path": "plasma-cutting/plasma/thermal-dynamics", "count": 17}, {"name": "Weldability Plasma Spares", "path": "plasma-cutting/plasma/weldability-spares", "count": 7}]}, {"name": "Oxy-Fuel Cutting Machines", "path": "plasma-cutting/machines", "count": 35, "children": [{"name": "Gas Cutting Machines (Oxy-Fuel)", "path": "plasma-cutting/machines/gas-oxy", "count": 1}, {"name": "Pipe Cutting Machines (Oxy)", "path": "plasma-cutting/machines/pipe-oxy", "count": 8}, {"name": "Plate Bevellers", "path": "plasma-cutting/bevellers", "count": 19}, {"name": "Straight Line Cutting Machines", "path": "plasma-cutting/machines/straight-line", "count": 7}]}, {"name": "Oxy-Fuel Cutting Nozzles", "path": "plasma-cutting/nozzles", "count": 167, "children": [{"name": "NFF Cutting Nozzles", "path": "plasma-cutting/nozzles/nff", "count": 5}, {"name": "Oxy Propane Gouging Nozzles PGNM", "path": "plasma-cutting/nozzles/pgnm", "count": 1}, {"name": "Oxy/Acetylene Cutting Nozzles ANME", "path": "plasma-cutting/nozzles/anme", "count": 10}, {"name": "Oxy/Acetylene Gouging Nozzles AGNM", "path": "plasma-cutting/nozzles/agnm", "count": 6}, {"name": "Oxy/Propane Cutting Nozzles PNM", "path": "plasma-cutting/nozzles/pnm", "count": 25}, {"name": "Victor Cutting Nozzles", "path": "plasma-cutting/nozzles/victor", "count": 10}, {"name": "VVC Cutting Nozzles", "path": "plasma-cutting/nozzles/vvc", "count": 14}]}, {"name": "Cutting & Gouging Accessories", "path": "plasma-cutting/accessories", "count": 3, "children": [{"name": "Air Compressors", "path": "workshop/air-compressors", "count": 0}, {"name": "Arc-Air Gouging Carbons", "path": "plasma-cutting/gouging/carbons", "count": 13}, {"name": "Carbon Arc Gouging Torches", "path": "plasma-cutting/gouging/torches", "count": 9}, {"name": "Cutting Guides Oxy/Acet/Propane", "path": "plasma-cutting/guides", "count": 3}]}]}, {"name": "GAS & OXY-FUEL", "path": "gas-oxy-fuel", "count": 785, "children": [{"name": "Oxy-Fuel Welding Equipment", "path": "gas-oxy-fuel/equipment", "count": 80, "children": [{"name": "Cutting & Welding Sets", "path": "gas-oxy-fuel/sets", "count": 14}, {"name": "Gas Cutting Torches", "path": "gas-oxy-fuel/torches/cutting", "count": 18}, {"name": "Lightweight Welding Nozzles", "path": "gas-oxy-fuel/nozzles/lightweight", "count": 9}, {"name": "Oxy-Acetylene Torches", "path": "gas-oxy-fuel/torches/oxy-acet", "count": 6}, {"name": "Oxy-Propane Torches", "path": "gas-oxy-fuel/torches/oxy-propane", "count": 9}, {"name": "Type 3/5 HD Torch Components", "path": "gas-oxy-fuel/torches/components", "count": 6}, {"name": "Welding Nozzles (DH/HD)", "path": "gas-oxy-fuel/nozzles/welding", "count": 2}]}, {"name": "Oxy-Fuel Welding Rods", "path": "gas-oxy-fuel/rods", "count": 75, "children": [{"name": "Aluminium Welding Rods", "path": "gas-oxy-fuel/rods/aluminium", "count": 11}, {"name": "Brazing Rods", "path": "gas-oxy-fuel/rods/brazing", "count": 29}, {"name": "Copper Phosphorus Rods", "path": "gas-oxy-fuel/rods/copper-phosphorus", "count": 15}, {"name": "Disposable Gas Cylinders", "path": "gas-oxy-fuel/disposable-cylinders", "count": 0}, {"name": "Silver Solder Rods", "path": "gas-oxy-fuel/rods/silver-solder", "count": 13}, {"name": "Steel Welding Rods", "path": "gas-oxy-fuel/rods/steel", "count": 7}]}, {"name": "Gas Regulators & Delivery", "path": "gas-oxy-fuel/delivery", "count": 269, "children": [{"name": "CO2 Regulators", "path": "gas-oxy-fuel/regulators/co2", "count": 7}, {"name": "Flashback Arrestors", "path": "gas-oxy-fuel/flashback-arrestors", "count": 19}, {"name": "Fuel Gas Regulators", "path": "gas-oxy-fuel/regulators/fuel", "count": 29}, {"name": "Gas Alarm Panels", "path": "gas-oxy-fuel/alarm-panels", "count": 7}, {"name": "Gas Economisers / Flowmeters", "path": "gas-oxy-fuel/economisers", "count": 13}, {"name": "High Pressure Regulators", "path": "gas-oxy-fuel/regulators/high-pressure", "count": 26}, {"name": "Inert Gas Regulators", "path": "gas-oxy-fuel/regulators/inert", "count": 37}, {"name": "NEVOC Regulators", "path": "gas-oxy-fuel/regulators/nevoc", "count": 9}, {"name": "Oxygen Regulators", "path": "gas-oxy-fuel/regulators/oxygen", "count": 21}]}, {"name": "Gas Hoses, Fittings & Storage", "path": "gas-oxy-fuel/hoses", "count": 0, "children": [{"name": "Argon / Shielding Gas Hose", "path": "gas-oxy-fuel/hoses/argon", "count": 5}, {"name": "Cylinder Fittings & Adaptors", "path": "gas-oxy-fuel/cylinder-fittings", "count": 34}, {"name": "Gas Control Outlet Points", "path": "gas-oxy-fuel/outlet-points", "count": 0}, {"name": "Gas Cylinder Cages", "path": "gas-oxy-fuel/storage/cages", "count": 13}, {"name": "Gas Cylinder Trolleys", "path": "gas-oxy-fuel/storage/trolleys", "count": 43}, {"name": "High Pressure Gas Hoses", "path": "gas-oxy-fuel/hoses/high-pressure", "count": 36}, {"name": "Hose Fittings & Couplers", "path": "gas-oxy-fuel/fittings", "count": 32}, {"name": "Manifold Panels", "path": "gas-oxy-fuel/manifolds", "count": 79}, {"name": "Oxy Fuel Hoses", "path": "gas-oxy-fuel/hoses/oxy-fuel", "count": 0}, {"name": "Twin Welding Hoses", "path": "gas-oxy-fuel/hoses/twin", "count": 21}]}]}, {"name": "WIRE & RODS", "path": "wire-rods", "count": 0, "children": [{"name": "MIG Welding Wire", "path": "mig-welding/wire", "count": 92, "children": [{"name": "Aluminium MIG Wire", "path": "mig-welding/wire/aluminium", "count": 9}, {"name": "Brazing MIG Wire", "path": "mig-welding/wire/brazing", "count": 13}, {"name": "Bulk MIG Wire", "path": "mig-welding/wire/bulk", "count": 8}, {"name": "Copper Free MIG Wire", "path": "mig-welding/wire/copper-free", "count": 5}, {"name": "Flux Cored MIG Wire", "path": "mig-welding/wire/flux-cored", "count": 13}, {"name": "Hard Facing MIG Wire", "path": "mig-welding/wire/hard-facing", "count": 4}, {"name": "Mild Steel MIG Wire", "path": "mig-welding/wire/mild-steel", "count": 27}, {"name": "Stainless Steel MIG Wire", "path": "mig-welding/wire/stainless", "count": 13}]}, {"name": "TIG Welding Filler Rods", "path": "tig-welding/filler-rods", "count": 96, "children": [{"name": "Aluminium TIG Rods", "path": "tig-welding/filler-rods/aluminium", "count": 0}, {"name": "Brazing / Bronze TIG Rods", "path": "tig-welding/filler-rods/brazing", "count": 0}, {"name": "Copper / Copper-Nickel TIG Rods", "path": "tig-welding/filler-rods/copper", "count": 0}, {"name": "Dissimilar Steel TIG Rods", "path": "tig-welding/filler-rods/dissimilar", "count": 0}, {"name": "Duplex Stainless TIG Rods", "path": "tig-welding/filler-rods/duplex", "count": 0}, {"name": "Hard Facing TIG Rods", "path": "tig-welding/filler-rods/hard-facing", "count": 0}, {"name": "Magnesium TIG Rods", "path": "tig-welding/filler-rods/magnesium", "count": 0}, {"name": "Mild Steel TIG Rods", "path": "tig-welding/filler-rods/mild-steel", "count": 0}, {"name": "Nickel Alloy TIG Rods", "path": "tig-welding/filler-rods/nickel", "count": 0}, {"name": "Stainless Steel TIG Rods", "path": "tig-welding/filler-rods/stainless", "count": 0}, {"name": "Titanium TIG Rods", "path": "tig-welding/filler-rods/titanium", "count": 0}]}, {"name": "MMA Welding Electrodes", "path": "arc-mma/electrodes", "count": 76, "children": [{"name": "Cast Iron Electrodes", "path": "arc-mma/electrodes/cast-iron", "count": 0}, {"name": "Cutting / Gouging Electrodes", "path": "arc-mma/electrodes/cutting-gouging", "count": 0}, {"name": "Dissimilar Steel Electrodes", "path": "arc-mma/electrodes/dissimilar", "count": 0}, {"name": "Hard Surfacing Electrodes", "path": "arc-mma/electrodes/hard-surfacing", "count": 0}, {"name": "Stainless Steel Electrodes", "path": "arc-mma/electrodes/stainless", "count": 0}, {"name": "Steel & Low Hydrogen Electrodes", "path": "arc-mma/electrodes/steel", "count": 0}]}, {"name": "Oxy-Fuel & Brazing Rods", "path": "gas-oxy-fuel/rods", "count": 0, "children": [{"name": "Aluminium Welding Rods", "path": "gas-oxy-fuel/rods/aluminium", "count": 11}, {"name": "Brazing Rods", "path": "gas-oxy-fuel/rods/brazing", "count": 29}, {"name": "Copper Phosphorus Rods", "path": "gas-oxy-fuel/rods/copper-phosphorus", "count": 15}, {"name": "Disposable Gas Cylinders", "path": "gas-oxy-fuel/disposable-cylinders", "count": 0}, {"name": "Silver Solder Rods", "path": "gas-oxy-fuel/rods/silver-solder", "count": 13}, {"name": "Steel Welding Rods", "path": "gas-oxy-fuel/rods/steel", "count": 7}]}]}, {"name": "PIPE WELDING", "path": "pipe", "count": 438, "children": [{"name": "Pipe Stands & Handling", "path": "workshop/pipe/stands", "count": 119, "children": [{"name": "Pipe Conveyors", "path": "workshop/pipe/conveyors", "count": 9}, {"name": "Pipe Rotators", "path": "workshop/pipe/rotators", "count": 7}, {"name": "Roller Stands", "path": "workshop/pipe/stands/roller", "count": 63}, {"name": "V-Head Stands", "path": "workshop/pipe/stands/v-head", "count": 38}]}, {"name": "Pipe Welding Clamps", "path": "workshop/pipe/clamps", "count": 75, "children": [{"name": "Bridge Clamps", "path": "workshop/pipe/clamps/bridge", "count": 3}, {"name": "Cage Clamps", "path": "workshop/pipe/clamps/cage", "count": 3}, {"name": "Chain Clamps", "path": "workshop/pipe/clamps/chain", "count": 9}, {"name": "E-Z Fit Clamps", "path": "workshop/pipe/clamps/ez-fit", "count": 2}, {"name": "PDQ Clamps", "path": "workshop/pipe/clamps/pdq", "count": 3}, {"name": "Pincer Clamps", "path": "workshop/pipe/clamps/pincer", "count": 3}, {"name": "Spider Clamps", "path": "workshop/pipe/clamps/spider", "count": 16}]}, {"name": "Pipe Cutting & Preparation", "path": "workshop/pipe/cutting", "count": 172, "children": [{"name": "Exact Pipe Saws", "path": "workshop/pipe/saws/exact", "count": 42}, {"name": "GBC Pipe Saws", "path": "workshop/pipe/saws/gbc", "count": 1}, {"name": "Pipe Bevelling Machines", "path": "workshop/pipe/bevelling", "count": 60}, {"name": "Pipe Cutting Machines", "path": "workshop/pipe/cutting-machines", "count": 29}, {"name": "TAG Pipe Saws", "path": "workshop/pipe/saws/tag", "count": 10}]}, {"name": "Pipe Welding Accessories", "path": "workshop/pipe/accessories", "count": 72, "children": [{"name": "Drain Test Plugs", "path": "workshop/pipe/drain-plugs", "count": 3}, {"name": "Measuring & Marking Tools", "path": "workshop/pipe/measuring", "count": 20}, {"name": "Pipe Purging Equipment", "path": "workshop/pipe/purging", "count": 39}, {"name": "Pipe Wrap", "path": "workshop/pipe/pipe-wrap", "count": 2}, {"name": "Weld Backing Tape", "path": "workshop/pipe/backing-tape", "count": 4}]}]}, {"name": "WELDING MACHINES", "path": "machines", "count": 540, "children": [{"name": "Welding Machines", "path": "machines/welding", "count": 188, "children": [{"name": "Arc/MMA Welders", "path": "arc-mma/welders", "count": 0}, {"name": "MIG Welders", "path": "mig-welding/welders", "count": 0}, {"name": "Multi Process Welders", "path": "machines/multi-process", "count": 21}, {"name": "Spot Welders - Pedestal", "path": "machines/spot-welders/pedestal", "count": 7}, {"name": "Spot Welders - Portable", "path": "machines/spot-welders/portable", "count": 18}, {"name": "Stud Welders (CD)", "path": "machines/stud-welders", "count": 17}, {"name": "TIG Welders", "path": "tig-welding/welders", "count": 0}]}, {"name": "Cutting Machines", "path": "machines/cutting", "count": 42, "children": [{"name": "Chop Saws / Cut-Off Saws", "path": "machines/saws/chop", "count": 2}, {"name": "Circular Saws", "path": "machines/saws/circular", "count": 29}, {"name": "Magnetic Drills", "path": "machines/magnetic-drills", "count": 11}, {"name": "Pipe Cutting Machines", "path": "plasma-cutting/machines/pipe-oxy", "count": 29}, {"name": "Pipe Saws (Exact, GBC, TAG)", "path": "machines/saws/pipe", "count": 0}, {"name": "Plasma Cutters", "path": "plasma-cutting/plasma/cutters", "count": 19}, {"name": "Plate Bevellers", "path": "plasma-cutting/bevellers", "count": 19}, {"name": "Straight Line Cutters", "path": "plasma-cutting/machines/straight-line", "count": 0}]}, {"name": "Specialist Welding Equipment", "path": "machines/specialist", "count": 149, "children": [{"name": "Broaching Cutters", "path": "machines/broaching-cutters", "count": 20}, {"name": "Spot Welding Electrodes", "path": "machines/spot-welders/electrodes", "count": 27}, {"name": "Thermal Spray Equipment", "path": "machines/thermal-spray", "count": 18}, {"name": "Tool Balancers", "path": "machines/tool-balancers", "count": 84}, {"name": "Tungsten Grinders", "path": "tig-welding/tungsten-grinders", "count": 0}, {"name": "Weld Cleaning Machines", "path": "tig-welding/weld-cleaning", "count": 0}]}, {"name": "Welding Power & Cooling", "path": "machines/power", "count": 161, "children": [{"name": "Filter Kits & Servicing", "path": "machines/generators/servicing", "count": 43}, {"name": "Generators", "path": "machines/generators", "count": 52}, {"name": "Lighting Towers", "path": "machines/lighting-towers", "count": 9}, {"name": "Mosa Welder Generators", "path": "machines/generators/mosa", "count": 0}, {"name": "Spares & Accessories", "path": "machines/generators/spares", "count": 40}, {"name": "Welder Generators", "path": "machines/generators/welder", "count": 17}, {"name": "Welder Water Coolers", "path": "machines/water-coolers", "count": 7}]}]}, {"name": "SAFETY & PPE", "path": "safety", "count": 458, "children": [{"name": "Welding Helmets & Eye Protection", "path": "safety/helmets", "count": 201, "children": [{"name": "Air Fed Face Shields", "path": "safety/eye/air-fed", "count": 12}, {"name": "Auto-Darkening Welding Helmets", "path": "safety/helmets/auto-darkening", "count": 48}, {"name": "Respirator Masks", "path": "safety/eye/respirators", "count": 9}, {"name": "Safety Goggles", "path": "safety/eye/goggles", "count": 7}, {"name": "Safety Spectacles", "path": "safety/eye/spectacles", "count": 9}, {"name": "Safety Visors", "path": "safety/eye/visors", "count": 7}, {"name": "Welding Helmet Spares", "path": "safety/helmets/spares", "count": 84}, {"name": "Welding Masks", "path": "safety/helmets/masks", "count": 13}]}, {"name": "Welding Protective Clothing", "path": "safety/clothing", "count": 117, "children": [{"name": "Heat Reflective Clothing", "path": "safety/clothing/heat-reflective", "count": 8}, {"name": "Welding Aprons", "path": "safety/clothing/aprons", "count": 8}, {"name": "Welding Capes & Sleeves", "path": "safety/clothing/capes", "count": 9}, {"name": "Welding Caps & Balaclavas", "path": "safety/clothing/caps", "count": 18}, {"name": "Welding Gloves & Gauntlets", "path": "safety/gloves", "count": 33}, {"name": "Welding Jackets", "path": "safety/clothing/jackets", "count": 20}, {"name": "Welding Overalls", "path": "safety/clothing/overalls", "count": 13}, {"name": "Welding Trousers & Spats", "path": "safety/clothing/trousers", "count": 8}]}, {"name": "Welding Workspace Safety", "path": "safety/workspace", "count": 140, "children": [{"name": "Fire Barrier Fabric", "path": "safety/fire-barrier", "count": 4}, {"name": "Fire Retardant Tarpaulin", "path": "safety/tarpaulin", "count": 8}, {"name": "Spill Containment Kits", "path": "safety/spill-kits", "count": 10}, {"name": "Welding Blankets & Mats", "path": "safety/blankets", "count": 21}, {"name": "Welding Screens & Curtains", "path": "safety/screens", "count": 71}, {"name": "Welding Strip Curtains", "path": "safety/screens/strip", "count": 8}, {"name": "Welding Tents & Shelters", "path": "safety/tents", "count": 18}]}]}, {"name": "FUME EXTRACTION", "path": "fume-extraction", "count": 277, "children": [{"name": "Kemper Mobile & Hi-Vac Extraction", "path": "safety/fume/kemper-mobile", "count": 160, "children": [{"name": "Kemper Hi-Vacuum Extraction", "path": "safety/fume/kemper-hi-vac", "count": 11}, {"name": "Kemper Mobile Fume Extraction", "path": "safety/fume/kemper-mobile", "count": 14}, {"name": "Kemper Spares & Accessories", "path": "safety/fume/kemper-spares", "count": 132}]}, {"name": "Kemper Filtration Systems", "path": "safety/fume/kemper-tower", "count": 57, "children": [{"name": "Kemper Air Purifying", "path": "safety/fume/kemper-air-purifying", "count": 4}, {"name": "Kemper Airwatch", "path": "safety/fume/kemper-airwatch", "count": 3}, {"name": "Kemper CleanAirTower", "path": "safety/fume/kemper-tower", "count": 5}, {"name": "Kemper Filter Tables", "path": "safety/fume/kemper-tables", "count": 26}, {"name": "Kemper Static Filter Units", "path": "safety/fume/kemper-static", "count": 19}]}, {"name": "F-Tech Extraction", "path": "safety/fume/f-tech", "count": 37, "children": [{"name": "F-Tech Fume Extraction", "path": "safety/fume/f-tech", "count": 37}]}, {"name": "On-Torch & Bench Extraction", "path": "safety/fume/on-torch", "count": 23, "children": [{"name": "Bench Top Extractors", "path": "safety/fume/bench-top", "count": 12}, {"name": "Kemper On-Torch Extraction", "path": "safety/fume/kemper-on-torch", "count": 6}, {"name": "On-Torch Fume Extraction", "path": "safety/fume/on-torch", "count": 1}, {"name": "WSL On-Torch Extraction", "path": "safety/fume/wsl-on-torch", "count": 4}]}]}, {"name": "WELDING WORKSHOP", "path": "workshop", "count": 487, "children": [{"name": "Welding Benches & Tables", "path": "workshop/benches", "count": 93, "children": [{"name": "Bench Accessories", "path": "workshop/benches/accessories", "count": 7}, {"name": "Heavy Duty Welding Benches", "path": "workshop/benches/heavy-duty", "count": 13}, {"name": "Medium Duty Welding Benches", "path": "workshop/benches/medium-duty", "count": 14}, {"name": "Mobile Work Benches", "path": "workshop/benches/mobile", "count": 9}, {"name": "Stainless Steel Benches", "path": "workshop/benches/stainless", "count": 28}, {"name": "Super Heavy Duty Benches", "path": "workshop/benches/super-heavy", "count": 12}]}, {"name": "Air Tools & Compressors", "path": "workshop/air-tools", "count": 199, "children": [{"name": "Air Angle Grinders", "path": "workshop/air-tools/grinders", "count": 6}, {"name": "Air Die Grinders", "path": "workshop/air-tools/die-grinders", "count": 11}, {"name": "Air Drills", "path": "workshop/air-tools/drills", "count": 14}, {"name": "Air Hoses & Accessories", "path": "workshop/air-tools/hoses", "count": 18}, {"name": "Air Impact Wrenches", "path": "workshop/air-tools/impact-wrenches", "count": 21}, {"name": "Air Needle Scalers", "path": "workshop/air-tools/needle-scalers", "count": 7}, {"name": "Air Ratchet Wrenches", "path": "workshop/air-tools/ratchet-wrenches", "count": 2}, {"name": "Air Riveters", "path": "workshop/air-tools/riveters", "count": 2}, {"name": "Air Sanders / Polishers", "path": "workshop/air-tools/sanders", "count": 16}, {"name": "Air Screwdrivers", "path": "workshop/air-tools/screwdrivers", "count": 4}, {"name": "Belt Driven Compressors", "path": "workshop/compressors/belt-driven", "count": 30}, {"name": "Direct Drive Compressors", "path": "workshop/compressors/direct-drive", "count": 5}, {"name": "Low Noise Compressors", "path": "workshop/compressors/low-noise", "count": 1}, {"name": "Paint Spray Guns", "path": "workshop/air-tools/paint-guns", "count": 8}, {"name": "Petrol Air Compressors", "path": "workshop/compressors/petrol", "count": 15}, {"name": "Refrigerated Air Dryers", "path": "workshop/compressors/air-dryers", "count": 8}, {"name": "Screw Compressors", "path": "workshop/compressors/screw", "count": 20}]}, {"name": "Welding Tools & Equipment", "path": "workshop/tools", "count": 132, "children": [{"name": "Cable Reels", "path": "workshop/tools/cable-reels", "count": 8}, {"name": "Magnetic Welding Positioners", "path": "workshop/positioners", "count": 41}, {"name": "Temperature Indicator Pens", "path": "workshop/tools/temp-pens", "count": 35}, {"name": "Tool Kit Sets & Cabinets", "path": "workshop/tools/kits", "count": 32}, {"name": "Welding Gauges", "path": "workshop/tools/gauges", "count": 3}]}, {"name": "Welding Chemicals & Consumables", "path": "workshop/chemicals", "count": 63, "children": [{"name": "Devcon Maintenance Products", "path": "workshop/devcon", "count": 22}, {"name": "Weld Backing Ceramics", "path": "workshop/consumables/ceramics", "count": 15}, {"name": "Welding Chemicals & Sprays", "path": "workshop/chemicals", "count": 26}]}]}, {"name": "ABRASIVES", "path": "abrasives", "count": 40, "children": [{"name": "Cutting & Grinding Discs", "path": "abrasives/cutting-grinding", "count": 17, "children": [{"name": "Cutting Discs", "path": "workshop/abrasives/cutting", "count": 12}, {"name": "Grinding Discs", "path": "workshop/abrasives/grinding", "count": 5}]}, {"name": "Finishing & Sanding Discs", "path": "abrasives/finishing", "count": 23, "children": [{"name": "Ceramic Flap Discs", "path": "workshop/abrasives/ceramic-flap", "count": 8}, {"name": "Flap Discs", "path": "workshop/abrasives/flap", "count": 6}, {"name": "Sanding Discs", "path": "workshop/abrasives/sanding", "count": 9}]}, {"name": "Abrasive Accessories", "path": "abrasives/accessories", "count": 0, "children": [{"name": "Backing Pads", "path": "workshop/abrasives/backing-pads", "count": 0}, {"name": "Wire Brushes", "path": "workshop/abrasives/wire-brushes", "count": 0}]}]}, {"name": "BRANDS", "path": "brands", "count": 0, "children": [{"name": "Featured Brands", "path": "brands", "count": 0, "children": [{"name": "Gas Arc - Regulators & Gas Control", "path": "brands/gas-arc", "count": 0}, {"name": "Jasic - MIG, TIG & Plasma", "path": "brands/jasic", "count": 0}, {"name": "Kemper - Fume Extraction", "path": "brands/kemper", "count": 0}, {"name": "Parweld - Welders & Consumables", "path": "brands/parweld", "count": 0}, {"name": "Sif / Weldability - Consumables", "path": "brands/sif-weldability", "count": 0}]}, {"name": "Brands A - K", "path": "brands", "count": 0, "children": [{"name": "Binzel - MIG Torches & Parts", "path": "brands/binzel", "count": 0}, {"name": "Devcon - Maintenance Products", "path": "brands/devcon", "count": 0}, {"name": "Exact - Pipe Saws", "path": "brands/exact", "count": 0}, {"name": "F-Tech - Fume Extraction", "path": "brands/f-tech", "count": 0}, {"name": "Jasic - Welding Machines", "path": "brands/jasic", "count": 0}, {"name": "Kemper - Fume Extraction & Filtration", "path": "brands/kemper", "count": 0}]}, {"name": "Brands M - S", "path": "brands", "count": 0, "children": [{"name": "Magswitch - Magnetic Positioners", "path": "brands/magswitch", "count": 0}, {"name": "Mosa - Welder Generators", "path": "brands/mosa", "count": 0}, {"name": "Newarc - TIG & MMA Welders", "path": "brands/newarc", "count": 0}, {"name": "Parweld - Welders & Accessories", "path": "brands/parweld", "count": 0}, {"name": "Sif / Weldability - Filler Metals", "path": "brands/sif-weldability", "count": 0}, {"name": "SWP - MIG, TIG & Plasma", "path": "brands/swp", "count": 0}]}, {"name": "Brands T - W", "path": "brands", "count": 0, "children": [{"name": "TAG - Pipe Saws", "path": "brands/tag", "count": 0}, {"name": "Tecna - Spot Welders", "path": "brands/tecna", "count": 0}, {"name": "Thermal Dynamics - Plasma", "path": "brands/thermal-dynamics", "count": 0}, {"name": "Weldstar - Multi Process Welders", "path": "brands/weldstar", "count": 0}, {"name": "WSL - On-Torch Extraction", "path": "brands/wsl", "count": 0}]}]}, {"name": "Uncategorised", "path": "uncategorised", "count": 2074}]};
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const levelColors = ['#ffffff', '#d32f2f', '#42a5f5', '#66bb6a'];
+
+const svg = d3.select('#tree').attr('width', width).attr('height', height);
+const g = svg.append('g');
+
+const zoom = d3.zoom().scaleExtent([0.05, 4]).on('zoom', (e) => g.attr('transform', e.transform));
+svg.call(zoom);
+
+// Radius scale
+let maxCount = 0;
+function walkMax(n) { if (n.count > maxCount) maxCount = n.count; (n.children || []).forEach(walkMax); }
+walkMax(treeData);
+const rScale = d3.scaleSqrt().domain([0, maxCount]).range([3, 24]);
+
+const root = d3.hierarchy(treeData);
+
+// Assign unique IDs for keying
+let nodeId = 0;
+root.descendants().forEach(d => { d._uid = ++nodeId; });
+
+// Start with level-2 collapsed
+root.descendants().forEach(d => {
+  if (d.depth >= 2 && d.children) { d._children = d.children; d.children = null; }
+});
+
+const tooltip = document.getElementById('tooltip');
+
+function update(source) {
+  const leaves = root.descendants().filter(d => !d.children || d.children.length === 0);
+  const treeHeight = Math.max(leaves.length * 20, height - 80);
+  const treeWidth = Math.max(width - 350, 900);
+
+  d3.tree().size([treeHeight, treeWidth]).separation((a, b) => a.parent === b.parent ? 1 : 1.3)(root);
+
+  const duration = 350;
+
+  // ── Links ──
+  const linkData = root.links();
+  const links = g.selectAll('.link-path').data(linkData, d => d.target._uid);
+
+  const linkEnter = links.enter().append('path')
+    .attr('class', 'link-path link')
+    .attr('d', d3.linkHorizontal().x(() => source.y0 || 0).y(() => source.x0 || 0));
+
+  links.merge(linkEnter).transition().duration(duration)
+    .attr('stroke', d => {
+      if (d.target.data.name === 'Uncategorised') return '#6b7280';
+      return levelColors[Math.min(d.target.depth, 3)];
+    })
+    .attr('stroke-width', d => Math.max(0.8, rScale(d.target.data.count) / 5))
+    .attr('d', d3.linkHorizontal().x(d => d.y).y(d => d.x));
+
+  links.exit().transition().duration(duration)
+    .attr('d', d3.linkHorizontal().x(() => source.y).y(() => source.x))
+    .remove();
+
+  // ── Nodes ──
+  const nodeData = root.descendants();
+  const nodes = g.selectAll('.node').data(nodeData, d => d._uid);
+
+  const nodeEnter = nodes.enter().append('g')
+    .attr('class', 'node')
+    .attr('transform', `translate(${source.y0 || 0},${source.x0 || 0})`)
+    .style('cursor', d => (d.children || d._children) ? 'pointer' : 'default')
+    .on('click', (event, d) => {
+      if (d.children) { d._children = d.children; d.children = null; }
+      else if (d._children) { d.children = d._children; d._children = null; }
+      update(d);
+    })
+    .on('mouseover', (event, d) => {
+      tooltip.style.display = 'block';
+      tooltip.querySelector('.tt-name').textContent = d.data.name;
+      tooltip.querySelector('.tt-path').textContent = d.data.path ? '/' + d.data.path : 'Root';
+      const kids = (d.children || d._children || []).length;
+      let info = d.data.count > 0 ? d.data.count.toLocaleString() + ' products' : 'No products directly assigned';
+      if (kids > 0) info += ' · ' + kids + ' sub-categories';
+      // Sum descendant products
+      let descTotal = 0;
+      function sumDesc(n) { descTotal += n.data.count; (n.children || n._children || []).forEach(sumDesc); }
+      sumDesc(d);
+      if (descTotal > d.data.count) info += ' · ' + descTotal.toLocaleString() + ' total in branch';
+      tooltip.querySelector('.tt-count').textContent = info;
+    })
+    .on('mousemove', (event) => {
+      let x = event.clientX + 16, y = event.clientY - 10;
+      if (x + 330 > width) x = event.clientX - 340;
+      if (y + 80 > height) y = event.clientY - 80;
+      tooltip.style.left = x + 'px';
+      tooltip.style.top = y + 'px';
+    })
+    .on('mouseout', () => { tooltip.style.display = 'none'; });
+
+  nodeEnter.append('circle')
+    .attr('r', 0)
+    .attr('stroke-width', 1.5);
+
+  nodeEnter.append('text')
+    .attr('class', 'node-label')
+    .attr('dy', '0.35em');
+
+  // Merge
+  const nodeUpdate = nodes.merge(nodeEnter);
+
+  nodeUpdate.transition().duration(duration)
+    .attr('transform', d => `translate(${d.y},${d.x})`);
+
+  nodeUpdate.select('circle').transition().duration(duration)
+    .attr('r', d => Math.max(rScale(d.data.count), d._children ? 6 : 3))
+    .attr('fill', d => {
+      if (d.data.name === 'Uncategorised') return '#6b7280';
+      return levelColors[Math.min(d.depth, 3)];
+    })
+    .attr('fill-opacity', d => d.data.count > 0 ? 0.9 : 0.3)
+    .attr('stroke', d => {
+      if (d._children) return '#fbbf24';  // collapsed = gold ring
+      if (d.data.name === 'Uncategorised') return '#9ca3af';
+      const c = d3.color(levelColors[Math.min(d.depth, 3)]);
+      return c ? c.brighter(0.6) : '#fff';
+    });
+
+  nodeUpdate.select('.node-label')
+    .attr('x', d => rScale(d.data.count) + 6)
+    .attr('fill', d => d._highlight ? '#fbbf24' : 'rgba(255,255,255,0.88)')
+    .attr('font-size', d => d.depth === 0 ? '13px' : d.depth === 1 ? '12px' : d.depth === 2 ? '11px' : '10px')
+    .attr('font-weight', d => d.depth <= 1 ? '700' : d.depth === 2 ? '600' : '400')
+    .text(d => {
+      let label = d.data.name;
+      if (label.length > 35) label = label.substring(0, 33) + '...';
+      if (d.data.count > 0) label += '  (' + d.data.count.toLocaleString() + ')';
+      if (d._children) label += '  [+' + d._children.length + ']';
+      return label;
+    });
+
+  // Exit
+  nodes.exit().transition().duration(duration)
+    .attr('transform', `translate(${source.y},${source.x})`)
+    .remove()
+    .select('circle').attr('r', 0);
+
+  root.descendants().forEach(d => { d.x0 = d.x; d.y0 = d.y; });
+}
+
+// Initial render
+root.x0 = height / 2;
+root.y0 = 0;
+update(root);
+
+// Fit to screen
+function fitToScreen() {
+  const bounds = g.node().getBBox();
+  const fw = width - 20, fh = height - 20;
+  const scale = Math.min(fw / (bounds.width + 60), fh / (bounds.height + 60), 1.5);
+  const tx = (fw - bounds.width * scale) / 2 - bounds.x * scale + 10;
+  const ty = (fh - bounds.height * scale) / 2 - bounds.y * scale + 10;
+  svg.transition().duration(600).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+}
+setTimeout(fitToScreen, 400);
+
+// Buttons
+document.getElementById('btnFit').addEventListener('click', fitToScreen);
+
+document.getElementById('btnExpand').addEventListener('click', () => {
+  root.descendants().forEach(d => { if (d._children) { d.children = d._children; d._children = null; } });
+  update(root);
+  setTimeout(fitToScreen, 450);
+});
+
+document.getElementById('btnCollapse').addEventListener('click', () => {
+  root.descendants().forEach(d => { if (d.depth >= 1 && d.children) { d._children = d.children; d.children = null; } });
+  update(root);
+  setTimeout(fitToScreen, 450);
+});
+
+// Search
+const searchBox = document.getElementById('search-box');
+searchBox.addEventListener('input', () => {
+  const q = searchBox.value.toLowerCase().trim();
+  
+  // Clear highlights
+  root.descendants().forEach(d => { d._highlight = false; });
+  
+  if (!q) { update(root); return; }
+  
+  // Find matches and expand their parents
+  const matches = root.descendants().filter(d => d.data.name.toLowerCase().includes(q));
+  matches.forEach(d => {
+    d._highlight = true;
+    // Expand all ancestors
+    let p = d.parent;
+    while (p) {
+      if (p._children) { p.children = p._children; p._children = null; }
+      p = p.parent;
+    }
+  });
+  
+  update(root);
+  if (matches.length === 1) {
+    // Pan to the match
+    const m = matches[0];
+    svg.transition().duration(500).call(
+      zoom.transform,
+      d3.zoomIdentity.translate(width/3 - m.y * 0.8, height/2 - m.x * 0.8).scale(0.8)
+    );
+  }
+});
+
+// Stats
+let totalNodes = 0;
+root.descendants().forEach(() => totalNodes++);
+function countAll(n) { let c = 1; (n.children || n._children || []).forEach(ch => { c += countAll(ch); }); return c; }
+const allNodes = countAll(root);
+document.getElementById('stats').textContent = allNodes + ' categories · 13 top-level · 50 columns · 311 items · 2,074 uncategorised products';
+</script>
+</body>
+</html>

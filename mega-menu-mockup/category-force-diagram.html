@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WAW New Category Structure - Force Directed Diagram</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f1729; overflow: hidden; }
+  
+  #controls {
+    position: fixed; top: 16px; left: 16px; z-index: 10;
+    background: rgba(26,36,86,0.95); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px; padding: 16px 20px; color: white; max-width: 320px;
+    backdrop-filter: blur(12px);
+  }
+  #controls h1 { font-size: 16px; margin-bottom: 4px; }
+  #controls p { font-size: 11px; color: rgba(255,255,255,0.6); margin-bottom: 12px; line-height: 1.4; }
+  
+  .legend { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: rgba(255,255,255,0.8); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  
+  .filter-row { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
+  .filter-btn {
+    font-size: 10px; padding: 3px 8px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.3);
+    background: transparent; color: rgba(255,255,255,0.7); cursor: pointer; transition: all 0.2s;
+  }
+  .filter-btn:hover { background: rgba(255,255,255,0.1); }
+  .filter-btn.active { background: rgba(211,47,47,0.8); border-color: #d32f2f; color: white; }
+  
+  #stats {
+    font-size: 10px; color: rgba(255,255,255,0.5); border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 8px; margin-top: 4px;
+  }
+  
+  #tooltip {
+    position: fixed; pointer-events: none; z-index: 20;
+    background: rgba(26,36,86,0.95); border: 1px solid rgba(211,47,47,0.6);
+    border-radius: 8px; padding: 10px 14px; color: white;
+    font-size: 12px; display: none; backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  #tooltip .tt-name { font-weight: 700; font-size: 13px; margin-bottom: 2px; }
+  #tooltip .tt-path { font-size: 10px; color: rgba(255,255,255,0.5); margin-bottom: 4px; font-family: monospace; }
+  #tooltip .tt-count { color: #f87171; font-weight: 600; }
+  
+  svg { display: block; }
+  
+  .link { stroke-opacity: 0.3; }
+  .node-circle { cursor: pointer; stroke-width: 1.5; transition: stroke-width 0.2s; }
+  .node-circle:hover { stroke-width: 3; }
+  .node-label { fill: rgba(255,255,255,0.85); font-size: 9px; pointer-events: none; text-anchor: middle; }
+</style>
+</head>
+<body>
+
+<div id="controls">
+  <h1>Category Structure</h1>
+  <p>Force-directed diagram of the new WooCommerce category hierarchy. Node size = product count. Drag nodes to explore.</p>
+  
+  <div class="legend" id="legend"></div>
+  
+  <div class="filter-row" id="filters">
+    <button class="filter-btn active" data-level="all">All Levels</button>
+    <button class="filter-btn" data-level="0">Top Level</button>
+    <button class="filter-btn" data-level="1">Columns</button>
+    <button class="filter-btn" data-level="2">Items</button>
+  </div>
+  
+  <div id="stats"></div>
+</div>
+
+<div id="tooltip">
+  <div class="tt-name"></div>
+  <div class="tt-path"></div>
+  <div class="tt-count"></div>
+</div>
+
+<svg id="graph"></svg>
+
+<script>
+const graphData = {"nodes": [{"id": "WAW", "name": "Welding & Welder", "level": -1, "count": 0}, {"id": "mig-welding", "name": "MIG WELDING", "level": 0, "count": 159}, {"id": "mig-welding/welders", "name": "MIG Welding Machines", "level": 1, "count": 25}, {"id": "mig-welding/welders/jasic", "name": "Jasic MIG Welders", "level": 2, "count": 0}, {"id": "mig-welding/multi-process", "name": "Multi Process Welders", "level": 2, "count": 0}, {"id": "mig-welding/welders/parweld", "name": "Parweld MIG Welders", "level": 2, "count": 0}, {"id": "mig-welding/welders/swp", "name": "SWP MIG Welders", "level": 2, "count": 0}, {"id": "mig-welding/welders/weldability-sif", "name": "Weldability Sif MIG Welders", "level": 2, "count": 0}, {"id": "mig-welding/torches", "name": "MIG Welding Torches & Parts", "level": 1, "count": 29}, {"id": "mig-welding/torches/binzel-consumables", "name": "Binzel-Style Consumables", "level": 2, "count": 1}, {"id": "mig-welding/torches/euro", "name": "Euro Connection MIG Torches", "level": 2, "count": 9}, {"id": "mig-welding/torches/ergo", "name": "Euro MIG Torches - ERGO", "level": 2, "count": 2}, {"id": "mig-welding/torches/liners", "name": "MIG Liners", "level": 2, "count": 8}, {"id": "mig-welding/torches/nozzles", "name": "MIG Welding Nozzles", "level": 2, "count": 8}, {"id": "mig-welding/wire", "name": "MIG Welding Wire", "level": 1, "count": 92}, {"id": "mig-welding/wire/aluminium", "name": "Aluminium MIG Wire", "level": 2, "count": 9}, {"id": "mig-welding/wire/brazing", "name": "Brazing MIG Wire", "level": 2, "count": 13}, {"id": "mig-welding/wire/bulk", "name": "Bulk MIG Wire", "level": 2, "count": 8}, {"id": "mig-welding/wire/copper-free", "name": "Copper Free MIG Wire", "level": 2, "count": 5}, {"id": "mig-welding/wire/flux-cored", "name": "Flux Cored MIG Wire", "level": 2, "count": 13}, {"id": "mig-welding/wire/hard-facing", "name": "Hard Facing MIG Wire", "level": 2, "count": 4}, {"id": "mig-welding/wire/mild-steel", "name": "Mild Steel MIG Wire", "level": 2, "count": 27}, {"id": "mig-welding/wire/stainless", "name": "Stainless Steel MIG Wire", "level": 2, "count": 13}, {"id": "mig-welding/accessories", "name": "MIG Welding Accessories", "level": 1, "count": 13}, {"id": "consumables/chemicals/anti-spatter", "name": "Anti-Spatter Spray", "level": 2, "count": 5}, {"id": "gas/regulators/co2", "name": "CO2 Regulators", "level": 2, "count": 0}, {"id": "gas/economisers", "name": "Gas Economisers / Flowmeters", "level": 2, "count": 0}, {"id": "gas/regulators/inert", "name": "Inert Gas Regulators", "level": 2, "count": 0}, {"id": "gas/hoses/mig", "name": "MIG Gas Welding Hoses", "level": 2, "count": 5}, {"id": "machines/water-coolers", "name": "Welder Water Coolers", "level": 2, "count": 7}, {"id": "safety/gloves", "name": "Welding Gloves", "level": 2, "count": 0}, {"id": "safety/helmets", "name": "Welding Helmets", "level": 2, "count": 0}, {"id": "tig-welding", "name": "TIG WELDING", "level": 0, "count": 376}, {"id": "tig-welding/welders", "name": "TIG Welding Machines", "level": 1, "count": 40}, {"id": "tig-welding/welders/jasic", "name": "Jasic TIG Welders", "level": 2, "count": 0}, {"id": "tig-welding/multi-process", "name": "Multi Process Welders", "level": 2, "count": 0}, {"id": "tig-welding/welders/newarc", "name": "Newarc TIG Welders", "level": 2, "count": 0}, {"id": "tig-welding/welders/sif", "name": "Sif TIG Welders", "level": 2, "count": 0}, {"id": "tig-welding/welders/swp", "name": "SWP TIG Welders", "level": 2, "count": 0}, {"id": "tig-welding/torches", "name": "TIG Welding Torches & Tungsten", "level": 1, "count": 133}, {"id": "tig-welding/tungsten/ceriated", "name": "Ceriated Tungsten", "level": 2, "count": 16}, {"id": "tig-welding/tungsten/lanthanated", "name": "Lanthanated Tungsten", "level": 2, "count": 27}, {"id": "tig-welding/tungsten/superstrike", "name": "Superstrike AC/DC", "level": 2, "count": 3}, {"id": "tig-welding/tungsten/thoriated", "name": "Thoriated Tungsten", "level": 2, "count": 17}, {"id": "tig-welding/torches/adaptors", "name": "TIG Torch Adaptors", "level": 2, "count": 7}, {"id": "tig-welding/torches/consumables", "name": "TIG Torch Consumables", "level": 2, "count": 30}, {"id": "tig-welding/torches/all", "name": "TIG Torches & Spare Parts", "level": 2, "count": 17}, {"id": "tig-welding/tungsten/zirconiated", "name": "Zirconiated Tungsten", "level": 2, "count": 16}, {"id": "tig-welding/filler-rods", "name": "TIG Welding Filler Rods", "level": 1, "count": 96}, {"id": "tig-welding/filler-rods/aluminium", "name": "Aluminium", "level": 2, "count": 15}, {"id": "tig-welding/filler-rods/brazing", "name": "Brazing / Bronze", "level": 2, "count": 6}, {"id": "tig-welding/filler-rods/copper", "name": "Copper / Copper-Nickel", "level": 2, "count": 7}, {"id": "tig-welding/filler-rods/dissimilar", "name": "Dissimilar Steels", "level": 2, "count": 2}, {"id": "tig-welding/filler-rods/duplex", "name": "Duplex Stainless Steel", "level": 2, "count": 1}, {"id": "tig-welding/filler-rods/hard-facing", "name": "Hard Facing", "level": 2, "count": 4}, {"id": "tig-welding/filler-rods/magnesium", "name": "Magnesium", "level": 2, "count": 2}, {"id": "tig-welding/filler-rods/mild-steel", "name": "Mild Steel", "level": 2, "count": 27}, {"id": "tig-welding/filler-rods/nickel", "name": "Nickel Alloy", "level": 2, "count": 10}, {"id": "tig-welding/filler-rods/stainless", "name": "Stainless Steel", "level": 2, "count": 0}, {"id": "tig-welding/filler-rods/titanium", "name": "Titanium", "level": 2, "count": 2}, {"id": "tig-welding/accessories", "name": "TIG Welding Accessories", "level": 1, "count": 107}, {"id": "tig-welding/weld-cleaning/pickling", "name": "Pickling & Neutralising Agents", "level": 2, "count": 5}, {"id": "tig-welding/tungsten-grinders/bench", "name": "Tungsten Grinders - Bench", "level": 2, "count": 9}, {"id": "tig-welding/tungsten-grinders/handheld", "name": "Tungsten Grinders - Handheld", "level": 2, "count": 19}, {"id": "tig-welding/tungsten-grinders/extractors", "name": "Tungsten Grinders w/ Extractors", "level": 2, "count": 11}, {"id": "tig-welding/weld-cleaning", "name": "Weld Cleaning Equipment", "level": 2, "count": 56}, {"id": "arc-mma", "name": "ARC WELDING", "level": 0, "count": 260}, {"id": "arc-mma/welders", "name": "Arc/MMA Welding Machines", "level": 1, "count": 16}, {"id": "arc-mma/welders/jasic", "name": "Jasic MMA Welders", "level": 2, "count": 0}, {"id": "arc-mma/multi-process", "name": "Multi Process Welders", "level": 2, "count": 0}, {"id": "arc-mma/welders/newarc", "name": "Newarc MMA Welders", "level": 2, "count": 0}, {"id": "arc-mma/welders/parweld", "name": "Parweld MMA Welders", "level": 2, "count": 0}, {"id": "arc-mma/electrodes", "name": "MMA Welding Electrodes", "level": 1, "count": 76}, {"id": "arc-mma/electrodes/cast-iron", "name": "Cast Iron", "level": 2, "count": 4}, {"id": "arc-mma/electrodes/cutting-gouging", "name": "Cutting / Gouging", "level": 2, "count": 5}, {"id": "arc-mma/electrodes/dissimilar", "name": "Dissimilar Steel", "level": 2, "count": 0}, {"id": "arc-mma/electrodes/hard-surfacing", "name": "Hard Surfacing", "level": 2, "count": 22}, {"id": "arc-mma/electrodes/stainless", "name": "Stainless Steel", "level": 2, "count": 38}, {"id": "arc-mma/electrodes/steel", "name": "Steel & Low Hydrogen", "level": 2, "count": 26}, {"id": "arc-mma/cable", "name": "Welding Cable & Connectors", "level": 1, "count": 99}, {"id": "arc-mma/cable/plugs-sockets", "name": "Cable Plugs & Sockets", "level": 2, "count": 17}, {"id": "arc-mma/cable/double-insulated", "name": "Double Insulated Cable", "level": 2, "count": 6}, {"id": "arc-mma/earth-clamps", "name": "Earth Clamps", "level": 2, "count": 13}, {"id": "arc-mma/electrode-holders", "name": "Electrode Holders", "level": 2, "count": 18}, {"id": "arc-mma/cable/lugs", "name": "Re-usable Cable Lugs", "level": 2, "count": 8}, {"id": "arc-mma/cable/pvc", "name": "Welding Cable (Copper/PVC)", "level": 2, "count": 16}, {"id": "arc-mma/cable/rubber", "name": "Welding Cable (Copper/Rubber)", "level": 2, "count": 4}, {"id": "arc-mma/cable/sets", "name": "Welding Cable Sets", "level": 2, "count": 17}, {"id": "arc-mma/accessories", "name": "Arc Welding Accessories", "level": 1, "count": 69}, {"id": "arc-mma/gouging/carbons", "name": "Arc-Air Gouging Carbons", "level": 2, "count": 0}, {"id": "arc-mma/gouging/torches", "name": "Carbon Arc Gouging Torches", "level": 2, "count": 0}, {"id": "arc-mma/ovens", "name": "Electrode Quivers & Ovens", "level": 2, "count": 11}, {"id": "arc-mma/stud-welding/cd-welders", "name": "Stud Welders (CD)", "level": 2, "count": 0}, {"id": "arc-mma/stud-welding/aluminium-studs", "name": "Weld Studs - Aluminium", "level": 2, "count": 4}, {"id": "arc-mma/stud-welding/ss-studs", "name": "Weld Studs - Stainless Steel", "level": 2, "count": 10}, {"id": "plasma-cutting", "name": "PLASMA CUTTING", "level": 0, "count": 278}, {"id": "plasma-cutting/plasma", "name": "Plasma Cutting Machines", "level": 1, "count": 73}, {"id": "plasma-cutting/plasma/jasic-spares", "name": "Jasic Plasma Spares", "level": 2, "count": 29}, {"id": "plasma-cutting/plasma/cutters", "name": "Plasma Cutters", "level": 2, "count": 19}, {"id": "plasma-cutting/plasma/torches", "name": "Plasma Cutting Torches", "level": 2, "count": 1}, {"id": "plasma-cutting/plasma/thermal-dynamics", "name": "Thermal Dynamics Spares", "level": 2, "count": 17}, {"id": "plasma-cutting/plasma/weldability-spares", "name": "Weldability Plasma Spares", "level": 2, "count": 7}, {"id": "plasma-cutting/machines", "name": "Oxy-Fuel Cutting Machines", "level": 1, "count": 35}, {"id": "plasma-cutting/machines/gas-oxy", "name": "Gas Cutting Machines (Oxy-Fuel)", "level": 2, "count": 1}, {"id": "plasma-cutting/machines/pipe-oxy", "name": "Pipe Cutting Machines (Oxy)", "level": 2, "count": 8}, {"id": "plasma-cutting/bevellers", "name": "Plate Bevellers", "level": 2, "count": 19}, {"id": "plasma-cutting/machines/straight-line", "name": "Straight Line Cutting Machines", "level": 2, "count": 7}, {"id": "plasma-cutting/nozzles", "name": "Oxy-Fuel Cutting Nozzles", "level": 1, "count": 167}, {"id": "plasma-cutting/nozzles/nff", "name": "NFF Cutting Nozzles", "level": 2, "count": 5}, {"id": "plasma-cutting/nozzles/pgnm", "name": "Oxy Propane Gouging Nozzles PGNM", "level": 2, "count": 1}, {"id": "plasma-cutting/nozzles/anme", "name": "Oxy/Acetylene Cutting Nozzles ANME", "level": 2, "count": 10}, {"id": "plasma-cutting/nozzles/agnm", "name": "Oxy/Acetylene Gouging Nozzles AGNM", "level": 2, "count": 6}, {"id": "plasma-cutting/nozzles/pnm", "name": "Oxy/Propane Cutting Nozzles PNM", "level": 2, "count": 25}, {"id": "plasma-cutting/nozzles/victor", "name": "Victor Cutting Nozzles", "level": 2, "count": 10}, {"id": "plasma-cutting/nozzles/vvc", "name": "VVC Cutting Nozzles", "level": 2, "count": 14}, {"id": "plasma-cutting/accessories", "name": "Cutting & Gouging Accessories", "level": 1, "count": 3}, {"id": "workshop/air-compressors", "name": "Air Compressors", "level": 2, "count": 0}, {"id": "plasma-cutting/gouging/carbons", "name": "Arc-Air Gouging Carbons", "level": 2, "count": 13}, {"id": "plasma-cutting/gouging/torches", "name": "Carbon Arc Gouging Torches", "level": 2, "count": 9}, {"id": "plasma-cutting/guides", "name": "Cutting Guides Oxy/Acet/Propane", "level": 2, "count": 3}, {"id": "gas-oxy-fuel", "name": "GAS & OXY-FUEL", "level": 0, "count": 785}, {"id": "gas-oxy-fuel/equipment", "name": "Oxy-Fuel Welding Equipment", "level": 1, "count": 80}, {"id": "gas-oxy-fuel/sets", "name": "Cutting & Welding Sets", "level": 2, "count": 14}, {"id": "gas-oxy-fuel/torches/cutting", "name": "Gas Cutting Torches", "level": 2, "count": 18}, {"id": "gas-oxy-fuel/nozzles/lightweight", "name": "Lightweight Welding Nozzles", "level": 2, "count": 9}, {"id": "gas-oxy-fuel/torches/oxy-acet", "name": "Oxy-Acetylene Torches", "level": 2, "count": 6}, {"id": "gas-oxy-fuel/torches/oxy-propane", "name": "Oxy-Propane Torches", "level": 2, "count": 9}, {"id": "gas-oxy-fuel/torches/components", "name": "Type 3/5 HD Torch Components", "level": 2, "count": 6}, {"id": "gas-oxy-fuel/nozzles/welding", "name": "Welding Nozzles (DH/HD)", "level": 2, "count": 2}, {"id": "gas-oxy-fuel/rods", "name": "Oxy-Fuel Welding Rods", "level": 1, "count": 75}, {"id": "gas-oxy-fuel/rods/aluminium", "name": "Aluminium Welding Rods", "level": 2, "count": 11}, {"id": "gas-oxy-fuel/rods/brazing", "name": "Brazing Rods", "level": 2, "count": 29}, {"id": "gas-oxy-fuel/rods/copper-phosphorus", "name": "Copper Phosphorus Rods", "level": 2, "count": 15}, {"id": "gas-oxy-fuel/disposable-cylinders", "name": "Disposable Gas Cylinders", "level": 2, "count": 0}, {"id": "gas-oxy-fuel/rods/silver-solder", "name": "Silver Solder Rods", "level": 2, "count": 13}, {"id": "gas-oxy-fuel/rods/steel", "name": "Steel Welding Rods", "level": 2, "count": 7}, {"id": "gas-oxy-fuel/delivery", "name": "Gas Regulators & Delivery", "level": 1, "count": 269}, {"id": "gas-oxy-fuel/regulators/co2", "name": "CO2 Regulators", "level": 2, "count": 7}, {"id": "gas-oxy-fuel/flashback-arrestors", "name": "Flashback Arrestors", "level": 2, "count": 19}, {"id": "gas-oxy-fuel/regulators/fuel", "name": "Fuel Gas Regulators", "level": 2, "count": 29}, {"id": "gas-oxy-fuel/alarm-panels", "name": "Gas Alarm Panels", "level": 2, "count": 7}, {"id": "gas-oxy-fuel/economisers", "name": "Gas Economisers / Flowmeters", "level": 2, "count": 13}, {"id": "gas-oxy-fuel/regulators/high-pressure", "name": "High Pressure Regulators", "level": 2, "count": 26}, {"id": "gas-oxy-fuel/regulators/inert", "name": "Inert Gas Regulators", "level": 2, "count": 37}, {"id": "gas-oxy-fuel/regulators/nevoc", "name": "NEVOC Regulators", "level": 2, "count": 9}, {"id": "gas-oxy-fuel/regulators/oxygen", "name": "Oxygen Regulators", "level": 2, "count": 21}, {"id": "gas-oxy-fuel/hoses", "name": "Gas Hoses, Fittings & Storage", "level": 1, "count": 0}, {"id": "gas-oxy-fuel/hoses/argon", "name": "Argon / Shielding Gas Hose", "level": 2, "count": 5}, {"id": "gas-oxy-fuel/cylinder-fittings", "name": "Cylinder Fittings & Adaptors", "level": 2, "count": 34}, {"id": "gas-oxy-fuel/outlet-points", "name": "Gas Control Outlet Points", "level": 2, "count": 0}, {"id": "gas-oxy-fuel/storage/cages", "name": "Gas Cylinder Cages", "level": 2, "count": 13}, {"id": "gas-oxy-fuel/storage/trolleys", "name": "Gas Cylinder Trolleys", "level": 2, "count": 43}, {"id": "gas-oxy-fuel/hoses/high-pressure", "name": "High Pressure Gas Hoses", "level": 2, "count": 36}, {"id": "gas-oxy-fuel/fittings", "name": "Hose Fittings & Couplers", "level": 2, "count": 32}, {"id": "gas-oxy-fuel/manifolds", "name": "Manifold Panels", "level": 2, "count": 79}, {"id": "gas-oxy-fuel/hoses/oxy-fuel", "name": "Oxy Fuel Hoses", "level": 2, "count": 0}, {"id": "gas-oxy-fuel/hoses/twin", "name": "Twin Welding Hoses", "level": 2, "count": 21}, {"id": "wire-rods", "name": "WIRE & RODS", "level": 0, "count": 0}, {"id": "pipe", "name": "PIPE WELDING", "level": 0, "count": 438}, {"id": "workshop/pipe/stands", "name": "Pipe Stands & Handling", "level": 1, "count": 119}, {"id": "workshop/pipe/conveyors", "name": "Pipe Conveyors", "level": 2, "count": 9}, {"id": "workshop/pipe/rotators", "name": "Pipe Rotators", "level": 2, "count": 7}, {"id": "workshop/pipe/stands/roller", "name": "Roller Stands", "level": 2, "count": 63}, {"id": "workshop/pipe/stands/v-head", "name": "V-Head Stands", "level": 2, "count": 38}, {"id": "workshop/pipe/clamps", "name": "Pipe Welding Clamps", "level": 1, "count": 75}, {"id": "workshop/pipe/clamps/bridge", "name": "Bridge Clamps", "level": 2, "count": 3}, {"id": "workshop/pipe/clamps/cage", "name": "Cage Clamps", "level": 2, "count": 3}, {"id": "workshop/pipe/clamps/chain", "name": "Chain Clamps", "level": 2, "count": 9}, {"id": "workshop/pipe/clamps/ez-fit", "name": "E-Z Fit Clamps", "level": 2, "count": 2}, {"id": "workshop/pipe/clamps/pdq", "name": "PDQ Clamps", "level": 2, "count": 3}, {"id": "workshop/pipe/clamps/pincer", "name": "Pincer Clamps", "level": 2, "count": 3}, {"id": "workshop/pipe/clamps/spider", "name": "Spider Clamps", "level": 2, "count": 16}, {"id": "workshop/pipe/cutting", "name": "Pipe Cutting & Preparation", "level": 1, "count": 172}, {"id": "workshop/pipe/saws/exact", "name": "Exact Pipe Saws", "level": 2, "count": 42}, {"id": "workshop/pipe/saws/gbc", "name": "GBC Pipe Saws", "level": 2, "count": 1}, {"id": "workshop/pipe/bevelling", "name": "Pipe Bevelling Machines", "level": 2, "count": 60}, {"id": "workshop/pipe/cutting-machines", "name": "Pipe Cutting Machines", "level": 2, "count": 29}, {"id": "workshop/pipe/saws/tag", "name": "TAG Pipe Saws", "level": 2, "count": 10}, {"id": "workshop/pipe/accessories", "name": "Pipe Welding Accessories", "level": 1, "count": 72}, {"id": "workshop/pipe/drain-plugs", "name": "Drain Test Plugs", "level": 2, "count": 3}, {"id": "workshop/pipe/measuring", "name": "Measuring & Marking Tools", "level": 2, "count": 20}, {"id": "workshop/pipe/purging", "name": "Pipe Purging Equipment", "level": 2, "count": 39}, {"id": "workshop/pipe/pipe-wrap", "name": "Pipe Wrap", "level": 2, "count": 2}, {"id": "workshop/pipe/backing-tape", "name": "Weld Backing Tape", "level": 2, "count": 4}, {"id": "machines", "name": "WELDING MACHINES", "level": 0, "count": 540}, {"id": "machines/welding", "name": "Welding Machines", "level": 1, "count": 188}, {"id": "machines/multi-process", "name": "Multi Process Welders", "level": 2, "count": 21}, {"id": "machines/spot-welders/pedestal", "name": "Spot Welders - Pedestal", "level": 2, "count": 7}, {"id": "machines/spot-welders/portable", "name": "Spot Welders - Portable", "level": 2, "count": 18}, {"id": "machines/stud-welders", "name": "Stud Welders (CD)", "level": 2, "count": 17}, {"id": "machines/cutting", "name": "Cutting Machines", "level": 1, "count": 42}, {"id": "machines/saws/chop", "name": "Chop Saws / Cut-Off Saws", "level": 2, "count": 2}, {"id": "machines/saws/circular", "name": "Circular Saws", "level": 2, "count": 29}, {"id": "machines/magnetic-drills", "name": "Magnetic Drills", "level": 2, "count": 11}, {"id": "machines/saws/pipe", "name": "Pipe Saws (Exact, GBC, TAG)", "level": 2, "count": 0}, {"id": "machines/specialist", "name": "Specialist Welding Equipment", "level": 1, "count": 149}, {"id": "machines/broaching-cutters", "name": "Broaching Cutters", "level": 2, "count": 20}, {"id": "machines/spot-welders/electrodes", "name": "Spot Welding Electrodes", "level": 2, "count": 27}, {"id": "machines/thermal-spray", "name": "Thermal Spray Equipment", "level": 2, "count": 18}, {"id": "machines/tool-balancers", "name": "Tool Balancers", "level": 2, "count": 84}, {"id": "tig-welding/tungsten-grinders", "name": "Tungsten Grinders", "level": 2, "count": 0}, {"id": "machines/power", "name": "Welding Power & Cooling", "level": 1, "count": 161}, {"id": "machines/generators/servicing", "name": "Filter Kits & Servicing", "level": 2, "count": 43}, {"id": "machines/generators", "name": "Generators", "level": 2, "count": 52}, {"id": "machines/lighting-towers", "name": "Lighting Towers", "level": 2, "count": 9}, {"id": "machines/generators/mosa", "name": "Mosa Welder Generators", "level": 2, "count": 0}, {"id": "machines/generators/spares", "name": "Spares & Accessories", "level": 2, "count": 40}, {"id": "machines/generators/welder", "name": "Welder Generators", "level": 2, "count": 17}, {"id": "safety", "name": "SAFETY & PPE", "level": 0, "count": 458}, {"id": "safety/eye/air-fed", "name": "Air Fed Face Shields", "level": 2, "count": 12}, {"id": "safety/helmets/auto-darkening", "name": "Auto-Darkening Welding Helmets", "level": 2, "count": 48}, {"id": "safety/eye/respirators", "name": "Respirator Masks", "level": 2, "count": 9}, {"id": "safety/eye/goggles", "name": "Safety Goggles", "level": 2, "count": 7}, {"id": "safety/eye/spectacles", "name": "Safety Spectacles", "level": 2, "count": 9}, {"id": "safety/eye/visors", "name": "Safety Visors", "level": 2, "count": 7}, {"id": "safety/helmets/spares", "name": "Welding Helmet Spares", "level": 2, "count": 84}, {"id": "safety/helmets/masks", "name": "Welding Masks", "level": 2, "count": 13}, {"id": "safety/clothing", "name": "Welding Protective Clothing", "level": 1, "count": 117}, {"id": "safety/clothing/heat-reflective", "name": "Heat Reflective Clothing", "level": 2, "count": 8}, {"id": "safety/clothing/aprons", "name": "Welding Aprons", "level": 2, "count": 8}, {"id": "safety/clothing/capes", "name": "Welding Capes & Sleeves", "level": 2, "count": 9}, {"id": "safety/clothing/caps", "name": "Welding Caps & Balaclavas", "level": 2, "count": 18}, {"id": "safety/clothing/jackets", "name": "Welding Jackets", "level": 2, "count": 20}, {"id": "safety/clothing/overalls", "name": "Welding Overalls", "level": 2, "count": 13}, {"id": "safety/clothing/trousers", "name": "Welding Trousers & Spats", "level": 2, "count": 8}, {"id": "safety/workspace", "name": "Welding Workspace Safety", "level": 1, "count": 140}, {"id": "safety/fire-barrier", "name": "Fire Barrier Fabric", "level": 2, "count": 4}, {"id": "safety/tarpaulin", "name": "Fire Retardant Tarpaulin", "level": 2, "count": 8}, {"id": "safety/spill-kits", "name": "Spill Containment Kits", "level": 2, "count": 10}, {"id": "safety/blankets", "name": "Welding Blankets & Mats", "level": 2, "count": 21}, {"id": "safety/screens", "name": "Welding Screens & Curtains", "level": 2, "count": 71}, {"id": "safety/screens/strip", "name": "Welding Strip Curtains", "level": 2, "count": 8}, {"id": "safety/tents", "name": "Welding Tents & Shelters", "level": 2, "count": 18}, {"id": "fume-extraction", "name": "FUME EXTRACTION", "level": 0, "count": 277}, {"id": "safety/fume/kemper-mobile", "name": "Kemper Mobile & Hi-Vac Extraction", "level": 1, "count": 160}, {"id": "safety/fume/kemper-hi-vac", "name": "Kemper Hi-Vacuum Extraction", "level": 2, "count": 11}, {"id": "safety/fume/kemper-spares", "name": "Kemper Spares & Accessories", "level": 2, "count": 132}, {"id": "safety/fume/kemper-tower", "name": "Kemper Filtration Systems", "level": 1, "count": 57}, {"id": "safety/fume/kemper-air-purifying", "name": "Kemper Air Purifying", "level": 2, "count": 4}, {"id": "safety/fume/kemper-airwatch", "name": "Kemper Airwatch", "level": 2, "count": 3}, {"id": "safety/fume/kemper-tables", "name": "Kemper Filter Tables", "level": 2, "count": 26}, {"id": "safety/fume/kemper-static", "name": "Kemper Static Filter Units", "level": 2, "count": 19}, {"id": "safety/fume/f-tech", "name": "F-Tech Extraction", "level": 1, "count": 37}, {"id": "safety/fume/on-torch", "name": "On-Torch & Bench Extraction", "level": 1, "count": 23}, {"id": "safety/fume/bench-top", "name": "Bench Top Extractors", "level": 2, "count": 12}, {"id": "safety/fume/kemper-on-torch", "name": "Kemper On-Torch Extraction", "level": 2, "count": 6}, {"id": "safety/fume/wsl-on-torch", "name": "WSL On-Torch Extraction", "level": 2, "count": 4}, {"id": "workshop", "name": "WELDING WORKSHOP", "level": 0, "count": 487}, {"id": "workshop/benches", "name": "Welding Benches & Tables", "level": 1, "count": 93}, {"id": "workshop/benches/accessories", "name": "Bench Accessories", "level": 2, "count": 7}, {"id": "workshop/benches/heavy-duty", "name": "Heavy Duty Welding Benches", "level": 2, "count": 13}, {"id": "workshop/benches/medium-duty", "name": "Medium Duty Welding Benches", "level": 2, "count": 14}, {"id": "workshop/benches/mobile", "name": "Mobile Work Benches", "level": 2, "count": 9}, {"id": "workshop/benches/stainless", "name": "Stainless Steel Benches", "level": 2, "count": 28}, {"id": "workshop/benches/super-heavy", "name": "Super Heavy Duty Benches", "level": 2, "count": 12}, {"id": "workshop/air-tools", "name": "Air Tools & Compressors", "level": 1, "count": 199}, {"id": "workshop/air-tools/grinders", "name": "Air Angle Grinders", "level": 2, "count": 6}, {"id": "workshop/air-tools/die-grinders", "name": "Air Die Grinders", "level": 2, "count": 11}, {"id": "workshop/air-tools/drills", "name": "Air Drills", "level": 2, "count": 14}, {"id": "workshop/air-tools/hoses", "name": "Air Hoses & Accessories", "level": 2, "count": 18}, {"id": "workshop/air-tools/impact-wrenches", "name": "Air Impact Wrenches", "level": 2, "count": 21}, {"id": "workshop/air-tools/needle-scalers", "name": "Air Needle Scalers", "level": 2, "count": 7}, {"id": "workshop/air-tools/ratchet-wrenches", "name": "Air Ratchet Wrenches", "level": 2, "count": 2}, {"id": "workshop/air-tools/riveters", "name": "Air Riveters", "level": 2, "count": 2}, {"id": "workshop/air-tools/sanders", "name": "Air Sanders / Polishers", "level": 2, "count": 16}, {"id": "workshop/air-tools/screwdrivers", "name": "Air Screwdrivers", "level": 2, "count": 4}, {"id": "workshop/compressors/belt-driven", "name": "Belt Driven Compressors", "level": 2, "count": 30}, {"id": "workshop/compressors/direct-drive", "name": "Direct Drive Compressors", "level": 2, "count": 5}, {"id": "workshop/compressors/low-noise", "name": "Low Noise Compressors", "level": 2, "count": 1}, {"id": "workshop/air-tools/paint-guns", "name": "Paint Spray Guns", "level": 2, "count": 8}, {"id": "workshop/compressors/petrol", "name": "Petrol Air Compressors", "level": 2, "count": 15}, {"id": "workshop/compressors/air-dryers", "name": "Refrigerated Air Dryers", "level": 2, "count": 8}, {"id": "workshop/compressors/screw", "name": "Screw Compressors", "level": 2, "count": 20}, {"id": "workshop/tools", "name": "Welding Tools & Equipment", "level": 1, "count": 132}, {"id": "workshop/tools/cable-reels", "name": "Cable Reels", "level": 2, "count": 8}, {"id": "workshop/positioners", "name": "Magnetic Welding Positioners", "level": 2, "count": 41}, {"id": "workshop/tools/temp-pens", "name": "Temperature Indicator Pens", "level": 2, "count": 35}, {"id": "workshop/tools/kits", "name": "Tool Kit Sets & Cabinets", "level": 2, "count": 32}, {"id": "workshop/tools/gauges", "name": "Welding Gauges", "level": 2, "count": 3}, {"id": "workshop/chemicals", "name": "Welding Chemicals & Consumables", "level": 1, "count": 63}, {"id": "workshop/devcon", "name": "Devcon Maintenance Products", "level": 2, "count": 22}, {"id": "workshop/consumables/ceramics", "name": "Weld Backing Ceramics", "level": 2, "count": 15}, {"id": "abrasives", "name": "ABRASIVES", "level": 0, "count": 40}, {"id": "abrasives/cutting-grinding", "name": "Cutting & Grinding Discs", "level": 1, "count": 17}, {"id": "workshop/abrasives/cutting", "name": "Cutting Discs", "level": 2, "count": 12}, {"id": "workshop/abrasives/grinding", "name": "Grinding Discs", "level": 2, "count": 5}, {"id": "abrasives/finishing", "name": "Finishing & Sanding Discs", "level": 1, "count": 23}, {"id": "workshop/abrasives/ceramic-flap", "name": "Ceramic Flap Discs", "level": 2, "count": 8}, {"id": "workshop/abrasives/flap", "name": "Flap Discs", "level": 2, "count": 6}, {"id": "workshop/abrasives/sanding", "name": "Sanding Discs", "level": 2, "count": 9}, {"id": "abrasives/accessories", "name": "Abrasive Accessories", "level": 1, "count": 0}, {"id": "workshop/abrasives/backing-pads", "name": "Backing Pads", "level": 2, "count": 0}, {"id": "workshop/abrasives/wire-brushes", "name": "Wire Brushes", "level": 2, "count": 0}, {"id": "brands", "name": "BRANDS", "level": 0, "count": 0}, {"id": "brands/gas-arc", "name": "Gas Arc - Regulators & Gas Control", "level": 2, "count": 0}, {"id": "brands/jasic", "name": "Jasic - MIG, TIG & Plasma", "level": 2, "count": 0}, {"id": "brands/kemper", "name": "Kemper - Fume Extraction", "level": 2, "count": 0}, {"id": "brands/parweld", "name": "Parweld - Welders & Consumables", "level": 2, "count": 0}, {"id": "brands/sif-weldability", "name": "Sif / Weldability - Consumables", "level": 2, "count": 0}, {"id": "brands/binzel", "name": "Binzel - MIG Torches & Parts", "level": 2, "count": 0}, {"id": "brands/devcon", "name": "Devcon - Maintenance Products", "level": 2, "count": 0}, {"id": "brands/exact", "name": "Exact - Pipe Saws", "level": 2, "count": 0}, {"id": "brands/f-tech", "name": "F-Tech - Fume Extraction", "level": 2, "count": 0}, {"id": "brands/magswitch", "name": "Magswitch - Magnetic Positioners", "level": 2, "count": 0}, {"id": "brands/mosa", "name": "Mosa - Welder Generators", "level": 2, "count": 0}, {"id": "brands/newarc", "name": "Newarc - TIG & MMA Welders", "level": 2, "count": 0}, {"id": "brands/swp", "name": "SWP - MIG, TIG & Plasma", "level": 2, "count": 0}, {"id": "brands/tag", "name": "TAG - Pipe Saws", "level": 2, "count": 0}, {"id": "brands/tecna", "name": "Tecna - Spot Welders", "level": 2, "count": 0}, {"id": "brands/thermal-dynamics", "name": "Thermal Dynamics - Plasma", "level": 2, "count": 0}, {"id": "brands/weldstar", "name": "Weldstar - Multi Process Welders", "level": 2, "count": 0}, {"id": "brands/wsl", "name": "WSL - On-Torch Extraction", "level": 2, "count": 0}, {"id": "uncategorised", "name": "Uncategorised", "level": 0, "count": 2074}], "links": [{"source": "WAW", "target": "mig-welding"}, {"source": "mig-welding", "target": "mig-welding/welders"}, {"source": "mig-welding/welders", "target": "mig-welding/welders/jasic"}, {"source": "mig-welding/welders", "target": "mig-welding/multi-process"}, {"source": "mig-welding/welders", "target": "mig-welding/welders/parweld"}, {"source": "mig-welding/welders", "target": "mig-welding/welders/swp"}, {"source": "mig-welding/welders", "target": "mig-welding/welders/weldability-sif"}, {"source": "mig-welding", "target": "mig-welding/torches"}, {"source": "mig-welding/torches", "target": "mig-welding/torches/binzel-consumables"}, {"source": "mig-welding/torches", "target": "mig-welding/torches/euro"}, {"source": "mig-welding/torches", "target": "mig-welding/torches/ergo"}, {"source": "mig-welding/torches", "target": "mig-welding/torches/liners"}, {"source": "mig-welding/torches", "target": "mig-welding/torches/nozzles"}, {"source": "mig-welding", "target": "mig-welding/wire"}, {"source": "mig-welding/wire", "target": "mig-welding/wire/aluminium"}, {"source": "mig-welding/wire", "target": "mig-welding/wire/brazing"}, {"source": "mig-welding/wire", "target": "mig-welding/wire/bulk"}, {"source": "mig-welding/wire", "target": "mig-welding/wire/copper-free"}, {"source": "mig-welding/wire", "target": "mig-welding/wire/flux-cored"}, {"source": "mig-welding/wire", "target": "mig-welding/wire/hard-facing"}, {"source": "mig-welding/wire", "target": "mig-welding/wire/mild-steel"}, {"source": "mig-welding/wire", "target": "mig-welding/wire/stainless"}, {"source": "mig-welding", "target": "mig-welding/accessories"}, {"source": "mig-welding/accessories", "target": "consumables/chemicals/anti-spatter"}, {"source": "mig-welding/accessories", "target": "gas/regulators/co2"}, {"source": "mig-welding/accessories", "target": "gas/economisers"}, {"source": "mig-welding/accessories", "target": "gas/regulators/inert"}, {"source": "mig-welding/accessories", "target": "gas/hoses/mig"}, {"source": "mig-welding/accessories", "target": "machines/water-coolers"}, {"source": "mig-welding/accessories", "target": "safety/gloves"}, {"source": "mig-welding/accessories", "target": "safety/helmets"}, {"source": "WAW", "target": "tig-welding"}, {"source": "tig-welding", "target": "tig-welding/welders"}, {"source": "tig-welding/welders", "target": "tig-welding/welders/jasic"}, {"source": "tig-welding/welders", "target": "tig-welding/multi-process"}, {"source": "tig-welding/welders", "target": "tig-welding/welders/newarc"}, {"source": "tig-welding/welders", "target": "tig-welding/welders/sif"}, {"source": "tig-welding/welders", "target": "tig-welding/welders/swp"}, {"source": "tig-welding", "target": "tig-welding/torches"}, {"source": "tig-welding/torches", "target": "tig-welding/tungsten/ceriated"}, {"source": "tig-welding/torches", "target": "tig-welding/tungsten/lanthanated"}, {"source": "tig-welding/torches", "target": "tig-welding/tungsten/superstrike"}, {"source": "tig-welding/torches", "target": "tig-welding/tungsten/thoriated"}, {"source": "tig-welding/torches", "target": "tig-welding/torches/adaptors"}, {"source": "tig-welding/torches", "target": "tig-welding/torches/consumables"}, {"source": "tig-welding/torches", "target": "tig-welding/torches/all"}, {"source": "tig-welding/torches", "target": "tig-welding/tungsten/zirconiated"}, {"source": "tig-welding", "target": "tig-welding/filler-rods"}, {"source": "tig-welding/filler-rods", "target": "tig-welding/filler-rods/aluminium"}, {"source": "tig-welding/filler-rods", "target": "tig-welding/filler-rods/brazing"}, {"source": "tig-welding/filler-rods", "target": "tig-welding/filler-rods/copper"}, {"source": "tig-welding/filler-rods", "target": "tig-welding/filler-rods/dissimilar"}, {"source": "tig-welding/filler-rods", "target": "tig-welding/filler-rods/duplex"}, {"source": "tig-welding/filler-rods", "target": "tig-welding/filler-rods/hard-facing"}, {"source": "tig-welding/filler-rods", "target": "tig-welding/filler-rods/magnesium"}, {"source": "tig-welding/filler-rods", "target": "tig-welding/filler-rods/mild-steel"}, {"source": "tig-welding/filler-rods", "target": "tig-welding/filler-rods/nickel"}, {"source": "tig-welding/filler-rods", "target": "tig-welding/filler-rods/stainless"}, {"source": "tig-welding/filler-rods", "target": "tig-welding/filler-rods/titanium"}, {"source": "tig-welding", "target": "tig-welding/accessories"}, {"source": "tig-welding/accessories", "target": "tig-welding/weld-cleaning/pickling"}, {"source": "tig-welding/accessories", "target": "tig-welding/tungsten-grinders/bench"}, {"source": "tig-welding/accessories", "target": "tig-welding/tungsten-grinders/handheld"}, {"source": "tig-welding/accessories", "target": "tig-welding/tungsten-grinders/extractors"}, {"source": "tig-welding/accessories", "target": "tig-welding/weld-cleaning"}, {"source": "WAW", "target": "arc-mma"}, {"source": "arc-mma", "target": "arc-mma/welders"}, {"source": "arc-mma/welders", "target": "arc-mma/welders/jasic"}, {"source": "arc-mma/welders", "target": "arc-mma/multi-process"}, {"source": "arc-mma/welders", "target": "arc-mma/welders/newarc"}, {"source": "arc-mma/welders", "target": "arc-mma/welders/parweld"}, {"source": "arc-mma", "target": "arc-mma/electrodes"}, {"source": "arc-mma/electrodes", "target": "arc-mma/electrodes/cast-iron"}, {"source": "arc-mma/electrodes", "target": "arc-mma/electrodes/cutting-gouging"}, {"source": "arc-mma/electrodes", "target": "arc-mma/electrodes/dissimilar"}, {"source": "arc-mma/electrodes", "target": "arc-mma/electrodes/hard-surfacing"}, {"source": "arc-mma/electrodes", "target": "arc-mma/electrodes/stainless"}, {"source": "arc-mma/electrodes", "target": "arc-mma/electrodes/steel"}, {"source": "arc-mma", "target": "arc-mma/cable"}, {"source": "arc-mma/cable", "target": "arc-mma/cable/plugs-sockets"}, {"source": "arc-mma/cable", "target": "arc-mma/cable/double-insulated"}, {"source": "arc-mma/cable", "target": "arc-mma/earth-clamps"}, {"source": "arc-mma/cable", "target": "arc-mma/electrode-holders"}, {"source": "arc-mma/cable", "target": "arc-mma/cable/lugs"}, {"source": "arc-mma/cable", "target": "arc-mma/cable/pvc"}, {"source": "arc-mma/cable", "target": "arc-mma/cable/rubber"}, {"source": "arc-mma/cable", "target": "arc-mma/cable/sets"}, {"source": "arc-mma", "target": "arc-mma/accessories"}, {"source": "arc-mma/accessories", "target": "arc-mma/gouging/carbons"}, {"source": "arc-mma/accessories", "target": "arc-mma/gouging/torches"}, {"source": "arc-mma/accessories", "target": "arc-mma/ovens"}, {"source": "arc-mma/accessories", "target": "arc-mma/stud-welding/cd-welders"}, {"source": "arc-mma/accessories", "target": "arc-mma/stud-welding/aluminium-studs"}, {"source": "arc-mma/accessories", "target": "arc-mma/stud-welding/ss-studs"}, {"source": "WAW", "target": "plasma-cutting"}, {"source": "plasma-cutting", "target": "plasma-cutting/plasma"}, {"source": "plasma-cutting/plasma", "target": "plasma-cutting/plasma/jasic-spares"}, {"source": "plasma-cutting/plasma", "target": "plasma-cutting/plasma/cutters"}, {"source": "plasma-cutting/plasma", "target": "plasma-cutting/plasma/torches"}, {"source": "plasma-cutting/plasma", "target": "plasma-cutting/plasma/thermal-dynamics"}, {"source": "plasma-cutting/plasma", "target": "plasma-cutting/plasma/weldability-spares"}, {"source": "plasma-cutting", "target": "plasma-cutting/machines"}, {"source": "plasma-cutting/machines", "target": "plasma-cutting/machines/gas-oxy"}, {"source": "plasma-cutting/machines", "target": "plasma-cutting/machines/pipe-oxy"}, {"source": "plasma-cutting/machines", "target": "plasma-cutting/bevellers"}, {"source": "plasma-cutting/machines", "target": "plasma-cutting/machines/straight-line"}, {"source": "plasma-cutting", "target": "plasma-cutting/nozzles"}, {"source": "plasma-cutting/nozzles", "target": "plasma-cutting/nozzles/nff"}, {"source": "plasma-cutting/nozzles", "target": "plasma-cutting/nozzles/pgnm"}, {"source": "plasma-cutting/nozzles", "target": "plasma-cutting/nozzles/anme"}, {"source": "plasma-cutting/nozzles", "target": "plasma-cutting/nozzles/agnm"}, {"source": "plasma-cutting/nozzles", "target": "plasma-cutting/nozzles/pnm"}, {"source": "plasma-cutting/nozzles", "target": "plasma-cutting/nozzles/victor"}, {"source": "plasma-cutting/nozzles", "target": "plasma-cutting/nozzles/vvc"}, {"source": "plasma-cutting", "target": "plasma-cutting/accessories"}, {"source": "plasma-cutting/accessories", "target": "workshop/air-compressors"}, {"source": "plasma-cutting/accessories", "target": "plasma-cutting/gouging/carbons"}, {"source": "plasma-cutting/accessories", "target": "plasma-cutting/gouging/torches"}, {"source": "plasma-cutting/accessories", "target": "plasma-cutting/guides"}, {"source": "WAW", "target": "gas-oxy-fuel"}, {"source": "gas-oxy-fuel", "target": "gas-oxy-fuel/equipment"}, {"source": "gas-oxy-fuel/equipment", "target": "gas-oxy-fuel/sets"}, {"source": "gas-oxy-fuel/equipment", "target": "gas-oxy-fuel/torches/cutting"}, {"source": "gas-oxy-fuel/equipment", "target": "gas-oxy-fuel/nozzles/lightweight"}, {"source": "gas-oxy-fuel/equipment", "target": "gas-oxy-fuel/torches/oxy-acet"}, {"source": "gas-oxy-fuel/equipment", "target": "gas-oxy-fuel/torches/oxy-propane"}, {"source": "gas-oxy-fuel/equipment", "target": "gas-oxy-fuel/torches/components"}, {"source": "gas-oxy-fuel/equipment", "target": "gas-oxy-fuel/nozzles/welding"}, {"source": "gas-oxy-fuel", "target": "gas-oxy-fuel/rods"}, {"source": "gas-oxy-fuel/rods", "target": "gas-oxy-fuel/rods/aluminium"}, {"source": "gas-oxy-fuel/rods", "target": "gas-oxy-fuel/rods/brazing"}, {"source": "gas-oxy-fuel/rods", "target": "gas-oxy-fuel/rods/copper-phosphorus"}, {"source": "gas-oxy-fuel/rods", "target": "gas-oxy-fuel/disposable-cylinders"}, {"source": "gas-oxy-fuel/rods", "target": "gas-oxy-fuel/rods/silver-solder"}, {"source": "gas-oxy-fuel/rods", "target": "gas-oxy-fuel/rods/steel"}, {"source": "gas-oxy-fuel", "target": "gas-oxy-fuel/delivery"}, {"source": "gas-oxy-fuel/delivery", "target": "gas-oxy-fuel/regulators/co2"}, {"source": "gas-oxy-fuel/delivery", "target": "gas-oxy-fuel/flashback-arrestors"}, {"source": "gas-oxy-fuel/delivery", "target": "gas-oxy-fuel/regulators/fuel"}, {"source": "gas-oxy-fuel/delivery", "target": "gas-oxy-fuel/alarm-panels"}, {"source": "gas-oxy-fuel/delivery", "target": "gas-oxy-fuel/economisers"}, {"source": "gas-oxy-fuel/delivery", "target": "gas-oxy-fuel/regulators/high-pressure"}, {"source": "gas-oxy-fuel/delivery", "target": "gas-oxy-fuel/regulators/inert"}, {"source": "gas-oxy-fuel/delivery", "target": "gas-oxy-fuel/regulators/nevoc"}, {"source": "gas-oxy-fuel/delivery", "target": "gas-oxy-fuel/regulators/oxygen"}, {"source": "gas-oxy-fuel", "target": "gas-oxy-fuel/hoses"}, {"source": "gas-oxy-fuel/hoses", "target": "gas-oxy-fuel/hoses/argon"}, {"source": "gas-oxy-fuel/hoses", "target": "gas-oxy-fuel/cylinder-fittings"}, {"source": "gas-oxy-fuel/hoses", "target": "gas-oxy-fuel/outlet-points"}, {"source": "gas-oxy-fuel/hoses", "target": "gas-oxy-fuel/storage/cages"}, {"source": "gas-oxy-fuel/hoses", "target": "gas-oxy-fuel/storage/trolleys"}, {"source": "gas-oxy-fuel/hoses", "target": "gas-oxy-fuel/hoses/high-pressure"}, {"source": "gas-oxy-fuel/hoses", "target": "gas-oxy-fuel/fittings"}, {"source": "gas-oxy-fuel/hoses", "target": "gas-oxy-fuel/manifolds"}, {"source": "gas-oxy-fuel/hoses", "target": "gas-oxy-fuel/hoses/oxy-fuel"}, {"source": "gas-oxy-fuel/hoses", "target": "gas-oxy-fuel/hoses/twin"}, {"source": "WAW", "target": "wire-rods"}, {"source": "WAW", "target": "pipe"}, {"source": "pipe", "target": "workshop/pipe/stands"}, {"source": "workshop/pipe/stands", "target": "workshop/pipe/conveyors"}, {"source": "workshop/pipe/stands", "target": "workshop/pipe/rotators"}, {"source": "workshop/pipe/stands", "target": "workshop/pipe/stands/roller"}, {"source": "workshop/pipe/stands", "target": "workshop/pipe/stands/v-head"}, {"source": "pipe", "target": "workshop/pipe/clamps"}, {"source": "workshop/pipe/clamps", "target": "workshop/pipe/clamps/bridge"}, {"source": "workshop/pipe/clamps", "target": "workshop/pipe/clamps/cage"}, {"source": "workshop/pipe/clamps", "target": "workshop/pipe/clamps/chain"}, {"source": "workshop/pipe/clamps", "target": "workshop/pipe/clamps/ez-fit"}, {"source": "workshop/pipe/clamps", "target": "workshop/pipe/clamps/pdq"}, {"source": "workshop/pipe/clamps", "target": "workshop/pipe/clamps/pincer"}, {"source": "workshop/pipe/clamps", "target": "workshop/pipe/clamps/spider"}, {"source": "pipe", "target": "workshop/pipe/cutting"}, {"source": "workshop/pipe/cutting", "target": "workshop/pipe/saws/exact"}, {"source": "workshop/pipe/cutting", "target": "workshop/pipe/saws/gbc"}, {"source": "workshop/pipe/cutting", "target": "workshop/pipe/bevelling"}, {"source": "workshop/pipe/cutting", "target": "workshop/pipe/cutting-machines"}, {"source": "workshop/pipe/cutting", "target": "workshop/pipe/saws/tag"}, {"source": "pipe", "target": "workshop/pipe/accessories"}, {"source": "workshop/pipe/accessories", "target": "workshop/pipe/drain-plugs"}, {"source": "workshop/pipe/accessories", "target": "workshop/pipe/measuring"}, {"source": "workshop/pipe/accessories", "target": "workshop/pipe/purging"}, {"source": "workshop/pipe/accessories", "target": "workshop/pipe/pipe-wrap"}, {"source": "workshop/pipe/accessories", "target": "workshop/pipe/backing-tape"}, {"source": "WAW", "target": "machines"}, {"source": "machines", "target": "machines/welding"}, {"source": "machines/welding", "target": "machines/multi-process"}, {"source": "machines/welding", "target": "machines/spot-welders/pedestal"}, {"source": "machines/welding", "target": "machines/spot-welders/portable"}, {"source": "machines/welding", "target": "machines/stud-welders"}, {"source": "machines", "target": "machines/cutting"}, {"source": "machines/cutting", "target": "machines/saws/chop"}, {"source": "machines/cutting", "target": "machines/saws/circular"}, {"source": "machines/cutting", "target": "machines/magnetic-drills"}, {"source": "machines/cutting", "target": "machines/saws/pipe"}, {"source": "machines", "target": "machines/specialist"}, {"source": "machines/specialist", "target": "machines/broaching-cutters"}, {"source": "machines/specialist", "target": "machines/spot-welders/electrodes"}, {"source": "machines/specialist", "target": "machines/thermal-spray"}, {"source": "machines/specialist", "target": "machines/tool-balancers"}, {"source": "machines/specialist", "target": "tig-welding/tungsten-grinders"}, {"source": "machines", "target": "machines/power"}, {"source": "machines/power", "target": "machines/generators/servicing"}, {"source": "machines/power", "target": "machines/generators"}, {"source": "machines/power", "target": "machines/lighting-towers"}, {"source": "machines/power", "target": "machines/generators/mosa"}, {"source": "machines/power", "target": "machines/generators/spares"}, {"source": "machines/power", "target": "machines/generators/welder"}, {"source": "WAW", "target": "safety"}, {"source": "safety/helmets", "target": "safety/eye/air-fed"}, {"source": "safety/helmets", "target": "safety/helmets/auto-darkening"}, {"source": "safety/helmets", "target": "safety/eye/respirators"}, {"source": "safety/helmets", "target": "safety/eye/goggles"}, {"source": "safety/helmets", "target": "safety/eye/spectacles"}, {"source": "safety/helmets", "target": "safety/eye/visors"}, {"source": "safety/helmets", "target": "safety/helmets/spares"}, {"source": "safety/helmets", "target": "safety/helmets/masks"}, {"source": "safety", "target": "safety/clothing"}, {"source": "safety/clothing", "target": "safety/clothing/heat-reflective"}, {"source": "safety/clothing", "target": "safety/clothing/aprons"}, {"source": "safety/clothing", "target": "safety/clothing/capes"}, {"source": "safety/clothing", "target": "safety/clothing/caps"}, {"source": "safety/clothing", "target": "safety/clothing/jackets"}, {"source": "safety/clothing", "target": "safety/clothing/overalls"}, {"source": "safety/clothing", "target": "safety/clothing/trousers"}, {"source": "safety", "target": "safety/workspace"}, {"source": "safety/workspace", "target": "safety/fire-barrier"}, {"source": "safety/workspace", "target": "safety/tarpaulin"}, {"source": "safety/workspace", "target": "safety/spill-kits"}, {"source": "safety/workspace", "target": "safety/blankets"}, {"source": "safety/workspace", "target": "safety/screens"}, {"source": "safety/workspace", "target": "safety/screens/strip"}, {"source": "safety/workspace", "target": "safety/tents"}, {"source": "WAW", "target": "fume-extraction"}, {"source": "fume-extraction", "target": "safety/fume/kemper-mobile"}, {"source": "safety/fume/kemper-mobile", "target": "safety/fume/kemper-hi-vac"}, {"source": "safety/fume/kemper-mobile", "target": "safety/fume/kemper-spares"}, {"source": "fume-extraction", "target": "safety/fume/kemper-tower"}, {"source": "safety/fume/kemper-tower", "target": "safety/fume/kemper-air-purifying"}, {"source": "safety/fume/kemper-tower", "target": "safety/fume/kemper-airwatch"}, {"source": "safety/fume/kemper-tower", "target": "safety/fume/kemper-tables"}, {"source": "safety/fume/kemper-tower", "target": "safety/fume/kemper-static"}, {"source": "fume-extraction", "target": "safety/fume/f-tech"}, {"source": "fume-extraction", "target": "safety/fume/on-torch"}, {"source": "safety/fume/on-torch", "target": "safety/fume/bench-top"}, {"source": "safety/fume/on-torch", "target": "safety/fume/kemper-on-torch"}, {"source": "safety/fume/on-torch", "target": "safety/fume/wsl-on-torch"}, {"source": "WAW", "target": "workshop"}, {"source": "workshop", "target": "workshop/benches"}, {"source": "workshop/benches", "target": "workshop/benches/accessories"}, {"source": "workshop/benches", "target": "workshop/benches/heavy-duty"}, {"source": "workshop/benches", "target": "workshop/benches/medium-duty"}, {"source": "workshop/benches", "target": "workshop/benches/mobile"}, {"source": "workshop/benches", "target": "workshop/benches/stainless"}, {"source": "workshop/benches", "target": "workshop/benches/super-heavy"}, {"source": "workshop", "target": "workshop/air-tools"}, {"source": "workshop/air-tools", "target": "workshop/air-tools/grinders"}, {"source": "workshop/air-tools", "target": "workshop/air-tools/die-grinders"}, {"source": "workshop/air-tools", "target": "workshop/air-tools/drills"}, {"source": "workshop/air-tools", "target": "workshop/air-tools/hoses"}, {"source": "workshop/air-tools", "target": "workshop/air-tools/impact-wrenches"}, {"source": "workshop/air-tools", "target": "workshop/air-tools/needle-scalers"}, {"source": "workshop/air-tools", "target": "workshop/air-tools/ratchet-wrenches"}, {"source": "workshop/air-tools", "target": "workshop/air-tools/riveters"}, {"source": "workshop/air-tools", "target": "workshop/air-tools/sanders"}, {"source": "workshop/air-tools", "target": "workshop/air-tools/screwdrivers"}, {"source": "workshop/air-tools", "target": "workshop/compressors/belt-driven"}, {"source": "workshop/air-tools", "target": "workshop/compressors/direct-drive"}, {"source": "workshop/air-tools", "target": "workshop/compressors/low-noise"}, {"source": "workshop/air-tools", "target": "workshop/air-tools/paint-guns"}, {"source": "workshop/air-tools", "target": "workshop/compressors/petrol"}, {"source": "workshop/air-tools", "target": "workshop/compressors/air-dryers"}, {"source": "workshop/air-tools", "target": "workshop/compressors/screw"}, {"source": "workshop", "target": "workshop/tools"}, {"source": "workshop/tools", "target": "workshop/tools/cable-reels"}, {"source": "workshop/tools", "target": "workshop/positioners"}, {"source": "workshop/tools", "target": "workshop/tools/temp-pens"}, {"source": "workshop/tools", "target": "workshop/tools/kits"}, {"source": "workshop/tools", "target": "workshop/tools/gauges"}, {"source": "workshop", "target": "workshop/chemicals"}, {"source": "workshop/chemicals", "target": "workshop/devcon"}, {"source": "workshop/chemicals", "target": "workshop/consumables/ceramics"}, {"source": "WAW", "target": "abrasives"}, {"source": "abrasives", "target": "abrasives/cutting-grinding"}, {"source": "abrasives/cutting-grinding", "target": "workshop/abrasives/cutting"}, {"source": "abrasives/cutting-grinding", "target": "workshop/abrasives/grinding"}, {"source": "abrasives", "target": "abrasives/finishing"}, {"source": "abrasives/finishing", "target": "workshop/abrasives/ceramic-flap"}, {"source": "abrasives/finishing", "target": "workshop/abrasives/flap"}, {"source": "abrasives/finishing", "target": "workshop/abrasives/sanding"}, {"source": "abrasives", "target": "abrasives/accessories"}, {"source": "abrasives/accessories", "target": "workshop/abrasives/backing-pads"}, {"source": "abrasives/accessories", "target": "workshop/abrasives/wire-brushes"}, {"source": "WAW", "target": "brands"}, {"source": "brands", "target": "brands/gas-arc"}, {"source": "brands", "target": "brands/jasic"}, {"source": "brands", "target": "brands/kemper"}, {"source": "brands", "target": "brands/parweld"}, {"source": "brands", "target": "brands/sif-weldability"}, {"source": "brands", "target": "brands/binzel"}, {"source": "brands", "target": "brands/devcon"}, {"source": "brands", "target": "brands/exact"}, {"source": "brands", "target": "brands/f-tech"}, {"source": "brands", "target": "brands/magswitch"}, {"source": "brands", "target": "brands/mosa"}, {"source": "brands", "target": "brands/newarc"}, {"source": "brands", "target": "brands/swp"}, {"source": "brands", "target": "brands/tag"}, {"source": "brands", "target": "brands/tecna"}, {"source": "brands", "target": "brands/thermal-dynamics"}, {"source": "brands", "target": "brands/weldstar"}, {"source": "brands", "target": "brands/wsl"}, {"source": "WAW", "target": "uncategorised"}]};
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const levelColors = {
+  '-1': '#ffffff',
+  '0': '#d32f2f',
+  '1': '#42a5f5',
+  '2': '#66bb6a'
+};
+
+const levelNames = {
+  '-1': 'Root',
+  '0': 'Top-Level (13)',
+  '1': 'Column Headings',
+  '2': 'Leaf Categories'
+};
+
+// Build legend
+const legend = document.getElementById('legend');
+Object.entries(levelNames).forEach(([level, name]) => {
+  if (level === '-1') return;
+  const item = document.createElement('div');
+  item.className = 'legend-item';
+  item.innerHTML = `<span class="legend-dot" style="background:${levelColors[level]}"></span>${name}`;
+  legend.appendChild(item);
+});
+
+const svg = d3.select('#graph')
+  .attr('width', width)
+  .attr('height', height);
+
+const g = svg.append('g');
+
+// Zoom
+const zoom = d3.zoom()
+  .scaleExtent([0.15, 5])
+  .on('zoom', (e) => g.attr('transform', e.transform));
+svg.call(zoom);
+
+// Scale node radius by product count
+const maxCount = d3.max(graphData.nodes, d => d.count) || 1;
+const radiusScale = d3.scaleSqrt().domain([0, maxCount]).range([4, 45]);
+
+// Simulation
+const simulation = d3.forceSimulation(graphData.nodes)
+  .force('link', d3.forceLink(graphData.links).id(d => d.id).distance(d => {
+    const src = graphData.nodes.find(n => n.id === (typeof d.source === 'object' ? d.source.id : d.source));
+    if (!src) return 80;
+    if (src.level === -1) return 200;
+    if (src.level === 0) return 120;
+    return 60;
+  }).strength(0.6))
+  .force('charge', d3.forceManyBody().strength(d => {
+    if (d.level === -1) return -800;
+    if (d.level === 0) return -400;
+    if (d.level === 1) return -150;
+    return -60;
+  }))
+  .force('center', d3.forceCenter(width / 2, height / 2))
+  .force('collision', d3.forceCollide().radius(d => radiusScale(d.count) + 3))
+  .force('x', d3.forceX(width / 2).strength(0.03))
+  .force('y', d3.forceY(height / 2).strength(0.03));
+
+// Draw links
+const link = g.append('g')
+  .selectAll('line')
+  .data(graphData.links)
+  .enter().append('line')
+  .attr('class', 'link')
+  .attr('stroke', '#4a5568')
+  .attr('stroke-width', 1);
+
+// Draw nodes
+const nodeGroup = g.append('g')
+  .selectAll('g')
+  .data(graphData.nodes)
+  .enter().append('g')
+  .call(d3.drag()
+    .on('start', dragstarted)
+    .on('drag', dragged)
+    .on('end', dragended));
+
+nodeGroup.append('circle')
+  .attr('class', 'node-circle')
+  .attr('r', d => radiusScale(d.count))
+  .attr('fill', d => {
+    if (d.id === 'uncategorised') return '#6b7280';
+    return levelColors[d.level] || '#999';
+  })
+  .attr('stroke', d => {
+    if (d.id === 'uncategorised') return '#9ca3af';
+    return d3.color(levelColors[d.level] || '#999').brighter(0.8);
+  })
+  .attr('fill-opacity', d => d.count > 0 ? 0.85 : 0.4)
+  .on('mouseover', showTooltip)
+  .on('mousemove', moveTooltip)
+  .on('mouseout', hideTooltip)
+  .on('click', highlightBranch);
+
+// Labels for nodes with products or level <= 1
+nodeGroup.append('text')
+  .attr('class', 'node-label')
+  .attr('dy', d => radiusScale(d.count) + 12)
+  .text(d => {
+    if (d.level <= 0 || d.count >= 20) {
+      let label = d.name;
+      if (label.length > 22) label = label.substring(0, 20) + '...';
+      return d.count > 0 ? `${label} (${d.count})` : label;
+    }
+    return '';
+  })
+  .attr('font-size', d => d.level <= 0 ? '11px' : '9px')
+  .attr('font-weight', d => d.level <= 0 ? '700' : '400');
+
+simulation.on('tick', () => {
+  link
+    .attr('x1', d => d.source.x)
+    .attr('y1', d => d.source.y)
+    .attr('x2', d => d.target.x)
+    .attr('y2', d => d.target.y);
+
+  nodeGroup.attr('transform', d => `translate(${d.x},${d.y})`);
+});
+
+// Tooltip
+const tooltip = document.getElementById('tooltip');
+function showTooltip(event, d) {
+  tooltip.style.display = 'block';
+  tooltip.querySelector('.tt-name').textContent = d.name;
+  tooltip.querySelector('.tt-path').textContent = d.id === 'WAW' ? 'Root' : '/' + d.id;
+  tooltip.querySelector('.tt-count').textContent = d.count > 0 ? d.count + ' products' : 'No products directly assigned';
+  moveTooltip(event);
+}
+function moveTooltip(event) {
+  let x = event.clientX + 16;
+  let y = event.clientY - 10;
+  if (x + 250 > width) x = event.clientX - 260;
+  if (y + 80 > height) y = event.clientY - 80;
+  tooltip.style.left = x + 'px';
+  tooltip.style.top = y + 'px';
+}
+function hideTooltip() { tooltip.style.display = 'none'; }
+
+// Highlight branch on click
+let highlighted = null;
+function highlightBranch(event, d) {
+  if (highlighted === d.id) {
+    // Reset
+    highlighted = null;
+    nodeGroup.selectAll('circle').attr('opacity', 1);
+    nodeGroup.selectAll('text').attr('opacity', 1);
+    link.attr('opacity', 1);
+    return;
+  }
+  highlighted = d.id;
+  
+  // Find all connected nodes (descendants)
+  const connected = new Set([d.id]);
+  function findChildren(parentId) {
+    graphData.links.forEach(l => {
+      const src = typeof l.source === 'object' ? l.source.id : l.source;
+      const tgt = typeof l.target === 'object' ? l.target.id : l.target;
+      if (src === parentId && !connected.has(tgt)) {
+        connected.add(tgt);
+        findChildren(tgt);
+      }
+    });
+  }
+  // Also find ancestors
+  function findParents(childId) {
+    graphData.links.forEach(l => {
+      const src = typeof l.source === 'object' ? l.source.id : l.source;
+      const tgt = typeof l.target === 'object' ? l.target.id : l.target;
+      if (tgt === childId && !connected.has(src)) {
+        connected.add(src);
+        findParents(src);
+      }
+    });
+  }
+  findChildren(d.id);
+  findParents(d.id);
+  
+  nodeGroup.selectAll('circle').attr('opacity', n => connected.has(n.id) ? 1 : 0.08);
+  nodeGroup.selectAll('text').attr('opacity', n => connected.has(n.id) ? 1 : 0.08);
+  link.attr('opacity', l => {
+    const src = typeof l.source === 'object' ? l.source.id : l.source;
+    const tgt = typeof l.target === 'object' ? l.target.id : l.target;
+    return connected.has(src) && connected.has(tgt) ? 1 : 0.05;
+  });
+}
+
+// Drag
+function dragstarted(event, d) {
+  if (!event.active) simulation.alphaTarget(0.3).restart();
+  d.fx = d.x; d.fy = d.y;
+}
+function dragged(event, d) { d.fx = event.x; d.fy = event.y; }
+function dragended(event, d) {
+  if (!event.active) simulation.alphaTarget(0);
+  d.fx = null; d.fy = null;
+}
+
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const level = btn.dataset.level;
+    
+    if (level === 'all') {
+      nodeGroup.selectAll('circle').attr('opacity', 1);
+      nodeGroup.selectAll('text').attr('opacity', 1);
+      link.attr('opacity', 1);
+      highlighted = null;
+    } else {
+      const lvl = parseInt(level);
+      // Show selected level + root + parents
+      nodeGroup.selectAll('circle').attr('opacity', d => d.level <= lvl || d.level === -1 ? 1 : 0.08);
+      nodeGroup.selectAll('text').attr('opacity', d => d.level <= lvl || d.level === -1 ? 1 : 0.08);
+      link.attr('opacity', l => {
+        const tgt = typeof l.target === 'object' ? l.target : graphData.nodes.find(n => n.id === l.target);
+        return tgt && tgt.level <= lvl ? 0.5 : 0.03;
+      });
+    }
+  });
+});
+
+// Stats
+const totalProducts = graphData.nodes.reduce((s, n) => s + (n.level >= 0 ? n.count : 0), 0);
+const catWithProducts = graphData.nodes.filter(n => n.count > 0 && n.level >= 0).length;
+document.getElementById('stats').innerHTML =
+  `${graphData.nodes.length} nodes &middot; ${catWithProducts} with products &middot; ${totalProducts.toLocaleString()} product assignments`;
+
+// Initial zoom to fit
+setTimeout(() => {
+  svg.transition().duration(800).call(
+    zoom.transform,
+    d3.zoomIdentity.translate(width/2, height/2).scale(0.6).translate(-width/2, -height/2)
+  );
+}, 1500);
+</script>
+</body>
+</html>
