@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { menuItems } from "../data/menuData";
 
@@ -8,8 +8,34 @@ export default function MegaMenu() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<number | null>(null);
+  const [viewMode, setViewMode] = useState<"list" | "grid">("list");
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
+
+  const downloadExcel = useCallback(() => {
+    const rows: string[][] = [["Category", "Sub-Category", "Item", "URL"]];
+    menuItems.forEach((item) => {
+      if (item.children) {
+        item.children.forEach((col) => {
+          rows.push([item.label, col.heading, "", col.href]);
+          col.items.forEach((link) => {
+            rows.push([item.label, col.heading, link.label, link.href]);
+          });
+        });
+      } else {
+        rows.push([item.label, "", "", item.href]);
+      }
+    });
+    const csv = rows.map((r) => r.map((c) => `"${c.replace(/"/g, '""')}"`).join(",")).join("\n");
+    const BOM = "\uFEFF";
+    const blob = new Blob([BOM + csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "navigation-structure.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  }, []);
 
   const handleMouseEnter = (index: number) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -47,6 +73,16 @@ export default function MegaMenu() {
             <Link href="/migration" className="hover:text-[#d32f2f] transition-colors font-bold text-[#d32f2f]">
               Migration Plan
             </Link>
+            <span className="text-gray-300">|</span>
+            <button
+              onClick={downloadExcel}
+              className="hover:text-[#d32f2f] transition-colors flex items-center gap-1"
+            >
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Download Nav
+            </button>
             <span className="text-gray-300">|</span>
             <Link href="/contact" className="hover:text-[#d32f2f] transition-colors">
               Contact Us
@@ -197,7 +233,7 @@ export default function MegaMenu() {
               >
                 <Link
                   href={item.href}
-                  className={`flex items-center justify-center gap-0.5 h-full px-2 lg:px-3 xl:px-4 py-3 text-white text-[9px] lg:text-[10px] xl:text-[11px] font-bold uppercase tracking-normal transition-colors text-center whitespace-nowrap ${
+                  className={`flex items-center justify-center gap-1 h-full px-2.5 lg:px-4 xl:px-5 py-3.5 text-white text-[11px] lg:text-xs xl:text-[13px] font-bold uppercase tracking-wide transition-colors text-center whitespace-nowrap ${
                     openIndex === i
                       ? "bg-[#d32f2f]"
                       : "hover:bg-white/10"
@@ -211,7 +247,7 @@ export default function MegaMenu() {
                   )}
                   {item.children && (
                     <svg
-                      className={`w-2.5 h-2.5 transition-transform flex-shrink-0 ${
+                      className={`w-3 h-3 transition-transform flex-shrink-0 ${
                         openIndex === i ? "rotate-180" : ""
                       }`}
                       fill="none"
@@ -241,39 +277,135 @@ export default function MegaMenu() {
             onMouseLeave={handleMouseLeave}
           >
             <div className="max-w-7xl mx-auto px-6 py-8">
-              <div
-                className="grid gap-8"
-                style={{
-                  gridTemplateColumns: `repeat(${menuItems[openIndex].children!.length}, 1fr)`,
-                }}
-              >
-                {menuItems[openIndex].children!.map((col, ci) => (
-                  <div key={ci}>
-                    <Link
-                      href={col.href}
-                      className="text-[#1a2456] font-bold text-sm uppercase tracking-wide border-b-2 border-[#d32f2f] pb-2 mb-3 min-h-[2.75rem] flex items-end hover:text-[#d32f2f] transition-colors"
-                    >
-                      {col.heading}
-                    </Link>
-                    <ul className="space-y-1.5 mt-3">
-                      {col.items.map((link, li) => (
-                        <li key={li}>
-                          <Link
-                            href={link.href}
-                            className={`text-sm hover:text-[#d32f2f] transition-colors block py-0.5 ${
-                              link.label.startsWith("View All")
-                                ? "font-semibold text-[#1a2456] mt-2 border border-[#1a2456] rounded px-3 py-1.5 text-center hover:bg-[#1a2456] hover:text-white"
-                                : "text-gray-600"
-                            }`}
-                          >
-                            {link.label}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
+              {/* View mode toggle */}
+              <div className="flex justify-end mb-4">
+                <div className="flex items-center bg-gray-100 rounded-md p-0.5">
+                  <button
+                    onClick={() => setViewMode("list")}
+                    className={`p-1.5 rounded transition-colors ${
+                      viewMode === "list"
+                        ? "bg-white shadow-sm text-[#1a2456]"
+                        : "text-gray-400 hover:text-gray-600"
+                    }`}
+                    aria-label="List view"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={() => setViewMode("grid")}
+                    className={`p-1.5 rounded transition-colors ${
+                      viewMode === "grid"
+                        ? "bg-white shadow-sm text-[#1a2456]"
+                        : "text-gray-400 hover:text-gray-600"
+                    }`}
+                    aria-label="Grid view"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm10 0a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zm10 0a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
+                    </svg>
+                  </button>
+                </div>
               </div>
+
+              {/* List view */}
+              {viewMode === "list" && (
+                <div
+                  className="grid gap-8"
+                  style={{
+                    gridTemplateColumns: `repeat(${menuItems[openIndex].children!.length}, 1fr)`,
+                  }}
+                >
+                  {[...menuItems[openIndex].children!]
+                    .sort((a, b) => a.heading.localeCompare(b.heading))
+                    .map((col, ci) => (
+                    <div key={ci}>
+                      <Link
+                        href={col.href}
+                        className="text-[#1a2456] font-bold text-sm uppercase tracking-wide border-b-2 border-[#d32f2f] pb-2 mb-3 min-h-[2.75rem] flex items-end hover:text-[#d32f2f] transition-colors"
+                      >
+                        {col.heading}
+                      </Link>
+                      <ul className="space-y-1.5 mt-3">
+                        {[...col.items].sort((a, b) => a.label.localeCompare(b.label)).map((link, li) => (
+                          <li key={li}>
+                            <Link
+                              href={link.href}
+                              className={`text-sm hover:text-[#d32f2f] transition-colors block py-0.5 ${
+                                link.label.startsWith("View All")
+                                  ? "font-semibold text-[#1a2456] mt-2 border border-[#1a2456] rounded px-3 py-1.5 text-center hover:bg-[#1a2456] hover:text-white"
+                                  : "text-gray-600"
+                              }`}
+                            >
+                              {link.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Grid view */}
+              {viewMode === "grid" && (
+                <div className="space-y-5">
+                  {menuItems[openIndex].children!.map((col, ci) => {
+                    const sortedItems = [...col.items].sort((a, b) => a.label.localeCompare(b.label));
+                    return (
+                      <div key={ci}>
+                        {ci > 0 && <hr className="border-gray-200 mb-5" />}
+                        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-x-3 gap-y-4">
+                          <Link
+                            href={col.href}
+                            className="group flex flex-col items-center text-center"
+                          >
+                            <div className="w-full aspect-square bg-[#eef0f6] border border-[#1a2456]/20 rounded flex items-center justify-center p-2 mb-1.5 group-hover:border-[#1a2456]/40 transition-colors">
+                              {col.image ? (
+                                <img src={col.image} alt={col.heading} className="max-w-full max-h-full object-contain" />
+                              ) : (
+                                <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-10 h-10 text-gray-300">
+                                  <rect x="8" y="28" width="48" height="28" rx="3" strokeLinecap="round" strokeLinejoin="round" />
+                                  <path d="M20 28V16a12 12 0 0 1 24 0v12" strokeLinecap="round" strokeLinejoin="round" />
+                                  <circle cx="32" cy="42" r="4" />
+                                  <path d="M32 46v4" strokeLinecap="round" />
+                                </svg>
+                              )}
+                            </div>
+                            <span className="text-[11px] font-extrabold text-[#1a2456] leading-tight group-hover:text-[#d32f2f] transition-colors">
+                              {col.heading}
+                            </span>
+                          </Link>
+                          {sortedItems.map((link, li) => (
+                            <Link
+                              key={li}
+                              href={link.href}
+                              className="group flex flex-col items-center text-center"
+                            >
+                              <div className="w-full aspect-square bg-[#f5f5f5] border border-gray-200 rounded flex items-center justify-center p-2 mb-1.5 group-hover:border-gray-400 transition-colors">
+                                {link.image ? (
+                                  <img src={link.image} alt={link.label} className="max-w-full max-h-full object-contain" />
+                                ) : (
+                                  <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-10 h-10 text-gray-300">
+                                    <rect x="8" y="28" width="48" height="28" rx="3" strokeLinecap="round" strokeLinejoin="round" />
+                                    <path d="M20 28V16a12 12 0 0 1 24 0v12" strokeLinecap="round" strokeLinejoin="round" />
+                                    <circle cx="32" cy="42" r="4" />
+                                    <path d="M32 46v4" strokeLinecap="round" />
+                                  </svg>
+                                )}
+                              </div>
+                              <span className="text-[11px] font-bold text-gray-700 leading-tight group-hover:text-[#d32f2f] transition-colors">
+                                {link.label}
+                              </span>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
             {/* Need Some Help Banner */}
             <div className="bg-[#1a2456] px-6 py-4 flex items-center justify-between">
