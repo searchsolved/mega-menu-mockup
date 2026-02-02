@@ -519,46 +519,51 @@ export default function MegaMenu() {
           <ul>
             {menuItems.map((item, i) => (
               <li key={i} className="border-b border-gray-100">
-                <div className="flex items-center justify-between">
-                  <Link
-                    href={item.href}
-                    className="flex-1 px-4 py-3 text-sm font-bold text-[#1a2456] uppercase"
-                    onClick={() => setMobileOpen(false)}
-                  >
+                <button
+                  className="flex items-center justify-between w-full px-4 py-3 text-left"
+                  onClick={() => {
+                    if (item.children) {
+                      setMobileExpanded(mobileExpanded === i ? null : i);
+                    } else {
+                      setMobileOpen(false);
+                    }
+                  }}
+                >
+                  <span className="text-sm font-bold text-[#1a2456] uppercase">
                     {item.label}
                     {item.badge && (
                       <span className="bg-[#d32f2f] text-white text-[10px] font-bold px-1.5 py-0.5 rounded ml-2">
                         {item.badge}
                       </span>
                     )}
-                  </Link>
+                  </span>
                   {item.children && (
-                    <button
-                      className="px-4 py-3 text-gray-500"
-                      onClick={() =>
-                        setMobileExpanded(mobileExpanded === i ? null : i)
-                      }
+                    <svg
+                      className={`w-4 h-4 text-gray-500 transition-transform ${
+                        mobileExpanded === i ? "rotate-180" : ""
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
                     >
-                      <svg
-                        className={`w-4 h-4 transition-transform ${
-                          mobileExpanded === i ? "rotate-180" : ""
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </button>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
                   )}
-                </div>
+                </button>
                 {mobileExpanded === i && item.children && (
                   <div className="bg-gray-50 px-4 pb-4">
+                    <Link
+                      href={item.href}
+                      className="block py-2 text-xs font-bold text-[#d32f2f] uppercase tracking-wide"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      View All {item.label} →
+                    </Link>
                     {item.children.map((col, ci) => (
                       <div key={ci} className="mt-3">
                         <Link
