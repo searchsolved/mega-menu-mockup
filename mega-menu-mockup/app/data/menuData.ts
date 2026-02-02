@@ -21,7 +21,7 @@ export interface MenuColumn {
 export const menuItems: MenuItem[] = [
   // 1. MIG
   {
-    label: "MIG",
+    label: "MIG Welding",
     href: "/mig-welding",
     children: [
       {
@@ -82,7 +82,7 @@ export const menuItems: MenuItem[] = [
   },
   // 2. TIG
   {
-    label: "TIG",
+    label: "TIG Welding",
     href: "/tig-welding",
     children: [
       {
@@ -149,7 +149,7 @@ export const menuItems: MenuItem[] = [
   },
   // 3. ARC
   {
-    label: "ARC",
+    label: "Arc Welding",
     href: "/arc-mma",
     children: [
       {
@@ -277,7 +277,7 @@ export const menuItems: MenuItem[] = [
   },
   // 5. WIRE & RODS
   {
-    label: "WIRE & RODS",
+    label: "Welding Wire & Rods",
     href: "/wire-rods",
     children: [
       {
@@ -343,7 +343,7 @@ export const menuItems: MenuItem[] = [
   },
   // 6. GAS
   {
-    label: "GAS",
+    label: "Gas & Regulators",
     href: "/gas-oxy-fuel",
     children: [
       {
@@ -461,7 +461,7 @@ export const menuItems: MenuItem[] = [
   },
   // 8. SAFETY & PPE
   {
-    label: "SAFETY & PPE",
+    label: "Welding PPE",
     href: "/safety",
     children: [
       {
@@ -667,7 +667,7 @@ export const menuItems: MenuItem[] = [
   },
   // 11. PIPE
   {
-    label: "PIPE",
+    label: "Pipe Welding",
     href: "/workshop/pipe",
     children: [
       {
