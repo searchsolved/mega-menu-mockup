@@ -217,7 +217,65 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
-  // 4. CUTTING
+  // 4. PIPE
+  {
+    label: "Pipe Welding",
+    href: "/workshop/pipe",
+    children: [
+      {
+        heading: "Pipe Stands & Handling",
+        href: "/workshop/pipe/stands",
+        image: "https://images.unsplash.com/photo-1626845447936-eb4f45fbbf69?w=200&h=200&fit=crop&auto=format",
+        items: [
+          { label: "Pipe Conveyors", href: "/workshop/pipe/conveyors", image: "https://images.unsplash.com/photo-1724188263707-a86a1c873a60?w=200&h=200&fit=crop&auto=format" },
+          { label: "Pipe Rotators", href: "/workshop/pipe/rotators", image: "https://images.unsplash.com/photo-1586333109867-812586269a58?w=200&h=200&fit=crop&auto=format" },
+          { label: "Roller Stands", href: "/workshop/pipe/stands/roller", image: "https://images.unsplash.com/photo-1731397980374-c26ef55f08a8?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "AMA Roller Pipe Stands", href: "/workshop/pipe/stands/roller/ama-roller-pipe-stands" }, { label: "Double Roll Pipe Stands", href: "/workshop/pipe/stands/roller/double-roll-pipe-stands" }, { label: "Floor Mounted Roller Stands", href: "/workshop/pipe/stands/roller/floor-mounted-roller-stands" }, { label: "Mega-Pipe Stands", href: "/workshop/pipe/stands/roller/mega-pipe-stands" }, { label: "Multi-Stand Pipe Stands", href: "/workshop/pipe/stands/roller/multi-stand-pipe-stands" }, { label: "Pipe Roller Stands", href: "/workshop/pipe/stands/roller/pipe-roller-stands" }, { label: "Roller Pipe Stands", href: "/workshop/pipe/stands/roller/roller-pipe-stands" }] },
+          { label: "V-Head Stands", href: "/workshop/pipe/stands/v-head", image: "https://images.unsplash.com/photo-1654076847645-b72b3b66d576?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Five Leg Pipe Stands", href: "/workshop/pipe/stands/v-head/five-leg-pipe-stands" }, { label: "Quattro Pipe Stands", href: "/workshop/pipe/stands/v-head/quattro-pipe-stands" }, { label: "Single Tube Pipe Stands", href: "/workshop/pipe/stands/v-head/single-tube-pipe-stands" }, { label: "Tri-Stands & Pipe Jacks", href: "/workshop/pipe/stands/v-head/tri-stands-and-pipe-jacks" }, { label: "V Head Stands", href: "/workshop/pipe/stands/v-head/v-head-stands" }] },
+        ],
+      },
+      {
+        heading: "Pipe Welding Clamps",
+        href: "/workshop/pipe/clamps",
+        image: "https://images.unsplash.com/photo-1701952711272-ec97bb9cf95d?w=200&h=200&fit=crop&auto=format",
+        items: [
+          { label: "Bridge Clamps", href: "/workshop/pipe/clamps/bridge", image: "https://images.unsplash.com/photo-1701448150058-43d6d199b103?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Black Bridge Clamps", href: "/workshop/pipe/clamps/bridge/black-bridge-clamps" }, { label: "Gold Bridge Alignment Clamps", href: "/workshop/pipe/clamps/bridge/gold-bridge-alignment-clamps" }] },
+          { label: "Cage Clamps", href: "/workshop/pipe/clamps/cage", image: "https://images.unsplash.com/photo-1759064776046-45b988af4b6d?w=200&h=200&fit=crop&auto=format" },
+          { label: "Chain Clamps", href: "/workshop/pipe/clamps/chain", image: "https://images.unsplash.com/photo-1506902039157-1a7e7374b077?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Chain Pipe Alignment Clamps", href: "/workshop/pipe/clamps/chain/chain-pipe-alignment-clamps" }, { label: "Double Chain Pipe Clamps", href: "/workshop/pipe/clamps/chain/double-chain-pipe-clamps" }, { label: "Single Chain Pipe Clamps", href: "/workshop/pipe/clamps/chain/single-chain-pipe-clamps" }] },
+          { label: "E-Z Fit Clamps", href: "/workshop/pipe/clamps/ez-fit", image: "https://images.unsplash.com/photo-1701448149957-b96dbd1926ff?w=200&h=200&fit=crop&auto=format" },
+          { label: "PDQ Clamps", href: "/workshop/pipe/clamps/pdq", image: "https://images.unsplash.com/photo-1727373203627-73457889fe0f?w=200&h=200&fit=crop&auto=format" },
+          { label: "Pincer Clamps", href: "/workshop/pipe/clamps/pincer", image: "https://images.unsplash.com/photo-1497369573176-0ceb5353817d?w=200&h=200&fit=crop&auto=format" },
+          { label: "Spider Clamps", href: "/workshop/pipe/clamps/spider", image: "https://images.unsplash.com/photo-1626845447936-eb4f45fbbf69?w=200&h=200&fit=crop&auto=format" },
+        ],
+      },
+      {
+        heading: "Pipe Cutting & Preparation",
+        href: "/workshop/pipe/cutting",
+        image: "https://images.unsplash.com/photo-1724188263707-a86a1c873a60?w=200&h=200&fit=crop&auto=format",
+        items: [
+          { label: "Exact Pipe Saws", href: "/workshop/pipe/saws/exact", image: "https://images.unsplash.com/photo-1586333109867-812586269a58?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "140mm Saw Blades & Diamond Cutting Discs", href: "/workshop/pipe/saws/exact/140mm-saw-blades-and-diamond-cutting-discs" }, { label: "165mm Saw Blades & Diamond Cutting Discs", href: "/workshop/pipe/saws/exact/165mm-saw-blades-and-diamond-cutting-discs" }, { label: "Exact 170 Pipe Cutting Benches", href: "/workshop/pipe/saws/exact/exact-170-pipe-cutting-benches" }, { label: "Exact PipeCut for Cutting Spiral Ducting", href: "/workshop/pipe/saws/exact/exact-pipecut-for-cutting-spiral-ducting" }, { label: "Exact Saw Blades", href: "/workshop/pipe/saws/exact/exact-saw-blades" }, { label: "Pipe Bench System Accessories", href: "/workshop/pipe/saws/exact/pipe-bench-system-accessories" }, { label: "Special Blades", href: "/workshop/pipe/saws/exact/special-blades" }] },
+          { label: "GBC Pipe Saws", href: "/workshop/pipe/saws/gbc", image: "https://images.unsplash.com/photo-1731397980374-c26ef55f08a8?w=200&h=200&fit=crop&auto=format" },
+          { label: "Pipe Bevelling Machines", href: "/workshop/pipe/bevelling", image: "https://images.unsplash.com/photo-1654076847645-b72b3b66d576?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Pipe Bevelling Machines & Tools", href: "/workshop/pipe/bevelling/pipe-bevelling-machines-and-tools" }, { label: "Pipe Prep Blades", href: "/workshop/pipe/bevelling/pipe-prep-blades" }, { label: "Prep 2 Pipe Preparation Machines", href: "/workshop/pipe/bevelling/prep-2-pipe-preparation-machines" }, { label: "Prep 3 Pipe Preparation Machines", href: "/workshop/pipe/bevelling/prep-3-pipe-preparation-machines" }, { label: "Prep 4 Pipe Preparation Machines", href: "/workshop/pipe/bevelling/prep-4-pipe-preparation-machines" }, { label: "Prep 8 Pipe Preparation Machines", href: "/workshop/pipe/bevelling/prep-8-pipe-preparation-machines" }] },
+          { label: "Pipe Cutting Machine Spares", href: "/workshop/pipe/cutting-machines/spares", image: "https://images.unsplash.com/photo-1701952711272-ec97bb9cf95d?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Automatic Pipe Cutting Machine Spares", href: "/workshop/pipe/cutting-machines/spares/automatic-pipe-cutting-machine-spares" }, { label: "Magnetic Pipe Cutting Machine Spares", href: "/workshop/pipe/cutting-machines/spares/magnetic-pipe-cutting-machine-spares" }, { label: "Manual Pipe Cutting Machine Spares", href: "/workshop/pipe/cutting-machines/spares/manual-pipe-cutting-machine-spares" }] },
+          { label: "Pipe Cutting Machines", href: "/workshop/pipe/cutting-machines", image: "https://images.unsplash.com/photo-1701448150058-43d6d199b103?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Automatic Pipe Cutting Machines", href: "/workshop/pipe/cutting-machines/automatic-pipe-cutting-machines" }, { label: "Magnetic Pipe Cutting Machines", href: "/workshop/pipe/cutting-machines/magnetic-pipe-cutting-machines" }] },
+          { label: "Pipe Saw Spares & Supports", href: "/workshop/pipe/saws/spares", image: "https://images.unsplash.com/photo-1759064776046-45b988af4b6d?w=200&h=200&fit=crop&auto=format" },
+          { label: "TAG Pipe Saws", href: "/workshop/pipe/saws/tag", image: "https://images.unsplash.com/photo-1506902039157-1a7e7374b077?w=200&h=200&fit=crop&auto=format" },
+        ],
+      },
+      {
+        heading: "Pipe Welding Accessories",
+        href: "/workshop/pipe/accessories",
+        image: "https://images.unsplash.com/photo-1701448149957-b96dbd1926ff?w=200&h=200&fit=crop&auto=format",
+        items: [
+          { label: "Drain Test Plugs", href: "/workshop/pipe/drain-plugs", image: "https://images.unsplash.com/photo-1727373203627-73457889fe0f?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Drain Test Plugs & Stoppers", href: "/workshop/pipe/drain-plugs/drain-test-plugs-and-stoppers" }, { label: "Hollow Bore Drain Test Plugs", href: "/workshop/pipe/drain-plugs/hollow-bore-drain-test-plugs" }, { label: "Nylon Drain Test Plugs", href: "/workshop/pipe/drain-plugs/nylon-drain-test-plugs" }] },
+          { label: "Measuring & Marking Tools", href: "/workshop/pipe/measuring", image: "https://images.unsplash.com/photo-1497369573176-0ceb5353817d?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Contour Markers", href: "/workshop/pipe/measuring/contour-markers" }, { label: "Flange Pins", href: "/workshop/pipe/measuring/flange-pins" }, { label: "Pipe Centering Heads", href: "/workshop/pipe/measuring/pipe-centering-heads" }, { label: "Pipe Measuring & Marking Tools", href: "/workshop/pipe/measuring/pipe-measuring-and-marking-tools" }, { label: "Radius Markers", href: "/workshop/pipe/measuring/radius-markers" }] },
+          { label: "Pipe Purging Equipment", href: "/workshop/pipe/purging", image: "https://images.unsplash.com/photo-1626845447936-eb4f45fbbf69?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Double Seal Kits Complete", href: "/workshop/pipe/purging/double-seal-kits-complete" }, { label: "Double Seal Purge Systems", href: "/workshop/pipe/purging/double-seal-purge-systems" }, { label: "Expandable Pipe Stoppers", href: "/workshop/pipe/purging/expandable-pipe-stoppers" }, { label: "Inflatable Purge Bag Systems", href: "/workshop/pipe/purging/inflatable-purge-bag-systems" }, { label: "Pre-formed Self Adhesive Purge Dams", href: "/workshop/pipe/purging/pre-formed-self-adhesive-purge-dams" }, { label: "Purge Gas Retaining Tape", href: "/workshop/pipe/purging/purge-gas-retaining-tape" }, { label: "Weld Purge Monitors", href: "/workshop/pipe/purging/weld-purge-monitors" }] },
+          { label: "Pipe Wrap", href: "/workshop/pipe/pipe-wrap", image: "https://images.unsplash.com/photo-1724188263707-a86a1c873a60?w=200&h=200&fit=crop&auto=format" },
+          { label: "Weld Backing Tape", href: "/workshop/pipe/backing-tape", image: "https://images.unsplash.com/photo-1586333109867-812586269a58?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Fibreglass Weld Backing Tape", href: "/workshop/pipe/backing-tape/fibreglass-weld-backing-tape" }, { label: "Weld Backing Tapes", href: "/workshop/pipe/backing-tape/weld-backing-tapes" }] },
+        ],
+      },
+    ],
+  },
+  // 5. CUTTING (Plasma & Oxy-Fuel)
   {
     label: "CUTTING",
     href: "/cutting",
@@ -275,7 +333,7 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
-  // 5. WIRE & RODS
+  // 6. WIRE & RODS
   {
     label: "Welding Wire & Rods",
     href: "/wire-rods",
@@ -341,7 +399,7 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
-  // 6. GAS
+  // 7. GAS & REGULATORS
   {
     label: "Gas & Regulators",
     href: "/gas-oxy-fuel",
@@ -424,7 +482,7 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
-  // 7. ABRASIVES
+  // 8. ABRASIVES
   {
     label: "ABRASIVES",
     href: "/abrasives",
@@ -459,7 +517,7 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
-  // 8. SAFETY & PPE
+  // 9. WELDING PPE
   {
     label: "Welding PPE",
     href: "/safety",
@@ -510,7 +568,7 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
-  // 9. FUME EXTRACTION
+  // 10. FUME EXTRACTION
   {
     label: "FUME EXTRACTION",
     href: "/safety/fume",
@@ -572,7 +630,7 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
-  // 10. WORKSHOP
+  // 11. WORKSHOP
   {
     label: "WORKSHOP",
     href: "/workshop",
@@ -661,64 +719,6 @@ export const menuItems: MenuItem[] = [
           { label: "Weld Backing Ceramics", href: "/workshop/consumables/ceramics", image: "https://images.unsplash.com/photo-1575839127397-c12e55f70a38?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Ceramic Backing Strips", href: "/workshop/consumables/ceramics/ceramic-backing-strips" }, { label: "Katbak Ceramic Backing Strips", href: "/workshop/consumables/ceramics/katbak-ceramic-backing-strips" }, { label: "Weld Backing Ceramics & Tapes", href: "/workshop/consumables/ceramics/weld-backing-ceramics-and-tapes" }] },
           { label: "Welding Chemicals & Sprays", href: "/workshop/chemicals", image: "https://images.unsplash.com/photo-1764115737858-c8290a4251d3?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Ardrox NDT Aerosols", href: "/workshop/chemicals/ardrox-ndt-aerosols" }, { label: "Ardrox NDT Products", href: "/workshop/chemicals/ardrox-ndt-products" }, { label: "Leak Detection Spray", href: "/workshop/chemicals/leak-detection-spray" }, { label: "Welding Chemicals and Sprays", href: "/workshop/chemicals/welding-chemicals-and-sprays" }] },
           { label: "Welding Gauges", href: "/workshop/tools/gauges", image: "https://images.unsplash.com/photo-1766096847418-9a2ae64c9621?w=200&h=200&fit=crop&auto=format" },
-        ],
-      },
-    ],
-  },
-  // 11. PIPE
-  {
-    label: "Pipe Welding",
-    href: "/workshop/pipe",
-    children: [
-      {
-        heading: "Pipe Stands & Handling",
-        href: "/workshop/pipe/stands",
-        image: "https://images.unsplash.com/photo-1626845447936-eb4f45fbbf69?w=200&h=200&fit=crop&auto=format",
-        items: [
-          { label: "Pipe Conveyors", href: "/workshop/pipe/conveyors", image: "https://images.unsplash.com/photo-1724188263707-a86a1c873a60?w=200&h=200&fit=crop&auto=format" },
-          { label: "Pipe Rotators", href: "/workshop/pipe/rotators", image: "https://images.unsplash.com/photo-1586333109867-812586269a58?w=200&h=200&fit=crop&auto=format" },
-          { label: "Roller Stands", href: "/workshop/pipe/stands/roller", image: "https://images.unsplash.com/photo-1731397980374-c26ef55f08a8?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "AMA Roller Pipe Stands", href: "/workshop/pipe/stands/roller/ama-roller-pipe-stands" }, { label: "Double Roll Pipe Stands", href: "/workshop/pipe/stands/roller/double-roll-pipe-stands" }, { label: "Floor Mounted Roller Stands", href: "/workshop/pipe/stands/roller/floor-mounted-roller-stands" }, { label: "Mega-Pipe Stands", href: "/workshop/pipe/stands/roller/mega-pipe-stands" }, { label: "Multi-Stand Pipe Stands", href: "/workshop/pipe/stands/roller/multi-stand-pipe-stands" }, { label: "Pipe Roller Stands", href: "/workshop/pipe/stands/roller/pipe-roller-stands" }, { label: "Roller Pipe Stands", href: "/workshop/pipe/stands/roller/roller-pipe-stands" }] },
-          { label: "V-Head Stands", href: "/workshop/pipe/stands/v-head", image: "https://images.unsplash.com/photo-1654076847645-b72b3b66d576?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Five Leg Pipe Stands", href: "/workshop/pipe/stands/v-head/five-leg-pipe-stands" }, { label: "Quattro Pipe Stands", href: "/workshop/pipe/stands/v-head/quattro-pipe-stands" }, { label: "Single Tube Pipe Stands", href: "/workshop/pipe/stands/v-head/single-tube-pipe-stands" }, { label: "Tri-Stands & Pipe Jacks", href: "/workshop/pipe/stands/v-head/tri-stands-and-pipe-jacks" }, { label: "V Head Stands", href: "/workshop/pipe/stands/v-head/v-head-stands" }] },
-        ],
-      },
-      {
-        heading: "Pipe Welding Clamps",
-        href: "/workshop/pipe/clamps",
-        image: "https://images.unsplash.com/photo-1701952711272-ec97bb9cf95d?w=200&h=200&fit=crop&auto=format",
-        items: [
-          { label: "Bridge Clamps", href: "/workshop/pipe/clamps/bridge", image: "https://images.unsplash.com/photo-1701448150058-43d6d199b103?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Black Bridge Clamps", href: "/workshop/pipe/clamps/bridge/black-bridge-clamps" }, { label: "Gold Bridge Alignment Clamps", href: "/workshop/pipe/clamps/bridge/gold-bridge-alignment-clamps" }] },
-          { label: "Cage Clamps", href: "/workshop/pipe/clamps/cage", image: "https://images.unsplash.com/photo-1759064776046-45b988af4b6d?w=200&h=200&fit=crop&auto=format" },
-          { label: "Chain Clamps", href: "/workshop/pipe/clamps/chain", image: "https://images.unsplash.com/photo-1506902039157-1a7e7374b077?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Chain Pipe Alignment Clamps", href: "/workshop/pipe/clamps/chain/chain-pipe-alignment-clamps" }, { label: "Double Chain Pipe Clamps", href: "/workshop/pipe/clamps/chain/double-chain-pipe-clamps" }, { label: "Single Chain Pipe Clamps", href: "/workshop/pipe/clamps/chain/single-chain-pipe-clamps" }] },
-          { label: "E-Z Fit Clamps", href: "/workshop/pipe/clamps/ez-fit", image: "https://images.unsplash.com/photo-1701448149957-b96dbd1926ff?w=200&h=200&fit=crop&auto=format" },
-          { label: "PDQ Clamps", href: "/workshop/pipe/clamps/pdq", image: "https://images.unsplash.com/photo-1727373203627-73457889fe0f?w=200&h=200&fit=crop&auto=format" },
-          { label: "Pincer Clamps", href: "/workshop/pipe/clamps/pincer", image: "https://images.unsplash.com/photo-1497369573176-0ceb5353817d?w=200&h=200&fit=crop&auto=format" },
-          { label: "Spider Clamps", href: "/workshop/pipe/clamps/spider", image: "https://images.unsplash.com/photo-1626845447936-eb4f45fbbf69?w=200&h=200&fit=crop&auto=format" },
-        ],
-      },
-      {
-        heading: "Pipe Cutting & Preparation",
-        href: "/workshop/pipe/cutting",
-        image: "https://images.unsplash.com/photo-1724188263707-a86a1c873a60?w=200&h=200&fit=crop&auto=format",
-        items: [
-          { label: "Exact Pipe Saws", href: "/workshop/pipe/saws/exact", image: "https://images.unsplash.com/photo-1586333109867-812586269a58?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "140mm Saw Blades & Diamond Cutting Discs", href: "/workshop/pipe/saws/exact/140mm-saw-blades-and-diamond-cutting-discs" }, { label: "165mm Saw Blades & Diamond Cutting Discs", href: "/workshop/pipe/saws/exact/165mm-saw-blades-and-diamond-cutting-discs" }, { label: "Exact 170 Pipe Cutting Benches", href: "/workshop/pipe/saws/exact/exact-170-pipe-cutting-benches" }, { label: "Exact PipeCut for Cutting Spiral Ducting", href: "/workshop/pipe/saws/exact/exact-pipecut-for-cutting-spiral-ducting" }, { label: "Exact Saw Blades", href: "/workshop/pipe/saws/exact/exact-saw-blades" }, { label: "Pipe Bench System Accessories", href: "/workshop/pipe/saws/exact/pipe-bench-system-accessories" }, { label: "Special Blades", href: "/workshop/pipe/saws/exact/special-blades" }] },
-          { label: "GBC Pipe Saws", href: "/workshop/pipe/saws/gbc", image: "https://images.unsplash.com/photo-1731397980374-c26ef55f08a8?w=200&h=200&fit=crop&auto=format" },
-          { label: "Pipe Bevelling Machines", href: "/workshop/pipe/bevelling", image: "https://images.unsplash.com/photo-1654076847645-b72b3b66d576?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Pipe Bevelling Machines & Tools", href: "/workshop/pipe/bevelling/pipe-bevelling-machines-and-tools" }, { label: "Pipe Prep Blades", href: "/workshop/pipe/bevelling/pipe-prep-blades" }, { label: "Prep 2 Pipe Preparation Machines", href: "/workshop/pipe/bevelling/prep-2-pipe-preparation-machines" }, { label: "Prep 3 Pipe Preparation Machines", href: "/workshop/pipe/bevelling/prep-3-pipe-preparation-machines" }, { label: "Prep 4 Pipe Preparation Machines", href: "/workshop/pipe/bevelling/prep-4-pipe-preparation-machines" }, { label: "Prep 8 Pipe Preparation Machines", href: "/workshop/pipe/bevelling/prep-8-pipe-preparation-machines" }] },
-          { label: "Pipe Cutting Machine Spares", href: "/workshop/pipe/cutting-machines/spares", image: "https://images.unsplash.com/photo-1701952711272-ec97bb9cf95d?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Automatic Pipe Cutting Machine Spares", href: "/workshop/pipe/cutting-machines/spares/automatic-pipe-cutting-machine-spares" }, { label: "Magnetic Pipe Cutting Machine Spares", href: "/workshop/pipe/cutting-machines/spares/magnetic-pipe-cutting-machine-spares" }, { label: "Manual Pipe Cutting Machine Spares", href: "/workshop/pipe/cutting-machines/spares/manual-pipe-cutting-machine-spares" }] },
-          { label: "Pipe Cutting Machines", href: "/workshop/pipe/cutting-machines", image: "https://images.unsplash.com/photo-1701448150058-43d6d199b103?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Automatic Pipe Cutting Machines", href: "/workshop/pipe/cutting-machines/automatic-pipe-cutting-machines" }, { label: "Magnetic Pipe Cutting Machines", href: "/workshop/pipe/cutting-machines/magnetic-pipe-cutting-machines" }] },
-          { label: "Pipe Saw Spares & Supports", href: "/workshop/pipe/saws/spares", image: "https://images.unsplash.com/photo-1759064776046-45b988af4b6d?w=200&h=200&fit=crop&auto=format" },
-          { label: "TAG Pipe Saws", href: "/workshop/pipe/saws/tag", image: "https://images.unsplash.com/photo-1506902039157-1a7e7374b077?w=200&h=200&fit=crop&auto=format" },
-        ],
-      },
-      {
-        heading: "Pipe Welding Accessories",
-        href: "/workshop/pipe/accessories",
-        image: "https://images.unsplash.com/photo-1701448149957-b96dbd1926ff?w=200&h=200&fit=crop&auto=format",
-        items: [
-          { label: "Drain Test Plugs", href: "/workshop/pipe/drain-plugs", image: "https://images.unsplash.com/photo-1727373203627-73457889fe0f?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Drain Test Plugs & Stoppers", href: "/workshop/pipe/drain-plugs/drain-test-plugs-and-stoppers" }, { label: "Hollow Bore Drain Test Plugs", href: "/workshop/pipe/drain-plugs/hollow-bore-drain-test-plugs" }, { label: "Nylon Drain Test Plugs", href: "/workshop/pipe/drain-plugs/nylon-drain-test-plugs" }] },
-          { label: "Measuring & Marking Tools", href: "/workshop/pipe/measuring", image: "https://images.unsplash.com/photo-1497369573176-0ceb5353817d?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Contour Markers", href: "/workshop/pipe/measuring/contour-markers" }, { label: "Flange Pins", href: "/workshop/pipe/measuring/flange-pins" }, { label: "Pipe Centering Heads", href: "/workshop/pipe/measuring/pipe-centering-heads" }, { label: "Pipe Measuring & Marking Tools", href: "/workshop/pipe/measuring/pipe-measuring-and-marking-tools" }, { label: "Radius Markers", href: "/workshop/pipe/measuring/radius-markers" }] },
-          { label: "Pipe Purging Equipment", href: "/workshop/pipe/purging", image: "https://images.unsplash.com/photo-1626845447936-eb4f45fbbf69?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Double Seal Kits Complete", href: "/workshop/pipe/purging/double-seal-kits-complete" }, { label: "Double Seal Purge Systems", href: "/workshop/pipe/purging/double-seal-purge-systems" }, { label: "Expandable Pipe Stoppers", href: "/workshop/pipe/purging/expandable-pipe-stoppers" }, { label: "Inflatable Purge Bag Systems", href: "/workshop/pipe/purging/inflatable-purge-bag-systems" }, { label: "Pre-formed Self Adhesive Purge Dams", href: "/workshop/pipe/purging/pre-formed-self-adhesive-purge-dams" }, { label: "Purge Gas Retaining Tape", href: "/workshop/pipe/purging/purge-gas-retaining-tape" }, { label: "Weld Purge Monitors", href: "/workshop/pipe/purging/weld-purge-monitors" }] },
-          { label: "Pipe Wrap", href: "/workshop/pipe/pipe-wrap", image: "https://images.unsplash.com/photo-1724188263707-a86a1c873a60?w=200&h=200&fit=crop&auto=format" },
-          { label: "Weld Backing Tape", href: "/workshop/pipe/backing-tape", image: "https://images.unsplash.com/photo-1586333109867-812586269a58?w=200&h=200&fit=crop&auto=format", subcategories: [{ label: "Fibreglass Weld Backing Tape", href: "/workshop/pipe/backing-tape/fibreglass-weld-backing-tape" }, { label: "Weld Backing Tapes", href: "/workshop/pipe/backing-tape/weld-backing-tapes" }] },
         ],
       },
     ],
