@@ -81,6 +81,38 @@ export default function MegaMenu() {
             technical@weldingandwelder.com
           </Link>
           <div className="flex items-center gap-3 text-gray-700 font-semibold uppercase tracking-wide">
+            <div className="flex items-center gap-1.5">
+              <span className="text-gray-500 text-[10px] uppercase tracking-wide">View:</span>
+              <div className="flex items-center bg-white rounded border border-gray-300 p-0.5">
+                <button
+                  onClick={() => setViewMode("list")}
+                  className={`p-1 rounded transition-colors ${
+                    viewMode === "list"
+                      ? "bg-[#1a2456] text-white"
+                      : "text-gray-400 hover:text-gray-600"
+                  }`}
+                  aria-label="List view"
+                >
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                </button>
+                <button
+                  onClick={() => setViewMode("grid")}
+                  className={`p-1 rounded transition-colors ${
+                    viewMode === "grid"
+                      ? "bg-[#1a2456] text-white"
+                      : "text-gray-400 hover:text-gray-600"
+                  }`}
+                  aria-label="Grid view"
+                >
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm10 0a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zm10 0a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <span className="text-gray-300">|</span>
             <button
               onClick={downloadExcel}
               className="font-bold text-[#d32f2f] hover:text-[#d32f2f] transition-colors flex items-center gap-1"
@@ -240,7 +272,7 @@ export default function MegaMenu() {
               >
                 <Link
                   href={item.href}
-                  className={`flex items-center justify-center gap-1 h-full px-2.5 lg:px-4 xl:px-5 py-3.5 text-white text-[11px] lg:text-xs xl:text-[13px] font-bold uppercase tracking-wide transition-colors text-center whitespace-nowrap ${
+                  className={`flex items-center justify-center gap-1 h-full px-1.5 lg:px-2.5 xl:px-3.5 py-3.5 text-white text-[10px] lg:text-[11px] xl:text-xs font-bold uppercase tracking-wide transition-colors text-center whitespace-nowrap ${
                     openIndex === i
                       ? "bg-[#d32f2f]"
                       : "hover:bg-white/10"
@@ -284,38 +316,6 @@ export default function MegaMenu() {
             onMouseLeave={handleMouseLeave}
           >
             <div className="max-w-7xl mx-auto px-6 py-8">
-              {/* View mode toggle */}
-              <div className="flex justify-end mb-4">
-                <div className="flex items-center bg-gray-100 rounded-md p-0.5">
-                  <button
-                    onClick={() => setViewMode("list")}
-                    className={`p-1.5 rounded transition-colors ${
-                      viewMode === "list"
-                        ? "bg-white shadow-sm text-[#1a2456]"
-                        : "text-gray-400 hover:text-gray-600"
-                    }`}
-                    aria-label="List view"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                  </button>
-                  <button
-                    onClick={() => setViewMode("grid")}
-                    className={`p-1.5 rounded transition-colors ${
-                      viewMode === "grid"
-                        ? "bg-white shadow-sm text-[#1a2456]"
-                        : "text-gray-400 hover:text-gray-600"
-                    }`}
-                    aria-label="Grid view"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm10 0a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zm10 0a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-
               {/* List view */}
               {viewMode === "list" && (
                 <div
