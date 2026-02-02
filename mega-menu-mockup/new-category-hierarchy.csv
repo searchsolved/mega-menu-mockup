@@ -1,319 +1,222 @@
 name,slug,full_path,parent,level
-MIG WELDING,mig-welding,mig-welding,,0
+MIG,mig-welding,mig-welding,,0
 MIG Welding Machines,welders,mig-welding/welders,mig-welding,1
-Jasic MIG Welders,jasic,mig-welding/welders/jasic,mig-welding/welders,2
-Multi Process Welders,multi-process,mig-welding/multi-process,mig-welding/welders,2
-Parweld MIG Welders,parweld,mig-welding/welders/parweld,mig-welding/welders,2
-SWP MIG Welders,swp,mig-welding/welders/swp,mig-welding/welders,2
-Weldability Sif MIG Welders,weldability-sif,mig-welding/welders/weldability-sif,mig-welding/welders,2
 MIG Welding Torches & Parts,torches,mig-welding/torches,mig-welding,1
-Binzel-Style Consumables,binzel-consumables,mig-welding/torches/binzel-consumables,mig-welding/torches,2
-Euro Connection MIG Torches,euro,mig-welding/torches/euro,mig-welding/torches,2
-Euro MIG Torches - ERGO,ergo,mig-welding/torches/ergo,mig-welding/torches,2
-MIG Liners,liners,mig-welding/torches/liners,mig-welding/torches,2
-MIG Welding Nozzles,nozzles,mig-welding/torches/nozzles,mig-welding/torches,2
+Binzle-Style MIG Consumables,binzle-style-mig-consumables,mig-welding/torches/binzel-consumables/binzle-style-mig-consumables,mig-welding/torches,2
+Binzle-Style MIG Torch Consumables,binzle-style-mig-torch-consumables,mig-welding/torches/binzel-consumables/binzle-style-mig-torch-consumables,mig-welding/torches,2
 MIG Welding Wire,wire,mig-welding/wire,mig-welding,1
-Aluminium MIG Wire,aluminium,mig-welding/wire/aluminium,mig-welding/wire,2
-Brazing MIG Wire,brazing,mig-welding/wire/brazing,mig-welding/wire,2
-Bulk MIG Wire,bulk,mig-welding/wire/bulk,mig-welding/wire,2
-Copper Free MIG Wire,copper-free,mig-welding/wire/copper-free,mig-welding/wire,2
-Flux Cored MIG Wire,flux-cored,mig-welding/wire/flux-cored,mig-welding/wire,2
-Hard Facing MIG Wire,hard-facing,mig-welding/wire/hard-facing,mig-welding/wire,2
-Mild Steel MIG Wire,mild-steel,mig-welding/wire/mild-steel,mig-welding/wire,2
-Stainless Steel MIG Wire,stainless,mig-welding/wire/stainless,mig-welding/wire,2
+Flux Cored MIG Wire - Stainless Steel,flux-cored-mig-wire-stainless-steel,mig-welding/wire/flux-cored/flux-cored-mig-wire-stainless-steel,mig-welding/wire,2
+Flux Cored MIG Wire - Steel,flux-cored-mig-wire-steel,mig-welding/wire/flux-cored/flux-cored-mig-wire-steel,mig-welding/wire,2
+High Strength Steel MIG Wire,high-strength-steel-mig-wire,mig-welding/wire/mild-steel/high-strength-steel-mig-wire,mig-welding/wire,2
 MIG Welding Accessories,accessories,mig-welding/accessories,mig-welding,1
-Anti-Spatter Spray,anti-spatter,consumables/chemicals/anti-spatter,mig-welding/accessories,2
-CO2 Regulators,co2,gas/regulators/co2,mig-welding/accessories,2
-Gas Economisers / Flowmeters,economisers,gas/economisers,mig-welding/accessories,2
-Inert Gas Regulators,inert,gas/regulators/inert,mig-welding/accessories,2
-MIG Gas Welding Hoses,mig,gas/hoses/mig,mig-welding/accessories,2
-Welder Water Coolers,water-coolers,machines/water-coolers,mig-welding/accessories,2
-Welding Gloves,gloves,safety/gloves,mig-welding/accessories,2
-Welding Helmets,helmets,safety/helmets,mig-welding/accessories,2
-TIG WELDING,tig-welding,tig-welding,,0
+Gas Economisers - Oxy/Acetylene,gas-economisers-oxy-acetylene,gas-oxy-fuel/economisers/gas-economisers-oxy-acetylene,mig-welding/accessories,2
+TIG,tig-welding,tig-welding,,0
 TIG Welding Machines,welders,tig-welding/welders,tig-welding,1
-Jasic TIG Welders,jasic,tig-welding/welders/jasic,tig-welding/welders,2
-Multi Process Welders,multi-process,tig-welding/multi-process,tig-welding/welders,2
-Newarc TIG Welders,newarc,tig-welding/welders/newarc,tig-welding/welders,2
-Sif TIG Welders,sif,tig-welding/welders/sif,tig-welding/welders,2
-SWP TIG Welders,swp,tig-welding/welders/swp,tig-welding/welders,2
 TIG Welding Torches & Tungsten,torches,tig-welding/torches,tig-welding,1
-Ceriated Tungsten,ceriated,tig-welding/tungsten/ceriated,tig-welding/torches,2
-Lanthanated Tungsten,lanthanated,tig-welding/tungsten/lanthanated,tig-welding/torches,2
-Superstrike AC/DC,superstrike,tig-welding/tungsten/superstrike,tig-welding/torches,2
-Thoriated Tungsten,thoriated,tig-welding/tungsten/thoriated,tig-welding/torches,2
-TIG Torch Adaptors,adaptors,tig-welding/torches/adaptors,tig-welding/torches,2
-TIG Torch Consumables,consumables,tig-welding/torches/consumables,tig-welding/torches,2
-TIG Torches & Spare Parts,all,tig-welding/torches/all,tig-welding/torches,2
-Zirconiated Tungsten,zirconiated,tig-welding/tungsten/zirconiated,tig-welding/torches,2
+TIG Torch Adaptors & Switches,tig-torch-adaptors-and-switches,tig-welding/torches/adaptors/tig-torch-adaptors-and-switches,tig-welding/torches,2
 TIG Welding Filler Rods,filler-rods,tig-welding/filler-rods,tig-welding,1
-Aluminium,aluminium,tig-welding/filler-rods/aluminium,tig-welding/filler-rods,2
-Brazing / Bronze,brazing,tig-welding/filler-rods/brazing,tig-welding/filler-rods,2
-Copper / Copper-Nickel,copper,tig-welding/filler-rods/copper,tig-welding/filler-rods,2
-Dissimilar Steels,dissimilar,tig-welding/filler-rods/dissimilar,tig-welding/filler-rods,2
-Duplex Stainless Steel,duplex,tig-welding/filler-rods/duplex,tig-welding/filler-rods,2
-Hard Facing,hard-facing,tig-welding/filler-rods/hard-facing,tig-welding/filler-rods,2
-Magnesium,magnesium,tig-welding/filler-rods/magnesium,tig-welding/filler-rods,2
-Mild Steel,mild-steel,tig-welding/filler-rods/mild-steel,tig-welding/filler-rods,2
-Nickel Alloy,nickel,tig-welding/filler-rods/nickel,tig-welding/filler-rods,2
-Stainless Steel,stainless,tig-welding/filler-rods/stainless,tig-welding/filler-rods,2
-Titanium,titanium,tig-welding/filler-rods/titanium,tig-welding/filler-rods,2
+TIG Filler Rods for High Strength Steel,tig-filler-rods-for-high-strength-steel,tig-welding/filler-rods/mild-steel/tig-filler-rods-for-high-strength-steel,tig-welding/filler-rods,2
+TIG Filler Rods for Mild Steel,tig-filler-rods-for-mild-steel,tig-welding/filler-rods/mild-steel/tig-filler-rods-for-mild-steel,tig-welding/filler-rods,2
+Stainless Steel Welding Electrodes,stainless-steel-welding-electrodes,tig-welding/filler-rods/stainless/stainless-steel-welding-electrodes,tig-welding/filler-rods,2
+TIG Filler Rods for Stainless Steel,tig-filler-rods-for-stainless-steel,tig-welding/filler-rods/stainless/tig-filler-rods-for-stainless-steel,tig-welding/filler-rods,2
 TIG Welding Accessories,accessories,tig-welding/accessories,tig-welding,1
-Pickling & Neutralising Agents,pickling,tig-welding/weld-cleaning/pickling,tig-welding/accessories,2
-Tungsten Grinders - Bench,bench,tig-welding/tungsten-grinders/bench,tig-welding/accessories,2
-Tungsten Grinders - Handheld,handheld,tig-welding/tungsten-grinders/handheld,tig-welding/accessories,2
-Tungsten Grinders w/ Extractors,extractors,tig-welding/tungsten-grinders/extractors,tig-welding/accessories,2
-Weld Cleaning Equipment,weld-cleaning,tig-welding/weld-cleaning,tig-welding/accessories,2
-ARC WELDING,arc-mma,arc-mma,,0
+Bymat Weld Cleaning Machines,bymat-weld-cleaning-machines,tig-welding/weld-cleaning/bymat-weld-cleaning-machines,tig-welding/accessories,2
+Easykleen Plus & TIG System,easykleen-plus-and-tig-system,tig-welding/weld-cleaning/easykleen-plus-and-tig-system,tig-welding/accessories,2
+IsoJet Stainless Steel Weld Cleaner,isojet-stainless-steel-weld-cleaner,tig-welding/weld-cleaning/isojet-stainless-steel-weld-cleaner,tig-welding/accessories,2
+Stainless Brighteners & Rust Remover,stainless-brighteners-and-rust-remover,tig-welding/weld-cleaning/stainless-brighteners-and-rust-remover,tig-welding/accessories,2
+Stainless Steel Weld Cleaning Equipment,stainless-steel-weld-cleaning-equipment,tig-welding/weld-cleaning/stainless-steel-weld-cleaning-equipment,tig-welding/accessories,2
+TIG Wand Rapid,tig-wand-rapid,tig-welding/weld-cleaning/tig-wand-rapid,tig-welding/accessories,2
+mepBlitz Elecro Polisher,mepblitz-elecro-polisher,tig-welding/weld-cleaning/mepblitz-elecro-polisher,tig-welding/accessories,2
+ARC,arc-mma,arc-mma,,0
 Arc/MMA Welding Machines,welders,arc-mma/welders,arc-mma,1
-Jasic MMA Welders,jasic,arc-mma/welders/jasic,arc-mma/welders,2
-Multi Process Welders,multi-process,arc-mma/multi-process,arc-mma/welders,2
-Newarc MMA Welders,newarc,arc-mma/welders/newarc,arc-mma/welders,2
-Parweld MMA Welders,parweld,arc-mma/welders/parweld,arc-mma/welders,2
 MMA Welding Electrodes,electrodes,arc-mma/electrodes,arc-mma,1
-Cast Iron,cast-iron,arc-mma/electrodes/cast-iron,arc-mma/electrodes,2
-Cutting / Gouging,cutting-gouging,arc-mma/electrodes/cutting-gouging,arc-mma/electrodes,2
-Dissimilar Steel,dissimilar,arc-mma/electrodes/dissimilar,arc-mma/electrodes,2
-Hard Surfacing,hard-surfacing,arc-mma/electrodes/hard-surfacing,arc-mma/electrodes,2
-Stainless Steel,stainless,arc-mma/electrodes/stainless,arc-mma/electrodes,2
-Steel & Low Hydrogen,steel,arc-mma/electrodes/steel,arc-mma/electrodes,2
 Welding Cable & Connectors,cable,arc-mma/cable,arc-mma,1
-Cable Plugs & Sockets,plugs-sockets,arc-mma/cable/plugs-sockets,arc-mma/cable,2
-Double Insulated Cable,double-insulated,arc-mma/cable/double-insulated,arc-mma/cable,2
-Earth Clamps,earth-clamps,arc-mma/earth-clamps,arc-mma/cable,2
-Electrode Holders,electrode-holders,arc-mma/electrode-holders,arc-mma/cable,2
-Re-usable Cable Lugs,lugs,arc-mma/cable/lugs,arc-mma/cable,2
-Welding Cable (Copper/PVC),pvc,arc-mma/cable/pvc,arc-mma/cable,2
-Welding Cable (Copper/Rubber),rubber,arc-mma/cable/rubber,arc-mma/cable,2
-Welding Cable Sets,sets,arc-mma/cable/sets,arc-mma/cable,2
+Spot & Stud Welding,spot-stud-welding,arc-mma/spot-stud-welding,arc-mma,1
+Tecna Pedestal Spot Welding Electrodes,tecna-pedestal-spot-welding-electrodes,machines/spot-welders/electrodes/tecna-pedestal-spot-welding-electrodes,arc-mma/spot-stud-welding,2
+Stud Welders - Capacitor Discharge (CD),stud-welders-capacitor-discharge-cd,arc-mma/stud-welding/cd-welders/stud-welders-capacitor-discharge-cd,arc-mma/spot-stud-welding,2
+Stud Welding Equipment,stud-welding-equipment,arc-mma/stud-welding/cd-welders/stud-welding-equipment,arc-mma/spot-stud-welding,2
 Arc Welding Accessories,accessories,arc-mma/accessories,arc-mma,1
-Arc-Air Gouging Carbons,carbons,arc-mma/gouging/carbons,arc-mma/accessories,2
-Carbon Arc Gouging Torches,torches,arc-mma/gouging/torches,arc-mma/accessories,2
-Electrode Quivers & Ovens,ovens,arc-mma/ovens,arc-mma/accessories,2
-Stud Welders (CD),cd-welders,arc-mma/stud-welding/cd-welders,arc-mma/accessories,2
-Weld Studs - Aluminium,aluminium-studs,arc-mma/stud-welding/aluminium-studs,arc-mma/accessories,2
-Weld Studs - Stainless Steel,ss-studs,arc-mma/stud-welding/ss-studs,arc-mma/accessories,2
-PLASMA CUTTING,plasma-cutting,plasma-cutting,,0
-Plasma Cutting Machines,plasma,plasma-cutting/plasma,plasma-cutting,1
-Jasic Plasma Spares,jasic-spares,plasma-cutting/plasma/jasic-spares,plasma-cutting/plasma,2
-Plasma Cutters,cutters,plasma-cutting/plasma/cutters,plasma-cutting/plasma,2
-Plasma Cutting Torches,torches,plasma-cutting/plasma/torches,plasma-cutting/plasma,2
-Thermal Dynamics Spares,thermal-dynamics,plasma-cutting/plasma/thermal-dynamics,plasma-cutting/plasma,2
-Plasma Torch Spares,torch-spares,plasma-cutting/plasma/torch-spares,plasma-cutting/plasma,2
-Sif Weld Cut 40 Spares,sif-weld-cut-40-spares,plasma-cutting/plasma/sif-weld-cut-40-spares,plasma-cutting/plasma,2
-Sif Weld Cut 100 Spares,sif-weld-cut-100-spares,plasma-cutting/plasma/sif-weld-cut-100-spares,plasma-cutting/plasma,2
-Weldability Plasma Spares,weldability-spares,plasma-cutting/plasma/weldability-spares,plasma-cutting/plasma,2
-Oxy-Fuel Cutting Machines,machines,plasma-cutting/machines,plasma-cutting,1
-Gas Cutting Machines (Oxy-Fuel),gas-oxy,plasma-cutting/machines/gas-oxy,plasma-cutting/machines,2
-Pipe Cutting Machines (Oxy),pipe-oxy,plasma-cutting/machines/pipe-oxy,plasma-cutting/machines,2
-Plate Bevellers,bevellers,plasma-cutting/bevellers,plasma-cutting/machines,2
-Straight Line Cutting Machines,straight-line,plasma-cutting/machines/straight-line,plasma-cutting/machines,2
-Oxy-Fuel Cutting Nozzles,nozzles,plasma-cutting/nozzles,plasma-cutting,1
-NFF Cutting Nozzles,nff,plasma-cutting/nozzles/nff,plasma-cutting/nozzles,2
-Oxy Propane Gouging Nozzles PGNM,pgnm,plasma-cutting/nozzles/pgnm,plasma-cutting/nozzles,2
-Oxy/Acetylene Cutting Nozzles ANME,anme,plasma-cutting/nozzles/anme,plasma-cutting/nozzles,2
-Oxy/Acetylene Gouging Nozzles AGNM,agnm,plasma-cutting/nozzles/agnm,plasma-cutting/nozzles,2
-Oxy/Propane Cutting Nozzles PNM,pnm,plasma-cutting/nozzles/pnm,plasma-cutting/nozzles,2
-Victor Cutting Nozzles,victor,plasma-cutting/nozzles/victor,plasma-cutting/nozzles,2
-VVC Cutting Nozzles,vvc,plasma-cutting/nozzles/vvc,plasma-cutting/nozzles,2
-Cutting & Gouging Accessories,accessories,plasma-cutting/accessories,plasma-cutting,1
-Air Compressors,air-compressors,workshop/air-compressors,plasma-cutting/accessories,2
-Arc-Air Gouging Carbons,carbons,plasma-cutting/gouging/carbons,plasma-cutting/accessories,2
-Carbon Arc Gouging Torches,torches,plasma-cutting/gouging/torches,plasma-cutting/accessories,2
-Cutting Guides Oxy/Acet/Propane,guides,plasma-cutting/guides,plasma-cutting/accessories,2
-GAS & OXY-FUEL,gas-oxy-fuel,gas-oxy-fuel,,0
-Oxy-Fuel Welding Equipment,equipment,gas-oxy-fuel/equipment,gas-oxy-fuel,1
-Cutting & Welding Sets,sets,gas-oxy-fuel/sets,gas-oxy-fuel/equipment,2
-Gas Cutting Torches,cutting,gas-oxy-fuel/torches/cutting,gas-oxy-fuel/equipment,2
-Lightweight Welding Nozzles,lightweight,gas-oxy-fuel/nozzles/lightweight,gas-oxy-fuel/equipment,2
-Oxy-Acetylene Torches,oxy-acet,gas-oxy-fuel/torches/oxy-acet,gas-oxy-fuel/equipment,2
-Oxy-Propane Torches,oxy-propane,gas-oxy-fuel/torches/oxy-propane,gas-oxy-fuel/equipment,2
-Type 3/5 HD Torch Components,components,gas-oxy-fuel/torches/components,gas-oxy-fuel/equipment,2
-Welding Nozzles (DH/HD),welding,gas-oxy-fuel/nozzles/welding,gas-oxy-fuel/equipment,2
-Oxy-Fuel Welding Rods,rods,gas-oxy-fuel/rods,gas-oxy-fuel,1
-Aluminium Welding Rods,aluminium,gas-oxy-fuel/rods/aluminium,gas-oxy-fuel/rods,2
-Brazing Rods,brazing,gas-oxy-fuel/rods/brazing,gas-oxy-fuel/rods,2
-Copper Phosphorus Rods,copper-phosphorus,gas-oxy-fuel/rods/copper-phosphorus,gas-oxy-fuel/rods,2
-Disposable Gas Cylinders,disposable-cylinders,gas-oxy-fuel/disposable-cylinders,gas-oxy-fuel/rods,2
-Silver Solder Rods,silver-solder,gas-oxy-fuel/rods/silver-solder,gas-oxy-fuel/rods,2
-Steel Welding Rods,steel,gas-oxy-fuel/rods/steel,gas-oxy-fuel/rods,2
-Gas Regulators & Delivery,delivery,gas-oxy-fuel/delivery,gas-oxy-fuel,1
-CO2 Regulators,co2,gas-oxy-fuel/regulators/co2,gas-oxy-fuel/delivery,2
-Flashback Arrestors,flashback-arrestors,gas-oxy-fuel/flashback-arrestors,gas-oxy-fuel/delivery,2
-Fuel Gas Regulators,fuel,gas-oxy-fuel/regulators/fuel,gas-oxy-fuel/delivery,2
-Gas Arc Spares & Certificates,gas-arc-spares,gas-oxy-fuel/regulators/gas-arc-spares,gas-oxy-fuel/delivery,2
-Gas Alarm Panels,alarm-panels,gas-oxy-fuel/alarm-panels,gas-oxy-fuel/delivery,2
-Gas Economiser Spares,spares,gas-oxy-fuel/economisers/spares,gas-oxy-fuel/delivery,2
-Gas Economisers / Flowmeters,economisers,gas-oxy-fuel/economisers,gas-oxy-fuel/delivery,2
-High Pressure Regulators,high-pressure,gas-oxy-fuel/regulators/high-pressure,gas-oxy-fuel/delivery,2
-Inert Gas Regulators,inert,gas-oxy-fuel/regulators/inert,gas-oxy-fuel/delivery,2
-NEVOC Regulators,nevoc,gas-oxy-fuel/regulators/nevoc,gas-oxy-fuel/delivery,2
-Oxygen Regulators,oxygen,gas-oxy-fuel/regulators/oxygen,gas-oxy-fuel/delivery,2
-"Gas Hoses, Fittings & Storage",hoses,gas-oxy-fuel/hoses,gas-oxy-fuel,1
-Argon / Shielding Gas Hose,argon,gas-oxy-fuel/hoses/argon,gas-oxy-fuel/hoses,2
-Cylinder Fittings & Adaptors,cylinder-fittings,gas-oxy-fuel/cylinder-fittings,gas-oxy-fuel/hoses,2
-Gas Control Outlet Points,outlet-points,gas-oxy-fuel/outlet-points,gas-oxy-fuel/hoses,2
-Gas Cylinder Cages,cages,gas-oxy-fuel/storage/cages,gas-oxy-fuel/hoses,2
-Gas Cylinder Trolleys,trolleys,gas-oxy-fuel/storage/trolleys,gas-oxy-fuel/hoses,2
-High Pressure Gas Hoses,high-pressure,gas-oxy-fuel/hoses/high-pressure,gas-oxy-fuel/hoses,2
-Hose Fittings & Couplers,fittings,gas-oxy-fuel/fittings,gas-oxy-fuel/hoses,2
-Manifold Panels,manifolds,gas-oxy-fuel/manifolds,gas-oxy-fuel/hoses,2
-Oxy Fuel Hoses,oxy-fuel,gas-oxy-fuel/hoses/oxy-fuel,gas-oxy-fuel/hoses,2
-Twin Welding Hoses,twin,gas-oxy-fuel/hoses/twin,gas-oxy-fuel/hoses,2
+CUTTING,cutting,cutting,,0
+Plasma Cutting Machines,plasma,cutting/plasma,cutting,1
+Thermal Dynamics Compat Spares,thermal-dynamics-compat-spares,cutting/plasma/thermal-dynamics/thermal-dynamics-compat-spares,cutting/plasma,2
+Thermal Dynamics Type PCH-35,thermal-dynamics-type-pch-35,cutting/plasma/thermal-dynamics/thermal-dynamics-type-pch-35,cutting/plasma,2
+Thermal Dynamics Type PCH-51,thermal-dynamics-type-pch-51,cutting/plasma/thermal-dynamics/thermal-dynamics-type-pch-51,cutting/plasma,2
+Thermal Dynamics Type PCH-52,thermal-dynamics-type-pch-52,cutting/plasma/thermal-dynamics/thermal-dynamics-type-pch-52,cutting/plasma,2
+Thermal Dynamics Type PCH-70,thermal-dynamics-type-pch-70,cutting/plasma/thermal-dynamics/thermal-dynamics-type-pch-70,cutting/plasma,2
+Oxy-Fuel Cutting Machines,machines,cutting/machines,cutting,1
+Oxy-Fuel Cutting Nozzles,nozzles,cutting/nozzles,cutting,1
+Oxy/Acetylene Cutting Nozzle ANME,oxy-acetylene-cutting-nozzle-anme,cutting/nozzles/anme/oxy-acetylene-cutting-nozzle-anme,cutting/nozzles,2
+Gouging Nozzles AGNM,gouging-nozzles-agnm,cutting/nozzles/agnm/gouging-nozzles-agnm,cutting/nozzles,2
+Oxy/Propane Cutting Nozzle PNM,oxy-propane-cutting-nozzle-pnm,cutting/nozzles/pnm/oxy-propane-cutting-nozzle-pnm,cutting/nozzles,2
+Oxy/Propane Cutting Nozzle PNME,oxy-propane-cutting-nozzle-pnme,cutting/nozzles/pnm/oxy-propane-cutting-nozzle-pnme,cutting/nozzles,2
+Oxy/Propane Cutting Nozzles PNM/PNME,oxy-propane-cutting-nozzles-pnm-pnme,cutting/nozzles/pnm/oxy-propane-cutting-nozzles-pnm-pnme,cutting/nozzles,2
+Cutting & Gouging Accessories,accessories,cutting/accessories,cutting,1
 WIRE & RODS,wire-rods,wire-rods,,0
-PIPE WELDING,pipe,pipe,,0
-Pipe Stands & Handling,stands,workshop/pipe/stands,pipe,1
-Pipe Conveyors,conveyors,workshop/pipe/conveyors,workshop/pipe/stands,2
-Pipe Rotators,rotators,workshop/pipe/rotators,workshop/pipe/stands,2
-Roller Stands,roller,workshop/pipe/stands/roller,workshop/pipe/stands,2
-V-Head Stands,v-head,workshop/pipe/stands/v-head,workshop/pipe/stands,2
-Pipe Welding Clamps,clamps,workshop/pipe/clamps,pipe,1
-Bridge Clamps,bridge,workshop/pipe/clamps/bridge,workshop/pipe/clamps,2
-Cage Clamps,cage,workshop/pipe/clamps/cage,workshop/pipe/clamps,2
-Chain Clamps,chain,workshop/pipe/clamps/chain,workshop/pipe/clamps,2
-E-Z Fit Clamps,ez-fit,workshop/pipe/clamps/ez-fit,workshop/pipe/clamps,2
-PDQ Clamps,pdq,workshop/pipe/clamps/pdq,workshop/pipe/clamps,2
-Pincer Clamps,pincer,workshop/pipe/clamps/pincer,workshop/pipe/clamps,2
-Spider Clamps,spider,workshop/pipe/clamps/spider,workshop/pipe/clamps,2
-Pipe Cutting & Preparation,cutting,workshop/pipe/cutting,pipe,1
-Exact Pipe Saws,exact,workshop/pipe/saws/exact,workshop/pipe/cutting,2
-GBC Pipe Saws,gbc,workshop/pipe/saws/gbc,workshop/pipe/cutting,2
-Pipe Bevelling Machines,bevelling,workshop/pipe/bevelling,workshop/pipe/cutting,2
-Pipe Cutting Machine Spares,spares,workshop/pipe/cutting-machines/spares,workshop/pipe/cutting,2
-Pipe Cutting Machines,cutting-machines,workshop/pipe/cutting-machines,workshop/pipe/cutting,2
-Pipe Saw Spares & Supports,spares,workshop/pipe/saws/spares,workshop/pipe/cutting,2
-TAG Pipe Saws,tag,workshop/pipe/saws/tag,workshop/pipe/cutting,2
-Pipe Welding Accessories,accessories,workshop/pipe/accessories,pipe,1
-Drain Test Plugs,drain-plugs,workshop/pipe/drain-plugs,workshop/pipe/accessories,2
-Measuring & Marking Tools,measuring,workshop/pipe/measuring,workshop/pipe/accessories,2
-Pipe Purging Equipment,purging,workshop/pipe/purging,workshop/pipe/accessories,2
-Pipe Wrap,pipe-wrap,workshop/pipe/pipe-wrap,workshop/pipe/accessories,2
-Weld Backing Tape,backing-tape,workshop/pipe/backing-tape,workshop/pipe/accessories,2
-WELDING MACHINES,machines,machines,,0
-Welding Machines,welding,machines/welding,machines,1
-Multi Process Welders,multi-process,machines/multi-process,machines/welding,2
-Spot Welders - Pedestal,pedestal,machines/spot-welders/pedestal,machines/welding,2
-Spot Welders - Portable,portable,machines/spot-welders/portable,machines/welding,2
-Stud Welders (CD),stud-welders,machines/stud-welders,machines/welding,2
-Cutting Machines,cutting,machines/cutting,machines,1
-Chop Saws / Cut-Off Saws,chop,machines/saws/chop,machines/cutting,2
-Circular Saws,circular,machines/saws/circular,machines/cutting,2
-Magnetic Drills,magnetic-drills,machines/magnetic-drills,machines/cutting,2
-"Pipe Saws (Exact, GBC, TAG)",pipe,machines/saws/pipe,machines/cutting,2
-Specialist Welding Equipment,specialist,machines/specialist,machines,1
-Broaching Cutters,broaching-cutters,machines/broaching-cutters,machines/specialist,2
-Spot Welding Electrodes,electrodes,machines/spot-welders/electrodes,machines/specialist,2
-Thermal Spray Equipment,thermal-spray,machines/thermal-spray,machines/specialist,2
-Tool Balancers,tool-balancers,machines/tool-balancers,machines/specialist,2
-Tungsten Grinders,tungsten-grinders,tig-welding/tungsten-grinders,machines/specialist,2
-Welding Power & Cooling,power,machines/power,machines,1
-Filter Kits & Servicing,servicing,machines/generators/servicing,machines/power,2
-Generators,generators,machines/generators,machines/power,2
-Lighting Towers,lighting-towers,machines/lighting-towers,machines/power,2
-Mosa Welder Generators,mosa,machines/generators/mosa,machines/power,2
-Spares & Accessories,spares,machines/generators/spares,machines/power,2
-Welder Generators,welder,machines/generators/welder,machines/power,2
-SAFETY & PPE,safety,safety,,0
-Air Fed Face Shields,air-fed,safety/eye/air-fed,safety/helmets,2
-Auto-Darkening Welding Helmets,auto-darkening,safety/helmets/auto-darkening,safety/helmets,2
-Respirator Masks,respirators,safety/eye/respirators,safety/helmets,2
-Safety Goggles,goggles,safety/eye/goggles,safety/helmets,2
-Safety Spectacles,spectacles,safety/eye/spectacles,safety/helmets,2
-Safety Visors,visors,safety/eye/visors,safety/helmets,2
-Welding Helmet Spares,spares,safety/helmets/spares,safety/helmets,2
-Welding Masks,masks,safety/helmets/masks,safety/helmets,2
-Welding Protective Clothing,clothing,safety/clothing,safety,1
-Heat Reflective Clothing,heat-reflective,safety/clothing/heat-reflective,safety/clothing,2
-Welding Aprons,aprons,safety/clothing/aprons,safety/clothing,2
-Welding Capes & Sleeves,capes,safety/clothing/capes,safety/clothing,2
-Welding Caps & Balaclavas,caps,safety/clothing/caps,safety/clothing,2
-Welding Jackets,jackets,safety/clothing/jackets,safety/clothing,2
-Welding Overalls,overalls,safety/clothing/overalls,safety/clothing,2
-Welding Trousers & Spats,trousers,safety/clothing/trousers,safety/clothing,2
-Welding Workspace Safety,workspace,safety/workspace,safety,1
-Fire Barrier Fabric,fire-barrier,safety/fire-barrier,safety/workspace,2
-Fire Retardant Tarpaulin,tarpaulin,safety/tarpaulin,safety/workspace,2
-Spill Containment Kits,spill-kits,safety/spill-kits,safety/workspace,2
-Welding Blankets & Mats,blankets,safety/blankets,safety/workspace,2
-Welding Screens & Curtains,screens,safety/screens,safety/workspace,2
-Welding Strip Curtains,strip,safety/screens/strip,safety/workspace,2
-Welding Tents & Shelters,tents,safety/tents,safety/workspace,2
-FUME EXTRACTION,fume-extraction,fume-extraction,,0
-Kemper Mobile & Hi-Vac Extraction,kemper-mobile,safety/fume/kemper-mobile,fume-extraction,1
-Kemper Hi-Vacuum Extraction,kemper-hi-vac,safety/fume/kemper-hi-vac,safety/fume/kemper-mobile,2
-Kemper Spares & Accessories,kemper-spares,safety/fume/kemper-spares,safety/fume/kemper-mobile,2
-Kemper Filtration Systems,kemper-tower,safety/fume/kemper-tower,fume-extraction,1
-Kemper Air Purifying,kemper-air-purifying,safety/fume/kemper-air-purifying,safety/fume/kemper-tower,2
-Kemper Airwatch,kemper-airwatch,safety/fume/kemper-airwatch,safety/fume/kemper-tower,2
-Kemper Filter Tables,kemper-tables,safety/fume/kemper-tables,safety/fume/kemper-tower,2
-Kemper Static Filter Units,kemper-static,safety/fume/kemper-static,safety/fume/kemper-tower,2
-F-Tech Extraction,f-tech,safety/fume/f-tech,fume-extraction,1
-On-Torch & Bench Extraction,on-torch,safety/fume/on-torch,fume-extraction,1
-Bench Top Extractors,bench-top,safety/fume/bench-top,safety/fume/on-torch,2
-Kemper On-Torch Extraction,kemper-on-torch,safety/fume/kemper-on-torch,safety/fume/on-torch,2
-WSL On-Torch Extraction,wsl-on-torch,safety/fume/wsl-on-torch,safety/fume/on-torch,2
-WELDING WORKSHOP,workshop,workshop,,0
-Welding Benches & Tables,benches,workshop/benches,workshop,1
-Bench Accessories,accessories,workshop/benches/accessories,workshop/benches,2
-Heavy Duty Welding Benches,heavy-duty,workshop/benches/heavy-duty,workshop/benches,2
-Medium Duty Welding Benches,medium-duty,workshop/benches/medium-duty,workshop/benches,2
-Mobile Work Benches,mobile,workshop/benches/mobile,workshop/benches,2
-Stainless Steel Benches,stainless,workshop/benches/stainless,workshop/benches,2
-Super Heavy Duty Benches,super-heavy,workshop/benches/super-heavy,workshop/benches,2
-Air Tools & Compressors,air-tools,workshop/air-tools,workshop,1
-Air Angle Grinders,grinders,workshop/air-tools/grinders,workshop/air-tools,2
-Air Die Grinders,die-grinders,workshop/air-tools/die-grinders,workshop/air-tools,2
-Air Drills,drills,workshop/air-tools/drills,workshop/air-tools,2
-Air Hoses & Accessories,hoses,workshop/air-tools/hoses,workshop/air-tools,2
-Air Impact Wrenches,impact-wrenches,workshop/air-tools/impact-wrenches,workshop/air-tools,2
-Air Needle Scalers,needle-scalers,workshop/air-tools/needle-scalers,workshop/air-tools,2
-Air Ratchet Wrenches,ratchet-wrenches,workshop/air-tools/ratchet-wrenches,workshop/air-tools,2
-Air Riveters,riveters,workshop/air-tools/riveters,workshop/air-tools,2
-Air Sanders / Polishers,sanders,workshop/air-tools/sanders,workshop/air-tools,2
-Air Screwdrivers,screwdrivers,workshop/air-tools/screwdrivers,workshop/air-tools,2
-Belt Driven Compressors,belt-driven,workshop/compressors/belt-driven,workshop/air-tools,2
-Direct Drive Compressors,direct-drive,workshop/compressors/direct-drive,workshop/air-tools,2
-Low Noise Compressors,low-noise,workshop/compressors/low-noise,workshop/air-tools,2
-Paint Spray Guns,paint-guns,workshop/air-tools/paint-guns,workshop/air-tools,2
-Petrol Air Compressors,petrol,workshop/compressors/petrol,workshop/air-tools,2
-Refrigerated Air Dryers,air-dryers,workshop/compressors/air-dryers,workshop/air-tools,2
-Screw Compressors,screw,workshop/compressors/screw,workshop/air-tools,2
-Welding Tools & Equipment,tools,workshop/tools,workshop,1
-Cable Reels,cable-reels,workshop/tools/cable-reels,workshop/tools,2
-Magnetic Welding Positioners,positioners,workshop/positioners,workshop/tools,2
-Temperature Indicator Pens,temp-pens,workshop/tools/temp-pens,workshop/tools,2
-Tool Kit Sets & Cabinets,kits,workshop/tools/kits,workshop/tools,2
-Welding Gauges,gauges,workshop/tools/gauges,workshop/tools,2
-Welding Chemicals & Consumables,chemicals,workshop/chemicals,workshop,1
-Devcon Maintenance Products,devcon,workshop/devcon,workshop/chemicals,2
-Weld Backing Ceramics,ceramics,workshop/consumables/ceramics,workshop/chemicals,2
+Oxy-Fuel & Brazing Rods,rods,gas-oxy-fuel/rods,wire-rods,1
+GAS,gas-oxy-fuel,gas-oxy-fuel,,0
+Oxy-Fuel Equipment,equipment,gas-oxy-fuel/equipment,gas-oxy-fuel,1
+DH Welding Nozzles - Oxy/Acetylene,dh-welding-nozzles-oxy-acetylene,gas-oxy-fuel/nozzles/welding/dh-welding-nozzles-oxy-acetylene,gas-oxy-fuel/equipment,2
+HD Welding Nozzles - Oxy/Acetylene,hd-welding-nozzles-oxy-acetylene,gas-oxy-fuel/nozzles/welding/hd-welding-nozzles-oxy-acetylene,gas-oxy-fuel/equipment,2
+Welding Nozzles,welding-nozzles,gas-oxy-fuel/nozzles/welding/welding-nozzles,gas-oxy-fuel/equipment,2
+Regulators,regulators,gas-oxy-fuel/regulators,gas-oxy-fuel,1
+Safety & Accessories,accessories,gas-oxy-fuel/accessories,gas-oxy-fuel,1
+Hoses & Fittings,hoses,gas-oxy-fuel/hoses,gas-oxy-fuel,1
+Gas Arc High Pressure Gas Hoses,gas-arc-high-pressure-gas-hoses,gas-oxy-fuel/hoses/high-pressure/gas-arc-high-pressure-gas-hoses,gas-oxy-fuel/hoses,2
+Gases other than Oxy/Oxy Mixture,gases-other-than-oxy-oxy-mixture,gas-oxy-fuel/hoses/high-pressure/gases-other-than-oxy-oxy-mixture,gas-oxy-fuel/hoses,2
+Oxygen High Pressure Flexible Gas Hoses,oxygen-high-pressure-flexible-gas-hoses,gas-oxy-fuel/hoses/high-pressure/oxygen-high-pressure-flexible-gas-hoses,gas-oxy-fuel/hoses,2
+Hose Check Valves - Torch Fitting,hose-check-valves-torch-fitting,gas-oxy-fuel/fittings/hose-check-valves-torch-fitting,gas-oxy-fuel/hoses,2
+Hose Couplers,hose-couplers,gas-oxy-fuel/fittings/hose-couplers,gas-oxy-fuel/hoses,2
+Hose Fittings,hose-fittings,gas-oxy-fuel/fittings/hose-fittings,gas-oxy-fuel/hoses,2
+Hose Nuts - Regulator Fitting,hose-nuts-regulator-fitting,gas-oxy-fuel/fittings/hose-nuts-regulator-fitting,gas-oxy-fuel/hoses,2
+Hose Tails - Regulator Fitting,hose-tails-regulator-fitting,gas-oxy-fuel/fittings/hose-tails-regulator-fitting,gas-oxy-fuel/hoses,2
+Regulator Bull Nose & Nevoc Stem & Nut,regulator-bull-nose-and-nevoc-stem-and-nut,gas-oxy-fuel/fittings/regulator-bull-nose-and-nevoc-stem-and-nut,gas-oxy-fuel/hoses,2
+Regulator Stems & Fittings,regulator-stems-and-fittings,gas-oxy-fuel/fittings/regulator-stems-and-fittings,gas-oxy-fuel/hoses,2
+Straight Adaptors,straight-adaptors,gas-oxy-fuel/fittings/straight-adaptors,gas-oxy-fuel/hoses,2
+Siamese Twin Welding Hoses - 100m Rolls,siamese-twin-welding-hoses-100m-rolls,gas-oxy-fuel/hoses/twin/siamese-twin-welding-hoses-100m-rolls,gas-oxy-fuel/hoses,2
+Twin Welding Hoses - Fitted Set,twin-welding-hoses-fitted-set,gas-oxy-fuel/hoses/twin/twin-welding-hoses-fitted-set,gas-oxy-fuel/hoses,2
+Storage & Distribution,storage,gas-oxy-fuel/storage,gas-oxy-fuel,1
+Cylinder Adaptors,cylinder-adaptors,gas-oxy-fuel/cylinder-fittings/cylinder-adaptors,gas-oxy-fuel/storage,2
+Cylinder Connectors,cylinder-connectors,gas-oxy-fuel/cylinder-fittings/cylinder-connectors,gas-oxy-fuel/storage,2
+Cylinder Extensions Right or Left Hand,cylinder-extensions-right-or-left-hand,gas-oxy-fuel/cylinder-fittings/cylinder-extensions-right-or-left-hand,gas-oxy-fuel/storage,2
+Cylinder Fittings,cylinder-fittings,gas-oxy-fuel/cylinder-fittings/cylinder-fittings,gas-oxy-fuel/storage,2
+Twin Outlet Valves,twin-outlet-valves,gas-oxy-fuel/cylinder-fittings/twin-outlet-valves,gas-oxy-fuel/storage,2
+Gas Cylinder Trolleys & Handling,gas-cylinder-trolleys-and-handling,gas-oxy-fuel/storage/trolleys/gas-cylinder-trolleys-and-handling,gas-oxy-fuel/storage,2
+Gas Cylinder Trolleys - Non UK Made,gas-cylinder-trolleys-non-uk-made,gas-oxy-fuel/storage/trolleys/gas-cylinder-trolleys-non-uk-made,gas-oxy-fuel/storage,2
+Gas Cylinder Trolleys - Reflex UK,gas-cylinder-trolleys-reflex-uk,gas-oxy-fuel/storage/trolleys/gas-cylinder-trolleys-reflex-uk,gas-oxy-fuel/storage,2
+Auto Changeover Manifolds (2 x 1 / 0 - 10 Bar),auto-changeover-manifolds-2-x-1-0-10-bar,gas-oxy-fuel/manifolds/auto-changeover-manifolds-2-x-1-0-10-bar,gas-oxy-fuel/storage,2
+Auto Changeover Manifolds (2 x 1 / 0 - 6 Bar),auto-changeover-manifolds-2-x-1-0-6-bar,gas-oxy-fuel/manifolds/auto-changeover-manifolds-2-x-1-0-6-bar,gas-oxy-fuel/storage,2
+Auto Changeover Manifolds (MCP 2 x 1 / 0 - 10 Bar),auto-changeover-manifolds-mcp-2-x-1-0-10-bar,gas-oxy-fuel/manifolds/auto-changeover-manifolds-mcp-2-x-1-0-10-bar,gas-oxy-fuel/storage,2
+Auto Changeover Manifolds (MCP 2 x 1 / 0 - 6 Bar),auto-changeover-manifolds-mcp-2-x-1-0-6-bar,gas-oxy-fuel/manifolds/auto-changeover-manifolds-mcp-2-x-1-0-6-bar,gas-oxy-fuel/storage,2
+Gas Arc Auto Changeover Manifold Panels,gas-arc-auto-changeover-manifold-panels,gas-oxy-fuel/manifolds/gas-arc-auto-changeover-manifold-panels,gas-oxy-fuel/storage,2
+Gas Changeover Manifold Panels,gas-changeover-manifold-panels,gas-oxy-fuel/manifolds/gas-changeover-manifold-panels,gas-oxy-fuel/storage,2
+Manifold & Regulator Parts/Connectors,manifold-and-regulator-parts-connectors,gas-oxy-fuel/manifolds/manifold-and-regulator-parts-connectors,gas-oxy-fuel/storage,2
+Manual Changeover Manifolds,manual-changeover-manifolds,gas-oxy-fuel/manifolds/manual-changeover-manifolds,gas-oxy-fuel/storage,2
+Manual Changeover Manifolds (0 - 10 Bar),manual-changeover-manifolds-0-10-bar,gas-oxy-fuel/manifolds/manual-changeover-manifolds-0-10-bar,gas-oxy-fuel/storage,2
+Manual Changeover Manifolds (0 - 6 Bar),manual-changeover-manifolds-0-6-bar,gas-oxy-fuel/manifolds/manual-changeover-manifolds-0-6-bar,gas-oxy-fuel/storage,2
 ABRASIVES,abrasives,abrasives,,0
 Cutting & Grinding Discs,cutting-grinding,abrasives/cutting-grinding,abrasives,1
-Cutting Discs,cutting,workshop/abrasives/cutting,abrasives/cutting-grinding,2
-Grinding Discs,grinding,workshop/abrasives/grinding,abrasives/cutting-grinding,2
 Finishing & Sanding Discs,finishing,abrasives/finishing,abrasives,1
-Ceramic Flap Discs,ceramic-flap,workshop/abrasives/ceramic-flap,abrasives/finishing,2
-Flap Discs,flap,workshop/abrasives/flap,abrasives/finishing,2
-Sanding Discs,sanding,workshop/abrasives/sanding,abrasives/finishing,2
 Abrasive Accessories,accessories,abrasives/accessories,abrasives,1
-Backing Pads,backing-pads,workshop/abrasives/backing-pads,abrasives/accessories,2
-Wire Brushes,wire-brushes,workshop/abrasives/wire-brushes,abrasives/accessories,2
+SAFETY & PPE,safety,safety,,0
+Welding Helmets & Eye Protection,helmets,safety/helmets,safety,1
+Welding Protective Clothing,clothing,safety/clothing,safety,1
+Welding Jackets & Trousers - Standard,welding-jackets-and-trousers-standard,safety/clothing/jackets/welding-jackets-and-trousers-standard,safety/clothing,2
+Welding Workspace Safety,workspace,safety/workspace,safety,1
+Welding Curtain Frames & Arms,welding-curtain-frames-and-arms,safety/screens/welding-curtain-frames-and-arms,safety/workspace,2
+Welding Curtains & Frames - Defender,welding-curtains-and-frames-defender,safety/screens/welding-curtains-and-frames-defender,safety/workspace,2
+Welding Curtains & Frames - Standard,welding-curtains-and-frames-standard,safety/screens/welding-curtains-and-frames-standard,safety/workspace,2
+Welding Curtains & Frames - Tusker,welding-curtains-and-frames-tusker,safety/screens/welding-curtains-and-frames-tusker,safety/workspace,2
+Strip Curtains,strip-curtains,safety/screens/strip/strip-curtains,safety/workspace,2
+FUME EXTRACTION,fume,safety/fume,,0
+Kemper Mobile Extraction,kemper-mobile,safety/fume/kemper-mobile,safety/fume,1
+Kemper Filter Units,kemper-filter-units,safety/fume/kemper-filter-units,safety/fume,1
+Kemper Central Fume/Dust Extraction,kemper-central-fume-dust-extraction,safety/fume/kemper-static/kemper-central-fume-dust-extraction,safety/fume/kemper-filter-units,2
+Welding Fume Extraction,extraction-systems,safety/fume/extraction-systems,safety/fume,1
+Air Cleaning & Monitoring,air-cleaning,safety/fume/air-cleaning,safety/fume,1
+Air Purifying Systems,air-purifying-systems,safety/fume/kemper-air-purifying/air-purifying-systems,safety/fume/air-cleaning,2
+Kemper Clean Air Systems,kemper-clean-air-systems,safety/fume/kemper-air-purifying/kemper-clean-air-systems,safety/fume/air-cleaning,2
+"On-Torch, Bench & Spares",on-torch,safety/fume/on-torch,safety/fume,1
+Kemper Exhaust Arms & Hoods,kemper-exhaust-arms-and-hoods,safety/fume/kemper-spares/kemper-exhaust-arms-and-hoods,safety/fume/on-torch,2
+Kemper Fans,kemper-fans,safety/fume/kemper-spares/kemper-fans,safety/fume/on-torch,2
+Kemper Filters,kemper-filters,safety/fume/kemper-spares/kemper-filters,safety/fume/on-torch,2
+Kemper Hoses & Nozzles,kemper-hoses-and-nozzles,safety/fume/kemper-spares/kemper-hoses-and-nozzles,safety/fume/on-torch,2
+Kemper Lighting Sets & Start-Stop Sets,kemper-lighting-sets-and-start-stop-sets,safety/fume/kemper-spares/kemper-lighting-sets-and-start-stop-sets,safety/fume/on-torch,2
+Kemper Misc Parts & Accessories,kemper-misc-parts-and-accessories,safety/fume/kemper-spares/kemper-misc-parts-and-accessories,safety/fume/on-torch,2
+WORKSHOP,workshop,workshop,,0
+Benches & Tables,benches,workshop/benches,workshop,1
+Steel Top Welding Benches,steel-top-welding-benches,workshop/benches/heavy-duty/steel-top-welding-benches,workshop/benches,2
+Stainless Steel Work Benches,stainless-steel-work-benches,workshop/benches/stainless/stainless-steel-work-benches,workshop/benches,2
+Stainless Steel Work Benches with Drawer & Cupboard,stainless-steel-work-benches-with-drawer-and-cupboard,workshop/benches/stainless/stainless-steel-work-benches-with-drawer-and-cupboard,workshop/benches,2
+Stainless Steel Work Benches with Lower Shelves,stainless-steel-work-benches-with-lower-shelves,workshop/benches/stainless/stainless-steel-work-benches-with-lower-shelves,workshop/benches,2
+Air Tools,air-tools,workshop/air-tools,workshop,1
+Air Belt Sanders,air-belt-sanders,workshop/air-tools/sanders/air-belt-sanders,workshop/air-tools,2
+Air Sanders / Air Polishers,air-sanders-air-polishers,workshop/air-tools/sanders/air-sanders-air-polishers,workshop/air-tools,2
+Air Compressors,compressors,workshop/compressors,workshop,1
+Air Compressor Hoses & Accessories,air-compressor-hoses-and-accessories,workshop/air-tools/hoses/air-compressor-hoses-and-accessories,workshop/compressors,2
+Air Compressor Safety Cages,air-compressor-safety-cages,workshop/air-tools/hoses/air-compressor-safety-cages,workshop/compressors,2
+Air Line Hoses,air-line-hoses,workshop/air-tools/hoses/air-line-hoses,workshop/compressors,2
+Recoil Air Hoses (uPVC),recoil-air-hoses-upvc,workshop/air-tools/hoses/recoil-air-hoses-upvc,workshop/compressors,2
+Saws & Drills,saws-drills,workshop/saws-drills,workshop,1
+Circular Saw Blades,circular-saw-blades,machines/saws/circular/circular-saw-blades,workshop/saws-drills,2
+Circular Saws & Blades,circular-saws-and-blades,machines/saws/circular/circular-saws-and-blades,workshop/saws-drills,2
+Thermal Spray Equipment & Powder,thermal-spray-equipment-and-powder,machines/thermal-spray/thermal-spray-equipment-and-powder,workshop/saws-drills,2
+Thermal Spray Powders,thermal-spray-powders,machines/thermal-spray/thermal-spray-powders,workshop/saws-drills,2
+Power & Generators,power,workshop/power,workshop,1
+Servicing & Parts,servicing-and-parts,machines/generators/servicing/servicing-and-parts,workshop/power,2
+Tools & Chemicals,tools,workshop/tools,workshop,1
+Devcon Epoxy Adhesives,devcon-epoxy-adhesives,workshop/devcon/devcon-epoxy-adhesives,workshop/tools,2
+Devcon Epoxy Metal Repair Putty,devcon-epoxy-metal-repair-putty,workshop/devcon/devcon-epoxy-metal-repair-putty,workshop/tools,2
+Devcon Flexane,devcon-flexane,workshop/devcon/devcon-flexane,workshop/tools,2
+Magswitch Magnetic Earth Clamps,magswitch-magnetic-earth-clamps,workshop/positioners/magswitch-magnetic-earth-clamps,workshop/tools,2
+Work Holding Devices - Fixed Angle,work-holding-devices-fixed-angle,workshop/positioners/work-holding-devices-fixed-angle,workshop/tools,2
+Work Holding Devices - Variable Angle,work-holding-devices-variable-angle,workshop/positioners/work-holding-devices-variable-angle,workshop/tools,2
+Plier Sets,plier-sets,workshop/tools/kits/plier-sets,workshop/tools,2
+Screwdriver Sets,screwdriver-sets,workshop/tools/kits/screwdriver-sets,workshop/tools,2
+Socket Sets,socket-sets,workshop/tools/kits/socket-sets,workshop/tools,2
+Tool Boxes & Cabinets,tool-boxes-and-cabinets,workshop/tools/kits/tool-boxes-and-cabinets,workshop/tools,2
+Wrench Sets,wrench-sets,workshop/tools/kits/wrench-sets,workshop/tools,2
+Ceramic Backing Strips,ceramic-backing-strips,workshop/consumables/ceramics/ceramic-backing-strips,workshop/tools,2
+Katbak Ceramic Backing Strips,katbak-ceramic-backing-strips,workshop/consumables/ceramics/katbak-ceramic-backing-strips,workshop/tools,2
+Weld Backing Ceramics & Tapes,weld-backing-ceramics-and-tapes,workshop/consumables/ceramics/weld-backing-ceramics-and-tapes,workshop/tools,2
+Ardrox NDT Aerosols,ardrox-ndt-aerosols,workshop/chemicals/ardrox-ndt-aerosols,workshop/tools,2
+Ardrox NDT Products,ardrox-ndt-products,workshop/chemicals/ardrox-ndt-products,workshop/tools,2
+Leak Detection Spray,leak-detection-spray,workshop/chemicals/leak-detection-spray,workshop/tools,2
+Welding Chemicals and Sprays,welding-chemicals-and-sprays,workshop/chemicals/welding-chemicals-and-sprays,workshop/tools,2
+PIPE,pipe,workshop/pipe,,0
+Pipe Stands & Handling,stands,workshop/pipe/stands,workshop/pipe,1
+AMA Roller Pipe Stands,ama-roller-pipe-stands,workshop/pipe/stands/roller/ama-roller-pipe-stands,workshop/pipe/stands,2
+Double Roll Pipe Stands,double-roll-pipe-stands,workshop/pipe/stands/roller/double-roll-pipe-stands,workshop/pipe/stands,2
+Floor Mounted Roller Stands,floor-mounted-roller-stands,workshop/pipe/stands/roller/floor-mounted-roller-stands,workshop/pipe/stands,2
+Mega-Pipe Stands,mega-pipe-stands,workshop/pipe/stands/roller/mega-pipe-stands,workshop/pipe/stands,2
+Multi-Stand Pipe Stands,multi-stand-pipe-stands,workshop/pipe/stands/roller/multi-stand-pipe-stands,workshop/pipe/stands,2
+Pipe Roller Stands,pipe-roller-stands,workshop/pipe/stands/roller/pipe-roller-stands,workshop/pipe/stands,2
+Roller Pipe Stands,roller-pipe-stands,workshop/pipe/stands/roller/roller-pipe-stands,workshop/pipe/stands,2
+Five Leg Pipe Stands,five-leg-pipe-stands,workshop/pipe/stands/v-head/five-leg-pipe-stands,workshop/pipe/stands,2
+Quattro Pipe Stands,quattro-pipe-stands,workshop/pipe/stands/v-head/quattro-pipe-stands,workshop/pipe/stands,2
+Single Tube Pipe Stands,single-tube-pipe-stands,workshop/pipe/stands/v-head/single-tube-pipe-stands,workshop/pipe/stands,2
+Tri-Stands & Pipe Jacks,tri-stands-and-pipe-jacks,workshop/pipe/stands/v-head/tri-stands-and-pipe-jacks,workshop/pipe/stands,2
+V Head Stands,v-head-stands,workshop/pipe/stands/v-head/v-head-stands,workshop/pipe/stands,2
+Pipe Welding Clamps,clamps,workshop/pipe/clamps,workshop/pipe,1
+Black Bridge Clamps,black-bridge-clamps,workshop/pipe/clamps/bridge/black-bridge-clamps,workshop/pipe/clamps,2
+Gold Bridge Alignment Clamps,gold-bridge-alignment-clamps,workshop/pipe/clamps/bridge/gold-bridge-alignment-clamps,workshop/pipe/clamps,2
+Chain Pipe Alignment Clamps,chain-pipe-alignment-clamps,workshop/pipe/clamps/chain/chain-pipe-alignment-clamps,workshop/pipe/clamps,2
+Double Chain Pipe Clamps,double-chain-pipe-clamps,workshop/pipe/clamps/chain/double-chain-pipe-clamps,workshop/pipe/clamps,2
+Single Chain Pipe Clamps,single-chain-pipe-clamps,workshop/pipe/clamps/chain/single-chain-pipe-clamps,workshop/pipe/clamps,2
+Pipe Cutting & Preparation,cutting,workshop/pipe/cutting,workshop/pipe,1
+140mm Saw Blades & Diamond Cutting Discs,140mm-saw-blades-and-diamond-cutting-discs,workshop/pipe/saws/exact/140mm-saw-blades-and-diamond-cutting-discs,workshop/pipe/cutting,2
+165mm Saw Blades & Diamond Cutting Discs,165mm-saw-blades-and-diamond-cutting-discs,workshop/pipe/saws/exact/165mm-saw-blades-and-diamond-cutting-discs,workshop/pipe/cutting,2
+Exact 170 Pipe Cutting Benches,exact-170-pipe-cutting-benches,workshop/pipe/saws/exact/exact-170-pipe-cutting-benches,workshop/pipe/cutting,2
+Exact PipeCut for Cutting Spiral Ducting,exact-pipecut-for-cutting-spiral-ducting,workshop/pipe/saws/exact/exact-pipecut-for-cutting-spiral-ducting,workshop/pipe/cutting,2
+Exact Saw Blades,exact-saw-blades,workshop/pipe/saws/exact/exact-saw-blades,workshop/pipe/cutting,2
+Pipe Bench System Accessories,pipe-bench-system-accessories,workshop/pipe/saws/exact/pipe-bench-system-accessories,workshop/pipe/cutting,2
+Special Blades,special-blades,workshop/pipe/saws/exact/special-blades,workshop/pipe/cutting,2
+Pipe Bevelling Machines & Tools,pipe-bevelling-machines-and-tools,workshop/pipe/bevelling/pipe-bevelling-machines-and-tools,workshop/pipe/cutting,2
+Pipe Prep Blades,pipe-prep-blades,workshop/pipe/bevelling/pipe-prep-blades,workshop/pipe/cutting,2
+Prep 2 Pipe Preparation Machines,prep-2-pipe-preparation-machines,workshop/pipe/bevelling/prep-2-pipe-preparation-machines,workshop/pipe/cutting,2
+Prep 3 Pipe Preparation Machines,prep-3-pipe-preparation-machines,workshop/pipe/bevelling/prep-3-pipe-preparation-machines,workshop/pipe/cutting,2
+Prep 4 Pipe Preparation Machines,prep-4-pipe-preparation-machines,workshop/pipe/bevelling/prep-4-pipe-preparation-machines,workshop/pipe/cutting,2
+Prep 8 Pipe Preparation Machines,prep-8-pipe-preparation-machines,workshop/pipe/bevelling/prep-8-pipe-preparation-machines,workshop/pipe/cutting,2
+Automatic Pipe Cutting Machine Spares,automatic-pipe-cutting-machine-spares,workshop/pipe/cutting-machines/spares/automatic-pipe-cutting-machine-spares,workshop/pipe/cutting,2
+Magnetic Pipe Cutting Machine Spares,magnetic-pipe-cutting-machine-spares,workshop/pipe/cutting-machines/spares/magnetic-pipe-cutting-machine-spares,workshop/pipe/cutting,2
+Manual Pipe Cutting Machine Spares,manual-pipe-cutting-machine-spares,workshop/pipe/cutting-machines/spares/manual-pipe-cutting-machine-spares,workshop/pipe/cutting,2
+Automatic Pipe Cutting Machines,automatic-pipe-cutting-machines,workshop/pipe/cutting-machines/automatic-pipe-cutting-machines,workshop/pipe/cutting,2
+Magnetic Pipe Cutting Machines,magnetic-pipe-cutting-machines,workshop/pipe/cutting-machines/magnetic-pipe-cutting-machines,workshop/pipe/cutting,2
+Pipe Welding Accessories,accessories,workshop/pipe/accessories,workshop/pipe,1
+Drain Test Plugs & Stoppers,drain-test-plugs-and-stoppers,workshop/pipe/drain-plugs/drain-test-plugs-and-stoppers,workshop/pipe/accessories,2
+Hollow Bore Drain Test Plugs,hollow-bore-drain-test-plugs,workshop/pipe/drain-plugs/hollow-bore-drain-test-plugs,workshop/pipe/accessories,2
+Nylon Drain Test Plugs,nylon-drain-test-plugs,workshop/pipe/drain-plugs/nylon-drain-test-plugs,workshop/pipe/accessories,2
+Contour Markers,contour-markers,workshop/pipe/measuring/contour-markers,workshop/pipe/accessories,2
+Flange Pins,flange-pins,workshop/pipe/measuring/flange-pins,workshop/pipe/accessories,2
+Pipe Centering Heads,pipe-centering-heads,workshop/pipe/measuring/pipe-centering-heads,workshop/pipe/accessories,2
+Pipe Measuring & Marking Tools,pipe-measuring-and-marking-tools,workshop/pipe/measuring/pipe-measuring-and-marking-tools,workshop/pipe/accessories,2
+Radius Markers,radius-markers,workshop/pipe/measuring/radius-markers,workshop/pipe/accessories,2
+Double Seal Kits Complete,double-seal-kits-complete,workshop/pipe/purging/double-seal-kits-complete,workshop/pipe/accessories,2
+Double Seal Purge Systems,double-seal-purge-systems,workshop/pipe/purging/double-seal-purge-systems,workshop/pipe/accessories,2
+Expandable Pipe Stoppers,expandable-pipe-stoppers,workshop/pipe/purging/expandable-pipe-stoppers,workshop/pipe/accessories,2
+Inflatable Purge Bag Systems,inflatable-purge-bag-systems,workshop/pipe/purging/inflatable-purge-bag-systems,workshop/pipe/accessories,2
+Pre-formed Self Adhesive Purge Dams,pre-formed-self-adhesive-purge-dams,workshop/pipe/purging/pre-formed-self-adhesive-purge-dams,workshop/pipe/accessories,2
+Purge Gas Retaining Tape,purge-gas-retaining-tape,workshop/pipe/purging/purge-gas-retaining-tape,workshop/pipe/accessories,2
+Weld Purge Monitors,weld-purge-monitors,workshop/pipe/purging/weld-purge-monitors,workshop/pipe/accessories,2
+Fibreglass Weld Backing Tape,fibreglass-weld-backing-tape,workshop/pipe/backing-tape/fibreglass-weld-backing-tape,workshop/pipe/accessories,2
+Weld Backing Tapes,weld-backing-tapes,workshop/pipe/backing-tape/weld-backing-tapes,workshop/pipe/accessories,2
 BRANDS,brands,brands,,0
-Gas Arc - Regulators & Gas Control,gas-arc,brands/gas-arc,brands,2
-"Jasic - MIG, TIG & Plasma",jasic,brands/jasic,brands,2
-Kemper - Fume Extraction,kemper,brands/kemper,brands,2
-Parweld - Welders & Consumables,parweld,brands/parweld,brands,2
-Sif / Weldability - Consumables,sif-weldability,brands/sif-weldability,brands,2
-Binzel - MIG Torches & Parts,binzel,brands/binzel,brands,2
-Devcon - Maintenance Products,devcon,brands/devcon,brands,2
-Exact - Pipe Saws,exact,brands/exact,brands,2
-F-Tech - Fume Extraction,f-tech,brands/f-tech,brands,2
-Magswitch - Magnetic Positioners,magswitch,brands/magswitch,brands,2
-Mosa - Welder Generators,mosa,brands/mosa,brands,2
-Newarc - TIG & MMA Welders,newarc,brands/newarc,brands,2
-"SWP - MIG, TIG & Plasma",swp,brands/swp,brands,2
-TAG - Pipe Saws,tag,brands/tag,brands,2
-Tecna - Spot Welders,tecna,brands/tecna,brands,2
-Thermal Dynamics - Plasma,thermal-dynamics,brands/thermal-dynamics,brands,2
-Weldstar - Multi Process Welders,weldstar,brands/weldstar,brands,2
-WSL - On-Torch Extraction,wsl,brands/wsl,brands,2

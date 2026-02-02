@@ -384,42 +384,6 @@ export default function OverviewSections() {
         </div>
       </section>
 
-      {/* Migration Plan Callout */}
-      <section className="mb-12">
-        <a
-          href="/migration"
-          className="block bg-gradient-to-r from-amber-50 to-amber-100 border-2 border-amber-300 rounded-xl p-6 md:p-8 hover:border-[#d32f2f] transition-colors group"
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <span className="bg-amber-200 text-amber-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
-                Next Step
-              </span>
-              <h2 className="text-2xl font-bold text-[#1a2456] mt-3 mb-2 group-hover:text-[#d32f2f] transition-colors">
-                View the WooCommerce Migration Plan
-              </h2>
-              <p className="text-gray-600">
-                Step-by-step plan for migrating 5,944 products to the new category
-                structure. Includes risk mitigation, checklist, and prepared files.
-              </p>
-            </div>
-            <svg
-              className="w-8 h-8 text-gray-400 group-hover:text-[#d32f2f] transition-colors flex-shrink-0 ml-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </div>
-        </a>
-      </section>
-
       {/* Footer */}
       <footer className="text-center py-8 border-t border-gray-200 text-sm text-gray-400">
         <p>

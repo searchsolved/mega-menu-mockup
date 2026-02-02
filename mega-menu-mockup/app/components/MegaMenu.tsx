@@ -2,7 +2,9 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
+import * as XLSX from "xlsx";
 import { menuItems } from "../data/menuData";
+import { redirects } from "../data/redirectData";
 
 export default function MegaMenu() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -13,28 +15,37 @@ export default function MegaMenu() {
   const navRef = useRef<HTMLDivElement>(null);
 
   const downloadExcel = useCallback(() => {
-    const rows: string[][] = [["Category", "Sub-Category", "Item", "URL"]];
+    const wb = XLSX.utils.book_new();
+
+    // --- Sheet 1: Navigation Structure ---
+    const navRows: string[][] = [["Top Menu", "Column", "Item", "New URL"]];
     menuItems.forEach((item) => {
       if (item.children) {
         item.children.forEach((col) => {
-          rows.push([item.label, col.heading, "", col.href]);
+          navRows.push([item.label, col.heading, "", col.href]);
           col.items.forEach((link) => {
-            rows.push([item.label, col.heading, link.label, link.href]);
+            navRows.push([item.label, col.heading, link.label, link.href]);
           });
         });
       } else {
-        rows.push([item.label, "", "", item.href]);
+        navRows.push([item.label, "", "", item.href]);
       }
     });
-    const csv = rows.map((r) => r.map((c) => `"${c.replace(/"/g, '""')}"`).join(",")).join("\n");
-    const BOM = "\uFEFF";
-    const blob = new Blob([BOM + csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "navigation-structure.csv";
-    a.click();
-    URL.revokeObjectURL(url);
+    const wsNav = XLSX.utils.aoa_to_sheet(navRows);
+    wsNav["!cols"] = [{ wch: 18 }, { wch: 32 }, { wch: 40 }, { wch: 48 }];
+    XLSX.utils.book_append_sheet(wb, wsNav, "Navigation");
+
+    // --- Sheet 2: Old → New Category Mapping ---
+    const mapRows: string[][] = [["Old URL", "New URL", "Match Type", "Confidence", "Notes"]];
+    redirects.forEach((r) => {
+      mapRows.push([r.old_url, r.new_url, r.match_type, r.confidence, r.notes]);
+    });
+    const wsMap = XLSX.utils.aoa_to_sheet(mapRows);
+    wsMap["!cols"] = [{ wch: 90 }, { wch: 48 }, { wch: 14 }, { wch: 12 }, { wch: 50 }];
+    XLSX.utils.book_append_sheet(wb, wsMap, "Category Mapping");
+
+    // Write and download
+    XLSX.writeFile(wb, "waw-navigation-and-redirects.xlsx");
   }, []);
 
   const handleMouseEnter = (index: number) => {
@@ -70,13 +81,9 @@ export default function MegaMenu() {
             technical@weldingandwelder.com
           </Link>
           <div className="flex items-center gap-3 text-gray-700 font-semibold uppercase tracking-wide">
-            <Link href="/migration" className="hover:text-[#d32f2f] transition-colors font-bold text-[#d32f2f]">
-              Migration Plan
-            </Link>
-            <span className="text-gray-300">|</span>
             <button
               onClick={downloadExcel}
-              className="hover:text-[#d32f2f] transition-colors flex items-center gap-1"
+              className="font-bold text-[#d32f2f] hover:text-[#d32f2f] transition-colors flex items-center gap-1"
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
