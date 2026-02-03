@@ -45,6 +45,7 @@ export const menuItems: MenuItem[] = [
           { label: "Parweld MIG Welders", href: "/mig-welding/welders/parweld", canonical: true },
           { label: "SWP MIG Welders", href: "/mig-welding/welders/swp", canonical: true },
           { label: "Weldability Sif MIG Welders", href: "/mig-welding/welders/weldability-sif", canonical: true },
+          { label: "Gasless MIG Welders", href: "/mig-welding/welders/gasless", missing: true, searchVolume: 1300, canonical: true },
         ],
       },
       {
@@ -119,6 +120,7 @@ export const menuItems: MenuItem[] = [
           { label: "Parweld TIG Welders", href: "/tig-welding/welders/parweld", image: "https://images.unsplash.com/photo-1665492302891-502760d2d888?w=200&h=200&fit=crop&auto=format", canonical: true },
           { label: "Sif TIG Welders", href: "/tig-welding/welders/sif", image: "https://images.unsplash.com/photo-1665492302891-502760d2d888?w=200&h=200&fit=crop&auto=format", canonical: true },
           { label: "SWP TIG Welders", href: "/tig-welding/welders/swp", image: "https://images.unsplash.com/photo-1665492296636-6bb39f409f02?w=200&h=200&fit=crop&auto=format", canonical: true },
+          { label: "AC/DC TIG Welders", href: "/tig-welding/welders/ac-dc", missing: true, searchVolume: 450, canonical: true },
         ],
       },
       {
@@ -195,6 +197,7 @@ export const menuItems: MenuItem[] = [
           { label: "Multi Process Welders", href: "/arc-mma/multi-process", image: "https://images.unsplash.com/photo-1564970173067-36ccde5c467b?w=200&h=200&fit=crop&auto=format", canonical: true },
           { label: "Newarc MMA Welders", href: "/arc-mma/welders/newarc", image: "https://images.unsplash.com/photo-1747254779472-467cc7c5bde8?w=200&h=200&fit=crop&auto=format", canonical: true },
           { label: "Parweld MMA Welders", href: "/arc-mma/welders/parweld", image: "https://images.unsplash.com/photo-1635179885954-c778885a1197?w=200&h=200&fit=crop&auto=format", canonical: true },
+          { label: "Inverter Welders", href: "/arc-mma/welders/inverter", missing: true, searchVolume: 700, canonical: true },
         ],
       },
       {
@@ -348,6 +351,8 @@ export const menuItems: MenuItem[] = [
           { label: "Sif Weld Cut 40 Spares", href: "/cutting/plasma/sif-weld-cut-40-spares", image: "https://images.unsplash.com/photo-1626845447936-eb4f45fbbf69?w=200&h=200&fit=crop&auto=format", canonical: true },
           { label: "Sif Weld Cut 100 Spares", href: "/cutting/plasma/sif-weld-cut-100-spares", image: "https://images.unsplash.com/photo-1701402489931-357b84a96bc1?w=200&h=200&fit=crop&auto=format", canonical: true },
           { label: "Weldability Plasma Spares", href: "/cutting/plasma/weldability-spares", image: "https://images.unsplash.com/photo-1669962254277-84993116aa08?w=200&h=200&fit=crop&auto=format", canonical: true },
+          { label: "CNC Plasma Cutters", href: "/cutting/plasma/cnc", missing: true, searchVolume: 400, canonical: true },
+          { label: "Plasma Cutting Tables", href: "/cutting/plasma/tables", missing: true, searchVolume: 150, canonical: true },
         ],
       },
       {
@@ -483,6 +488,7 @@ export const menuItems: MenuItem[] = [
           { label: "Powder Welding Powders", href: "/workshop/chemicals/powder-welding", canonical: false },
           { label: "Weld Backing Ceramics & Tapes", href: "/workshop/consumables/ceramics", canonical: false },
           { label: "Welding Chemicals & Sprays", href: "/workshop/chemicals", canonical: false },
+          { label: "Welding Flux", href: "/wire-rods/flux", missing: true, searchVolume: 150, canonical: true },
         ],
       },
     ],
@@ -672,6 +678,7 @@ export const menuItems: MenuItem[] = [
           { label: "Welding Jackets", href: "/safety/clothing/jackets", image: "https://images.unsplash.com/photo-1652881984659-0eeb221fcb9d?w=200&h=200&fit=crop&auto=format", canonical: true, subcategories: [{ label: "Welding Jackets & Trousers - Standard", href: "/safety/clothing/jackets/welding-jackets-and-trousers-standard" }] },
           { label: "Welding Overalls", href: "/safety/clothing/overalls", image: "https://images.unsplash.com/photo-1734888369524-bd915004d0c3?w=200&h=200&fit=crop&auto=format", canonical: true },
           { label: "Welding Trousers & Spats", href: "/safety/clothing/trousers", image: "https://images.unsplash.com/photo-1701282851450-a0659dfb436b?w=200&h=200&fit=crop&auto=format", canonical: true },
+          { label: "Welding Boots & Gaiters", href: "/safety/clothing/boots", missing: true, searchVolume: 300, canonical: true },
         ],
       },
       {
@@ -813,6 +820,9 @@ export const menuItems: MenuItem[] = [
           { label: "Magnetic Drills", href: "/machines/magnetic-drills", image: "https://images.unsplash.com/photo-1639303338365-6d5912cd8c56?w=200&h=200&fit=crop&auto=format", canonical: true },
           { label: "Thermal Spray Equipment", href: "/machines/thermal-spray", image: "https://images.unsplash.com/photo-1646047957710-0b5b1b0827b3?w=200&h=200&fit=crop&auto=format", canonical: true, subcategories: [{ label: "Thermal Spray Equipment & Powder", href: "/machines/thermal-spray/thermal-spray-equipment-and-powder" }, { label: "Thermal Spray Powders", href: "/machines/thermal-spray/thermal-spray-powders" }] },
           { label: "Tool Balancers", href: "/machines/tool-balancers", image: "https://images.unsplash.com/photo-1707246014636-87a1f1de0727?w=200&h=200&fit=crop&auto=format", canonical: true },
+          { label: "Bench Grinders", href: "/workshop/saws-drills/bench-grinders", missing: true, searchVolume: 3400, canonical: true },
+          { label: "Belt Grinders & Linishers", href: "/workshop/saws-drills/belt-grinders", missing: true, searchVolume: 700, canonical: true },
+          { label: "Metal Bandsaws", href: "/workshop/saws-drills/bandsaws", missing: true, searchVolume: 250, canonical: true },
         ],
       },
       {
@@ -828,6 +838,10 @@ export const menuItems: MenuItem[] = [
           { label: "Weld Backing Ceramics", href: "/workshop/consumables/ceramics", image: "https://images.unsplash.com/photo-1575839127397-c12e55f70a38?w=200&h=200&fit=crop&auto=format", canonical: true, subcategories: [{ label: "Ceramic Backing Strips", href: "/workshop/consumables/ceramics/ceramic-backing-strips" }, { label: "Katbak Ceramic Backing Strips", href: "/workshop/consumables/ceramics/katbak-ceramic-backing-strips" }, { label: "Weld Backing Ceramics & Tapes", href: "/workshop/consumables/ceramics/weld-backing-ceramics-and-tapes" }] },
           { label: "Welding Chemicals & Sprays", href: "/workshop/chemicals", image: "https://images.unsplash.com/photo-1764115737858-c8290a4251d3?w=200&h=200&fit=crop&auto=format", canonical: true, subcategories: [{ label: "Ardrox NDT Aerosols", href: "/workshop/chemicals/ardrox-ndt-aerosols" }, { label: "Ardrox NDT Products", href: "/workshop/chemicals/ardrox-ndt-products" }, { label: "Leak Detection Spray", href: "/workshop/chemicals/leak-detection-spray" }, { label: "Welding Chemicals and Sprays", href: "/workshop/chemicals/welding-chemicals-and-sprays" }] },
           { label: "Welding Gauges", href: "/workshop/tools/gauges", image: "https://images.unsplash.com/photo-1766096847418-9a2ae64c9621?w=200&h=200&fit=crop&auto=format", canonical: true },
+          { label: "Bench Vices", href: "/workshop/tools/vices", missing: true, searchVolume: 2700, canonical: true },
+          { label: "Deburring Tools", href: "/workshop/tools/deburring", missing: true, searchVolume: 3400, canonical: true },
+          { label: "Welding Clamps", href: "/workshop/tools/clamps", missing: true, searchVolume: 600, canonical: true },
+          { label: "Welding Positioners & Turntables", href: "/workshop/tools/positioners-turntables", missing: true, searchVolume: 150, canonical: true },
         ],
       },
       {
