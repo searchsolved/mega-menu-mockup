@@ -69,6 +69,14 @@ export default function MegaMenu() {
   }, []);
 
   const CanonicalDot = ({ item }: { item: MenuItemLink }) => {
+    if (item.missing) {
+      return (
+        <span
+          className="inline-block w-2 h-2 rounded-full flex-shrink-0 bg-red-500"
+          title={`Missing: not yet on site (UK vol: ${item.searchVolume ?? "?"}/mo)`}
+        />
+      );
+    }
     if (item.canonical === undefined) return null;
     return (
       <span
@@ -349,7 +357,7 @@ export default function MegaMenu() {
           >
             <div className="max-w-7xl mx-auto px-6 py-8">
               {/* Canonical legend */}
-              {menuItems[openIndex].children!.some(col => col.items.some(item => item.canonical !== undefined)) && (
+              {menuItems[openIndex].children!.some(col => col.items.some(item => item.canonical !== undefined || item.missing)) && (
                 <div className="flex items-center gap-4 mb-4 text-xs text-gray-500 border-b border-gray-100 pb-3">
                   <span className="font-semibold text-gray-700 uppercase tracking-wide">Key:</span>
                   <span className="flex items-center gap-1.5">
@@ -360,6 +368,12 @@ export default function MegaMenu() {
                     <span className="inline-block w-2 h-2 rounded-full bg-orange-400" />
                     Cross-listed (canonicalised elsewhere)
                   </span>
+                  {menuItems[openIndex].children!.some(col => col.items.some(item => item.missing)) && (
+                    <span className="flex items-center gap-1.5">
+                      <span className="inline-block w-2 h-2 rounded-full bg-red-500" />
+                      Missing category (search demand exists)
+                    </span>
+                  )}
                 </div>
               )}
               {/* List view */}
@@ -378,10 +392,19 @@ export default function MegaMenu() {
                           <li key={li}>
                             <Link
                               href={link.href}
-                              className="text-sm text-gray-600 hover:text-[#d32f2f] transition-colors py-0.5 flex items-center gap-1.5"
+                              className={`text-sm transition-colors py-0.5 flex items-center gap-1.5 ${
+                                link.missing
+                                  ? "text-red-500 hover:text-red-700 italic"
+                                  : "text-gray-600 hover:text-[#d32f2f]"
+                              }`}
                             >
                               <CanonicalDot item={link} />
                               {link.label}
+                              {link.missing && link.searchVolume && (
+                                <span className="text-[10px] font-medium bg-red-100 text-red-600 rounded px-1 py-0.5 ml-auto whitespace-nowrap">
+                                  {link.searchVolume.toLocaleString()}/mo
+                                </span>
+                              )}
                             </Link>
                           </li>
                         ))}
@@ -427,19 +450,23 @@ export default function MegaMenu() {
                               className="group flex flex-col items-center text-center relative"
                             >
                               <div className={`w-full aspect-square border rounded flex items-center justify-center p-2 mb-1.5 group-hover:border-gray-400 transition-colors ${
-                                link.canonical === false
+                                link.missing
+                                  ? "bg-red-50 border-red-300 border-dashed"
+                                  : link.canonical === false
                                   ? "bg-orange-50 border-orange-200"
                                   : link.canonical === true
                                   ? "bg-green-50 border-green-200"
                                   : "bg-[#f5f5f5] border-gray-200"
                               }`}>
-                                {link.canonical !== undefined && (
+                                {link.missing ? (
+                                  <span className="absolute top-1 right-1 w-2.5 h-2.5 rounded-full bg-red-500" />
+                                ) : link.canonical !== undefined ? (
                                   <span
                                     className={`absolute top-1 right-1 w-2.5 h-2.5 rounded-full ${
                                       link.canonical ? "bg-green-500" : "bg-orange-400"
                                     }`}
                                   />
-                                )}
+                                ) : null}
                                 {link.image ? (
                                   <img src={link.image} alt={link.label} className="max-w-full max-h-full object-contain" />
                                 ) : (
@@ -451,8 +478,15 @@ export default function MegaMenu() {
                                   </svg>
                                 )}
                               </div>
-                              <span className="text-[11px] font-bold text-gray-700 leading-tight group-hover:text-[#d32f2f] transition-colors">
+                              <span className={`text-[11px] font-bold leading-tight group-hover:text-[#d32f2f] transition-colors ${
+                                link.missing ? "text-red-500 italic" : "text-gray-700"
+                              }`}>
                                 {link.label}
+                                {link.missing && link.searchVolume && (
+                                  <span className="block text-[9px] font-medium text-red-400 not-italic mt-0.5">
+                                    {link.searchVolume.toLocaleString()}/mo
+                                  </span>
+                                )}
                               </span>
                             </Link>
                           ))}
@@ -627,17 +661,26 @@ export default function MegaMenu() {
                             <li key={li}>
                               <Link
                                 href={link.href}
-                                className="text-sm text-gray-600 py-0.5 flex items-center gap-1.5"
+                                className={`text-sm py-0.5 flex items-center gap-1.5 ${
+                                  link.missing ? "text-red-500 italic" : "text-gray-600"
+                                }`}
                                 onClick={() => setMobileOpen(false)}
                               >
-                                {link.canonical !== undefined && (
+                                {link.missing ? (
+                                  <span className="inline-block w-2 h-2 rounded-full flex-shrink-0 bg-red-500" />
+                                ) : link.canonical !== undefined ? (
                                   <span
                                     className={`inline-block w-2 h-2 rounded-full flex-shrink-0 ${
                                       link.canonical ? "bg-green-500" : "bg-orange-400"
                                     }`}
                                   />
-                                )}
+                                ) : null}
                                 {link.label}
+                                {link.missing && link.searchVolume && (
+                                  <span className="text-[10px] font-medium bg-red-100 text-red-600 rounded px-1 py-0.5 ml-auto">
+                                    {link.searchVolume.toLocaleString()}/mo
+                                  </span>
+                                )}
                               </Link>
                             </li>
                           ))}

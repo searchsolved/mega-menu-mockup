@@ -17,6 +17,8 @@ export interface MenuItemLink {
   image?: string;
   subcategories?: SubCategory[];
   canonical?: boolean; // true = green (lives here), false = orange (cross-listed, canonicalised elsewhere)
+  missing?: boolean; // true = red (gap identified via search demand, not yet on site)
+  searchVolume?: number; // UK monthly search volume from Ahrefs
 }
 
 export interface MenuColumn {
@@ -594,7 +596,9 @@ export const menuItems: MenuItem[] = [
         image: "https://images.unsplash.com/photo-1562946723-2ee1c79439fc?w=200&h=200&fit=crop&auto=format",
         items: [
           { label: "Cutting Discs", href: "/abrasives/cutting", image: "https://images.unsplash.com/photo-1733309730239-1d2b723eb807?w=200&h=200&fit=crop&auto=format", canonical: true },
+          { label: "Fibre Discs", href: "/abrasives/fibre", missing: true, searchVolume: 140, canonical: true },
           { label: "Grinding Discs", href: "/abrasives/grinding", image: "https://images.unsplash.com/photo-1721048379899-17bbda01c734?w=200&h=200&fit=crop&auto=format", canonical: true },
+          { label: "Grinding Wheels", href: "/abrasives/grinding-wheels", missing: true, searchVolume: 800, canonical: true },
         ],
       },
       {
@@ -604,7 +608,10 @@ export const menuItems: MenuItem[] = [
         items: [
           { label: "Ceramic Flap Discs", href: "/abrasives/ceramic-flap", image: "https://images.unsplash.com/photo-1755943421697-a9948e8c6234?w=200&h=200&fit=crop&auto=format", canonical: true },
           { label: "Flap Discs", href: "/abrasives/flap", image: "https://images.unsplash.com/photo-1551868561-f2cdee310ecf?w=200&h=200&fit=crop&auto=format", canonical: true },
+          { label: "Polishing Discs", href: "/abrasives/polishing", missing: true, searchVolume: 100, canonical: true },
+          { label: "Sanding Belts", href: "/abrasives/sanding-belts", missing: true, searchVolume: 1000, canonical: true },
           { label: "Sanding Discs", href: "/abrasives/sanding", image: "https://images.unsplash.com/photo-1665722653189-c8f1f02245b2?w=200&h=200&fit=crop&auto=format", canonical: true },
+          { label: "Strip Discs", href: "/abrasives/strip-discs", missing: true, searchVolume: 150, canonical: true },
         ],
       },
       {
@@ -614,7 +621,11 @@ export const menuItems: MenuItem[] = [
         items: [
           { label: "Air Angle Grinders", href: "/workshop/air-angle-grinders", canonical: false },
           { label: "Backing Pads", href: "/abrasives/backing-pads", image: "https://images.unsplash.com/photo-1705875021755-88ba2c835524?w=200&h=200&fit=crop&auto=format", canonical: true },
+          { label: "Buffing Wheels & Mops", href: "/abrasives/buffing", missing: true, searchVolume: 900, canonical: true },
+          { label: "Carbide Burrs", href: "/abrasives/carbide-burrs", missing: true, searchVolume: 170, canonical: true },
+          { label: "Flap Wheels", href: "/abrasives/flap-wheels", missing: true, searchVolume: 150, canonical: true },
           { label: "Wire Brushes", href: "/abrasives/wire-brushes", image: "https://images.unsplash.com/photo-1704026437826-7a316f21494d?w=200&h=200&fit=crop&auto=format", canonical: true },
+          { label: "Wire Wheels", href: "/abrasives/wire-wheels", missing: true, searchVolume: 800, canonical: true },
         ],
       },
       {
