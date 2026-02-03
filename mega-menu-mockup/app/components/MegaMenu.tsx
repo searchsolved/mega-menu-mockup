@@ -368,43 +368,31 @@ export default function MegaMenu() {
             onMouseLeave={handleMouseLeave}
           >
             <div className="max-w-7xl mx-auto px-6 py-8">
-              {/* Interactive legend – click to toggle visibility */}
+              {/* Legend – click items to toggle visibility */}
               {menuItems[openIndex].children!.some(col => col.items.some(item => item.canonical !== undefined || item.missing)) && (
-                <div className="flex items-center gap-3 mb-4 text-xs text-gray-500 border-b border-gray-100 pb-3">
-                  <span className="font-semibold text-gray-700 uppercase tracking-wide">Legend:</span>
+                <div className="flex items-center gap-4 mb-4 text-xs text-gray-500 border-b border-gray-100 pb-3">
+                  <span className="font-semibold text-gray-700 uppercase tracking-wide">Key:</span>
                   <button
                     onClick={() => setLegendFilter(f => ({ ...f, canonical: !f.canonical }))}
-                    className={`flex items-center gap-1.5 px-2 py-1 rounded-full border transition-all cursor-pointer ${
-                      legendFilter.canonical
-                        ? "border-green-400 bg-green-50 text-green-800"
-                        : "border-gray-200 bg-gray-50 text-gray-400 line-through"
-                    }`}
+                    className={`flex items-center gap-1.5 cursor-pointer transition-opacity ${legendFilter.canonical ? "" : "opacity-30 line-through"}`}
                   >
-                    <span className={`inline-block w-2 h-2 rounded-full ${legendFilter.canonical ? "bg-green-500" : "bg-gray-300"}`} />
-                    Canonical
+                    <span className="inline-block w-2 h-2 rounded-full bg-green-500" />
+                    Canonical (lives here)
                   </button>
                   <button
                     onClick={() => setLegendFilter(f => ({ ...f, crossListed: !f.crossListed }))}
-                    className={`flex items-center gap-1.5 px-2 py-1 rounded-full border transition-all cursor-pointer ${
-                      legendFilter.crossListed
-                        ? "border-orange-300 bg-orange-50 text-orange-800"
-                        : "border-gray-200 bg-gray-50 text-gray-400 line-through"
-                    }`}
+                    className={`flex items-center gap-1.5 cursor-pointer transition-opacity ${legendFilter.crossListed ? "" : "opacity-30 line-through"}`}
                   >
-                    <span className={`inline-block w-2 h-2 rounded-full ${legendFilter.crossListed ? "bg-orange-400" : "bg-gray-300"}`} />
-                    Cross-listed
+                    <span className="inline-block w-2 h-2 rounded-full bg-orange-400" />
+                    Cross-listed (canonicalised elsewhere)
                   </button>
                   {menuItems[openIndex].children!.some(col => col.items.some(item => item.missing)) && (
                     <button
                       onClick={() => setLegendFilter(f => ({ ...f, missing: !f.missing }))}
-                      className={`flex items-center gap-1.5 px-2 py-1 rounded-full border transition-all cursor-pointer ${
-                        legendFilter.missing
-                          ? "border-red-400 bg-red-50 text-red-800"
-                          : "border-gray-200 bg-gray-50 text-gray-400 line-through"
-                      }`}
+                      className={`flex items-center gap-1.5 cursor-pointer transition-opacity ${legendFilter.missing ? "" : "opacity-30 line-through"}`}
                     >
-                      <span className={`inline-block w-2 h-2 rounded-full ${legendFilter.missing ? "bg-red-500" : "bg-gray-300"}`} />
-                      Gap
+                      <span className="inline-block w-2 h-2 rounded-full bg-red-500" />
+                      Gap (search demand exists)
                     </button>
                   )}
                 </div>
