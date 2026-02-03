@@ -3,8 +3,10 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import * as XLSX from "xlsx";
-import { menuItems } from "../data/menuData";
+import { menuItems, type MenuItemLink } from "../data/menuData";
 import { redirects } from "../data/redirectData";
+import { gscData } from "../data/gscData";
+import { keywordOpportunities } from "../data/keywordOpportunityData";
 
 export default function MegaMenu() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -44,9 +46,39 @@ export default function MegaMenu() {
     wsMap["!cols"] = [{ wch: 90 }, { wch: 48 }, { wch: 14 }, { wch: 12 }, { wch: 50 }];
     XLSX.utils.book_append_sheet(wb, wsMap, "Category Mapping");
 
+    // --- Sheet 3: GSC Data ---
+    const gscRows: (string | number)[][] = [["URL", "Clicks", "Impressions", "Avg Position", "CTR (%)", "Recommendation"]];
+    Object.entries(gscData).forEach(([url, d]) => {
+      gscRows.push([url, d.clicks, d.impressions, d.avgPosition, d.ctr, d.recommendation]);
+    });
+    const wsGsc = XLSX.utils.aoa_to_sheet(gscRows);
+    wsGsc["!cols"] = [{ wch: 50 }, { wch: 10 }, { wch: 14 }, { wch: 14 }, { wch: 10 }, { wch: 16 }];
+    XLSX.utils.book_append_sheet(wb, wsGsc, "GSC Data");
+
+    // --- Sheet 4: Keyword Opportunities ---
+    const kwRows: (string | number)[][] = [["Category", "Keyword", "UK Volume", "KD", "Traffic Potential", "CPC ($)", "Nav URL"]];
+    keywordOpportunities.forEach((kw) => {
+      kwRows.push([kw.category, kw.keyword, kw.volume, kw.difficulty, kw.trafficPotential, kw.cpc !== null ? kw.cpc / 100 : 0, kw.navHref ?? ""]);
+    });
+    const wsKw = XLSX.utils.aoa_to_sheet(kwRows);
+    wsKw["!cols"] = [{ wch: 20 }, { wch: 30 }, { wch: 12 }, { wch: 6 }, { wch: 16 }, { wch: 10 }, { wch: 40 }];
+    XLSX.utils.book_append_sheet(wb, wsKw, "Keyword Opportunities");
+
     // Write and download
     XLSX.writeFile(wb, "waw-navigation-and-redirects.xlsx");
   }, []);
+
+  const CanonicalDot = ({ item }: { item: MenuItemLink }) => {
+    if (item.canonical === undefined) return null;
+    return (
+      <span
+        className={`inline-block w-2 h-2 rounded-full flex-shrink-0 ${
+          item.canonical ? "bg-green-500" : "bg-orange-400"
+        }`}
+        title={item.canonical ? "Canonical: lives in this category" : "Cross-listed: canonicalised elsewhere"}
+      />
+    );
+  };
 
   const handleMouseEnter = (index: number) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -316,35 +348,39 @@ export default function MegaMenu() {
             onMouseLeave={handleMouseLeave}
           >
             <div className="max-w-7xl mx-auto px-6 py-8">
+              {/* Canonical legend */}
+              {menuItems[openIndex].children!.some(col => col.items.some(item => item.canonical !== undefined)) && (
+                <div className="flex items-center gap-4 mb-4 text-xs text-gray-500 border-b border-gray-100 pb-3">
+                  <span className="font-semibold text-gray-700 uppercase tracking-wide">Key:</span>
+                  <span className="flex items-center gap-1.5">
+                    <span className="inline-block w-2 h-2 rounded-full bg-green-500" />
+                    Canonical (lives here)
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <span className="inline-block w-2 h-2 rounded-full bg-orange-400" />
+                    Cross-listed (canonicalised elsewhere)
+                  </span>
+                </div>
+              )}
               {/* List view */}
               {viewMode === "list" && (
-                <div
-                  className="grid gap-8"
-                  style={{
-                    gridTemplateColumns: `repeat(${menuItems[openIndex].children!.length}, 1fr)`,
-                  }}
-                >
-                  {[...menuItems[openIndex].children!]
-                    .sort((a, b) => a.heading.localeCompare(b.heading))
-                    .map((col, ci) => (
+                <div className="grid grid-cols-4 gap-x-8 gap-y-6">
+                  {menuItems[openIndex].children!.map((col, ci) => (
                     <div key={ci}>
                       <Link
                         href={col.href}
-                        className="text-[#1a2456] font-bold text-sm uppercase tracking-wide border-b-2 border-[#d32f2f] pb-2 mb-3 min-h-[2.75rem] flex items-end hover:text-[#d32f2f] transition-colors"
+                        className="text-[#1a2456] font-bold text-sm uppercase tracking-wide border-b-2 border-[#d32f2f] pb-2 mb-3 block hover:text-[#d32f2f] transition-colors"
                       >
                         {col.heading}
                       </Link>
-                      <ul className="space-y-1.5 mt-3">
+                      <ul className="space-y-1 mt-3">
                         {[...col.items].sort((a, b) => a.label.localeCompare(b.label)).map((link, li) => (
                           <li key={li}>
                             <Link
                               href={link.href}
-                              className={`text-sm hover:text-[#d32f2f] transition-colors block py-0.5 ${
-                                link.label.startsWith("View All")
-                                  ? "font-semibold text-[#1a2456] mt-2 border border-[#1a2456] rounded px-3 py-1.5 text-center hover:bg-[#1a2456] hover:text-white"
-                                  : "text-gray-600"
-                              }`}
+                              className="text-sm text-gray-600 hover:text-[#d32f2f] transition-colors py-0.5 flex items-center gap-1.5"
                             >
+                              <CanonicalDot item={link} />
                               {link.label}
                             </Link>
                           </li>
@@ -388,9 +424,22 @@ export default function MegaMenu() {
                             <Link
                               key={li}
                               href={link.href}
-                              className="group flex flex-col items-center text-center"
+                              className="group flex flex-col items-center text-center relative"
                             >
-                              <div className="w-full aspect-square bg-[#f5f5f5] border border-gray-200 rounded flex items-center justify-center p-2 mb-1.5 group-hover:border-gray-400 transition-colors">
+                              <div className={`w-full aspect-square border rounded flex items-center justify-center p-2 mb-1.5 group-hover:border-gray-400 transition-colors ${
+                                link.canonical === false
+                                  ? "bg-orange-50 border-orange-200"
+                                  : link.canonical === true
+                                  ? "bg-green-50 border-green-200"
+                                  : "bg-[#f5f5f5] border-gray-200"
+                              }`}>
+                                {link.canonical !== undefined && (
+                                  <span
+                                    className={`absolute top-1 right-1 w-2.5 h-2.5 rounded-full ${
+                                      link.canonical ? "bg-green-500" : "bg-orange-400"
+                                    }`}
+                                  />
+                                )}
                                 {link.image ? (
                                   <img src={link.image} alt={link.label} className="max-w-full max-h-full object-contain" />
                                 ) : (
@@ -578,9 +627,16 @@ export default function MegaMenu() {
                             <li key={li}>
                               <Link
                                 href={link.href}
-                                className="text-sm text-gray-600 block py-0.5"
+                                className="text-sm text-gray-600 py-0.5 flex items-center gap-1.5"
                                 onClick={() => setMobileOpen(false)}
                               >
+                                {link.canonical !== undefined && (
+                                  <span
+                                    className={`inline-block w-2 h-2 rounded-full flex-shrink-0 ${
+                                      link.canonical ? "bg-green-500" : "bg-orange-400"
+                                    }`}
+                                  />
+                                )}
                                 {link.label}
                               </Link>
                             </li>
