@@ -46,6 +46,7 @@ export const menuItems: MenuItem[] = [
           { label: "SWP MIG Welders", href: "/mig-welding/welders/swp", canonical: true },
           { label: "Weldability Sif MIG Welders", href: "/mig-welding/welders/weldability-sif", canonical: true },
           { label: "Gasless MIG Welders", href: "/mig-welding/welders/gasless", missing: true, searchVolume: 1300, canonical: true },
+          { label: "Laser Welders", href: "/welding-machines/laser", missing: true, searchVolume: 2300, canonical: true },
         ],
       },
       {
@@ -237,6 +238,7 @@ export const menuItems: MenuItem[] = [
           { label: "Arc-Air Gouging Carbons", href: "/arc-mma/gouging/carbons", image: "https://images.unsplash.com/photo-1533757246687-e36e56e5e6f0?w=200&h=200&fit=crop&auto=format", canonical: true },
           { label: "Carbon Arc Gouging Torches", href: "/arc-mma/gouging/torches", image: "https://images.unsplash.com/photo-1744974051873-affe1f5f393a?w=200&h=200&fit=crop&auto=format", canonical: true },
           { label: "Electrode Quivers & Ovens", href: "/arc-mma/ovens", image: "https://images.unsplash.com/photo-1590488630628-df246379beab?w=200&h=200&fit=crop&auto=format", canonical: true },
+          { label: "Chipping Hammers", href: "/arc-mma/accessories/chipping-hammers", missing: true, searchVolume: 600, canonical: true },
         ],
       },
       {
@@ -774,6 +776,7 @@ export const menuItems: MenuItem[] = [
           { label: "Mobile Work Benches", href: "/workshop/benches/mobile", image: "https://images.unsplash.com/photo-1759159091728-e2c87b9d9315?w=200&h=200&fit=crop&auto=format", canonical: true },
           { label: "Stainless Steel Benches", href: "/workshop/benches/stainless", image: "https://images.unsplash.com/photo-1745449563046-f75d0bd28f46?w=200&h=200&fit=crop&auto=format", canonical: true, subcategories: [{ label: "Stainless Steel Work Benches", href: "/workshop/benches/stainless/stainless-steel-work-benches" }, { label: "Stainless Steel Work Benches with Drawer & Cupboard", href: "/workshop/benches/stainless/stainless-steel-work-benches-with-drawer-and-cupboard" }, { label: "Stainless Steel Work Benches with Lower Shelves", href: "/workshop/benches/stainless/stainless-steel-work-benches-with-lower-shelves" }] },
           { label: "Super Heavy Duty Benches", href: "/workshop/benches/super-heavy", image: "https://images.unsplash.com/photo-1639303338365-6d5912cd8c56?w=200&h=200&fit=crop&auto=format", canonical: true },
+          { label: "Welding Trolleys & Carts", href: "/workshop/benches/trolleys", missing: true, searchVolume: 300, canonical: true },
         ],
       },
       {
