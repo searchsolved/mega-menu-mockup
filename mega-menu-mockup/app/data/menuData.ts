@@ -488,7 +488,6 @@ export const menuItems: MenuItem[] = [
           { label: "Powder Welding Powders", href: "/workshop/chemicals/powder-welding", canonical: false },
           { label: "Weld Backing Ceramics & Tapes", href: "/workshop/consumables/ceramics", canonical: false },
           { label: "Welding Chemicals & Sprays", href: "/workshop/chemicals", canonical: false },
-          { label: "Welding Flux", href: "/wire-rods/flux", missing: true, searchVolume: 150, canonical: true },
         ],
       },
     ],
