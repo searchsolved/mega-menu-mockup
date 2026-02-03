@@ -13,8 +13,20 @@ export default function MegaMenu() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<number | null>(null);
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
+  const [legendFilter, setLegendFilter] = useState({
+    canonical: true,
+    crossListed: true,
+    missing: true,
+  });
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
+
+  const isItemVisible = (item: MenuItemLink) => {
+    if (item.missing) return legendFilter.missing;
+    if (item.canonical === true) return legendFilter.canonical;
+    if (item.canonical === false) return legendFilter.crossListed;
+    return true; // items with no canonical flag always show
+  };
 
   const downloadExcel = useCallback(() => {
     const wb = XLSX.utils.book_new();
@@ -73,7 +85,7 @@ export default function MegaMenu() {
       return (
         <span
           className="inline-block w-2 h-2 rounded-full flex-shrink-0 bg-red-500"
-          title={`Missing: not yet on site (UK vol: ${item.searchVolume ?? "?"}/mo)`}
+          title={`Gap: not yet on site (UK vol: ${item.searchVolume ?? "?"}/mo)`}
         />
       );
     }
@@ -356,30 +368,54 @@ export default function MegaMenu() {
             onMouseLeave={handleMouseLeave}
           >
             <div className="max-w-7xl mx-auto px-6 py-8">
-              {/* Canonical legend */}
+              {/* Interactive legend – click to toggle visibility */}
               {menuItems[openIndex].children!.some(col => col.items.some(item => item.canonical !== undefined || item.missing)) && (
-                <div className="flex items-center gap-4 mb-4 text-xs text-gray-500 border-b border-gray-100 pb-3">
-                  <span className="font-semibold text-gray-700 uppercase tracking-wide">Key:</span>
-                  <span className="flex items-center gap-1.5">
-                    <span className="inline-block w-2 h-2 rounded-full bg-green-500" />
-                    Canonical (lives here)
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <span className="inline-block w-2 h-2 rounded-full bg-orange-400" />
-                    Cross-listed (canonicalised elsewhere)
-                  </span>
+                <div className="flex items-center gap-3 mb-4 text-xs text-gray-500 border-b border-gray-100 pb-3">
+                  <span className="font-semibold text-gray-700 uppercase tracking-wide">Legend:</span>
+                  <button
+                    onClick={() => setLegendFilter(f => ({ ...f, canonical: !f.canonical }))}
+                    className={`flex items-center gap-1.5 px-2 py-1 rounded-full border transition-all cursor-pointer ${
+                      legendFilter.canonical
+                        ? "border-green-400 bg-green-50 text-green-800"
+                        : "border-gray-200 bg-gray-50 text-gray-400 line-through"
+                    }`}
+                  >
+                    <span className={`inline-block w-2 h-2 rounded-full ${legendFilter.canonical ? "bg-green-500" : "bg-gray-300"}`} />
+                    Canonical
+                  </button>
+                  <button
+                    onClick={() => setLegendFilter(f => ({ ...f, crossListed: !f.crossListed }))}
+                    className={`flex items-center gap-1.5 px-2 py-1 rounded-full border transition-all cursor-pointer ${
+                      legendFilter.crossListed
+                        ? "border-orange-300 bg-orange-50 text-orange-800"
+                        : "border-gray-200 bg-gray-50 text-gray-400 line-through"
+                    }`}
+                  >
+                    <span className={`inline-block w-2 h-2 rounded-full ${legendFilter.crossListed ? "bg-orange-400" : "bg-gray-300"}`} />
+                    Cross-listed
+                  </button>
                   {menuItems[openIndex].children!.some(col => col.items.some(item => item.missing)) && (
-                    <span className="flex items-center gap-1.5">
-                      <span className="inline-block w-2 h-2 rounded-full bg-red-500" />
-                      Missing category (search demand exists)
-                    </span>
+                    <button
+                      onClick={() => setLegendFilter(f => ({ ...f, missing: !f.missing }))}
+                      className={`flex items-center gap-1.5 px-2 py-1 rounded-full border transition-all cursor-pointer ${
+                        legendFilter.missing
+                          ? "border-red-400 bg-red-50 text-red-800"
+                          : "border-gray-200 bg-gray-50 text-gray-400 line-through"
+                      }`}
+                    >
+                      <span className={`inline-block w-2 h-2 rounded-full ${legendFilter.missing ? "bg-red-500" : "bg-gray-300"}`} />
+                      Gap
+                    </button>
                   )}
                 </div>
               )}
               {/* List view */}
               {viewMode === "list" && (
                 <div className="grid grid-cols-4 gap-x-8 gap-y-6">
-                  {menuItems[openIndex].children!.map((col, ci) => (
+                  {menuItems[openIndex].children!.map((col, ci) => {
+                    const visibleItems = [...col.items].sort((a, b) => a.label.localeCompare(b.label)).filter(isItemVisible);
+                    if (visibleItems.length === 0) return null;
+                    return (
                     <div key={ci}>
                       <Link
                         href={col.href}
@@ -388,7 +424,7 @@ export default function MegaMenu() {
                         {col.heading}
                       </Link>
                       <ul className="space-y-1 mt-3">
-                        {[...col.items].sort((a, b) => a.label.localeCompare(b.label)).map((link, li) => (
+                        {visibleItems.map((link, li) => (
                           <li key={li}>
                             <Link
                               href={link.href}
@@ -410,7 +446,8 @@ export default function MegaMenu() {
                         ))}
                       </ul>
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
 
@@ -418,7 +455,8 @@ export default function MegaMenu() {
               {viewMode === "grid" && (
                 <div className="space-y-5">
                   {menuItems[openIndex].children!.map((col, ci) => {
-                    const sortedItems = [...col.items].sort((a, b) => a.label.localeCompare(b.label));
+                    const sortedItems = [...col.items].sort((a, b) => a.label.localeCompare(b.label)).filter(isItemVisible);
+                    if (sortedItems.length === 0) return null;
                     return (
                       <div key={ci}>
                         {ci > 0 && <hr className="border-gray-200 mb-5" />}
@@ -647,7 +685,10 @@ export default function MegaMenu() {
                     >
                       View All {item.label} →
                     </Link>
-                    {item.children.map((col, ci) => (
+                    {item.children.map((col, ci) => {
+                      const mobileVisibleItems = col.items.filter(isItemVisible);
+                      if (mobileVisibleItems.length === 0) return null;
+                      return (
                       <div key={ci} className="mt-3">
                         <Link
                           href={col.href}
@@ -657,7 +698,7 @@ export default function MegaMenu() {
                           {col.heading}
                         </Link>
                         <ul className="mt-1 space-y-1 ml-2">
-                          {col.items.map((link, li) => (
+                          {mobileVisibleItems.map((link, li) => (
                             <li key={li}>
                               <Link
                                 href={link.href}
@@ -686,7 +727,8 @@ export default function MegaMenu() {
                           ))}
                         </ul>
                       </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
               </li>
